@@ -40,7 +40,7 @@ const COLORS = require('./srcs/modules/colors');
 const finish = require('./srcs/modules/commands/finish');
 const Grademe = require('./srcs/modules/commands/grademe');
 const help = require('./srcs/modules/commands/help');
-const IDDQD = require('./srcs/modules/commands/IDDQD');
+const IDDQD = require('./srcs/modules/commands/iddqd');
 const status = require('./srcs/modules/commands/status');
 
 let LANG;
