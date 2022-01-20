@@ -6,7 +6,7 @@
 			"list": [
 				{
 					"name": "union",
-					"trace": true,
+					"trace": false,
 					"difficulty": [true, true],
 					"exponent": 2,
 					"allowed_functions": ["write"],
@@ -19,7 +19,7 @@
 				},
 				{
 					"name": "inter",
-					"trace": true,
+					"trace": false,
 					"difficulty": [true, true],
 					"exponent": 2,
 					"allowed_functions": ["write"],
@@ -36,7 +36,7 @@
 			"list": [
 				{
 					"name": "ft_printf",
-					"trace": true,
+					"trace": false,
 					"difficulty": [true, true],
 					"exponent": 2,
 					"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
@@ -49,7 +49,7 @@
 				},
 				{
 					"name": "get_next_line",
-					"trace": true,
+					"trace": false,
 					"difficulty": [true, true],
 					"exponent": 2,
 					"allowed_functions": ["read", "free", "malloc"],

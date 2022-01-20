@@ -1,0 +1,66 @@
+Assignment name  : micro_paint
+Expected files   : *.c *.h
+Allowed functions: fopen, fread, fscanf, fclose, write, malloc, calloc, realloc, free, memset, powf, sqrtf
+--------------------------------------------------------------------------------------
+
+Ecrivez un programme qui va lire un "fichier d'opérations" et imprimer le résultat dans le terminal.
+
+Votre programme doit prendre un argument, il s'agit du chemin d'accès au "fichier d'opérations".
+Si 0 ou plus de 1 argument est donné à votre programme, écrivez "Error : argument" suivi d'un \n dans STDOUT
+
+$> ./micro_paint | cat -e
+Erreur : argument
+$> ./micro_paint do not fear mathematics | cat -e
+Erreur : argument$.
+$>
+
+Si un problème survient lors de l'ouverture et/ou de la lecture du "fichier d'opérations", écrivez "Error: Operation file corrupted" suivi d'un \n dans STDOUT
+
+Le "fichier d'opérations" contient des lignes avec une opération par ligne.
+Si une ligne est incorrecte, une erreur se produit.
+Si une erreur s'est produite, votre programme doit retourner 1.
+Si aucune erreur ne s'est produite, le programme doit retourner 0.
+La dernière ligne peut être avec ou sans \n.
+Les lignes doivent être lues dans l'ordre et les opérations doivent donc être exécutées dans le même ordre.
+Il doit y avoir au moins un espace entre chaque variable dans une ligne.
+
+WIDTH HEIGHT BACKGROUND_CHAR
+Cette ligne est toujours la première ligne du fichier et elle définit la zone où dessiner. Votre programme ne doit rien afficher en dehors de la zone de dessin. Elle ne doit être présente qu'une seule fois.
+- WIDTH : doit être un int avec 0 < WIDTH <= 300, le nombre horizontal de caractères à utiliser pour la zone de dessin.
+- HEIGHT : doit être un int avec 0 < HEIGHT <= 300, le nombre vertical de caractères à utiliser pour la zone de dessin.
+- BACKGROUND_CHAR : tout espace vide sera rempli avec BACKGROUND_CHAR.
+
+r X Y WIDTH HEIGHT CHAR
+Cette opération permet de dessiner un rectangle vide, dont seule la bordure est dessinée.
+- r : le caractère r
+- X : un flottant quelconque, la position horizontale du coin supérieur gauche du rectangle
+- Y : un flottant quelconque, la position verticale du coin supérieur gauche du rectangle
+- WIDTH : un nombre flottant positif mais différent de 0, la largeur du rectangle (horizontal)
+- HEIGHT : un nombre flottant positif mais différent de 0, la hauteur du rectangle (vertical)
+- CHAR : le caractère utilisé pour dessiner le rectangle.
+
+R X Y WIDTH HEIGHT CHAR
+Cette opération va dessiner un rectangle rempli
+- R : le caractère R
+- X : un flottant quelconque, la position horizontale du coin supérieur gauche du rectangle
+- Y : un flottant quelconque, la position verticale du coin supérieur gauche du rectangle
+- WIDTH : un nombre flottant positif mais différent de 0, la largeur du rectangle (horizontal)
+- HEIGHT : un nombre flottant positif mais différent de 0, la hauteur du rectangle (vertical)
+- CHAR : le caractère utilisé pour dessiner le rectangle.
+
+La zone de dessin est divisée en rectangles pouvant contenir un caractère chacun (car nous sommes dans un terminal...), nous les appellerons pixel.
+Pour faciliter les choses, nous utiliserons uniquement le coin supérieur gauche du pixel pour savoir si ce pixel est dans un rectangle ou non.
+Un pixel dont le coin supérieur gauche est à une distance supérieure ou égale à 1 du bord d'un rectangle ne fait pas partie d'un rectangle vide.
+Un pixel dont le coin supérieur gauche est situé à une distance inférieure à 1 du bord d'un rectangle fait partie d'un rectangle vide.
+
+Vous devriez regarder l'image pendant que vous lisez les prochaines lignes. Elle représente un terminal. Nous avons défini une zone de dessin de LARGEUR 5 et de HAUTEUR 3.
+Nous avons écrit différents caractères pour vous aider à comprendre les explications suivantes.
+- Si vous voulez dessiner l'opération : r 2.5 1.5 1 1 X (le rectangle vert)
+-- cela signifie que le caractère 'D' dans l'image sera remplacé par 'X'.
+
+Vous devriez trouver notre_micro_paint pour vous aider à tester le vôtre avec quelques operation_file.example
+
+Astuce :
+Si un point est défini comme (Xa, Ya)
+Et un rectangle avec un coin en haut à gauche (Xtl, Ytl) et un coin en bas à droite (Xbr, Ybr)
+Si Xtl <= Xa <= Xbr et Ytl <= Ya <= Ybr alors le point est dans le rectangle.
