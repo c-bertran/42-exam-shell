@@ -1,0 +1,22 @@
+Assignment name  : get_next_line
+Expected files   : get_next_line.c get_next_line.h
+Allowed functions: read, free, malloc
+--------------------------------------------------------------------------------
+
+Écrire une fonction nommée get_next_line dont le prototype devra être :
+
+char *get_next_line(int fd) ;
+
+Votre fonction doit retourner une ligne qui a été lue à partir du descripteur de fichier passé en paramètre. Ce que nous appelons une "ligne qui a été lue" est une succession de 0 à n caractères qui se termine par '\n' (code ascii 0x0a) ou par End Of File (EOF).
+
+La ligne doit être retournée, y compris le '\n', au cas où il y en aurait un à la fin de la ligne qui a été lue. Lorsque vous avez atteint le EOF, vous devez stocker le tampon actuel dans un char * et le retourner. Si le tampon est vide, vous devez retourner NULL.
+
+En cas d'erreur, retournez NULL. Si vous ne retournez pas NULL, le pointeur doit être libre. Votre programme sera compilé avec l'indicateur -D BUFFER_SIZE=xx, qui doit être utilisé comme taille de tampon pour les appels de lecture dans vos fonctions. La taille doit être supérieur à zéro.
+
+Votre fonction doit être sans fuite de mémoire. Lorsque vous avez atteint le EOF, votre fonction doit conserver 0 mémoire allouée avec malloc, sauf la ligne qui a été retournée.
+
+L'appel de votre fonction get_next_line dans une boucle vous permettra donc de lire le texte disponible sur un descripteur de fichier, ligne par ligne, jusqu'à la fin du texte, quelle que soit la taille du texte ou d'une de ses lignes.
+
+Assurez-vous que votre fonction se comporte bien lorsqu'elle lit depuis un fichier, depuis la sortie standard, depuis une redirection, etc...
+
+Aucun appel à une autre fonction ne sera effectué sur le descripteur de fichier entre 2 appels de get_next_line. Enfin, nous considérons que get_next_line a un comportement indéfini lors de la lecture d'un fichier binaire.

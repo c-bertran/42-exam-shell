@@ -1,0 +1,66 @@
+{
+	"name": "Exam 02",
+	"goal": 100,
+	"exercices": [
+		{
+			"list": [
+				{
+					"name": "union",
+					"trace": true,
+					"difficulty": [true, true],
+					"exponent": 2,
+					"allowed_functions": ["write"],
+					"moulinette": true,
+					"leaks": true,
+					"cp": {
+						"user": ["%SUBJECT%"],
+						"checker": ["%MAKE%", "union.c"]
+					}
+				},
+				{
+					"name": "inter",
+					"trace": true,
+					"difficulty": [true, true],
+					"exponent": 2,
+					"allowed_functions": ["write"],
+					"moulinette": true,
+					"leaks": true,
+					"cp": {
+						"user": ["%SUBJECT%"],
+						"checker": ["%MAKE%", "inter.c"]
+					}
+				}
+			]
+		},
+		{
+			"list": [
+				{
+					"name": "ft_printf",
+					"trace": true,
+					"difficulty": [true, true],
+					"exponent": 2,
+					"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
+					"moulinette": true,
+					"leaks": true,
+					"cp": {
+						"user": ["%SUBJECT%"],
+						"checker": ["%MAKE%", "main.c"]
+					}
+				},
+				{
+					"name": "get_next_line",
+					"trace": true,
+					"difficulty": [true, true],
+					"exponent": 2,
+					"allowed_functions": ["read", "free", "malloc"],
+					"moulinette": true,
+					"leaks": true,
+					"cp": {
+						"user": ["%SUBJECT%", "test.sh"],
+						"checker": ["%MAKE%", "get_next_line.c", "get_next_line.h", "main.c", "files"]
+					}
+				}
+			]
+		}
+	]
+}
