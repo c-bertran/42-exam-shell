@@ -1,0 +1,54 @@
+{
+	"Hello": "Bienvenue dans Examshell",
+	"Difficulty": {
+		"Question" : "Sélectionnez votre difficulté",
+		"List": ["Normal", "Difficile"]
+	},
+	"Select": {
+		"Question": "Sélectionnez votre examen"
+	},
+	"Git": {
+		"render": "rendu",
+		"subject": "sujet"
+	},
+	"Info": {
+		"Dir": "Votre dossier de travail est ici :",
+		"Git": "N'oubliez pas de commit vos projets via git dans le dossier de rendu. Vous n'avez néanmoins pas besoin de push."
+	},
+	"Options":
+	{
+		"Question": "(Optionnel) Sélectionnez les options que vous souhaitez activer",
+		"Infinite": ["Illimité", "Il n'y a plus de limite de temps"],
+		"Doom": ["Doom", "Tout votre travail et votre git sont réinitialisés si grademe échou !"]
+	},
+	"Errors": {
+		"GitInit": "Êtes-vous sûr d'avoir installé git et bash ?",
+		"Exec": "Child a échoué avec le code d'erreur",
+		"Command": "Commande introuvable"
+	},
+	"Grademe" : {
+		"Correction": "Votre exercice est en cours de correction",
+		"Finish": "L'examen est terminé, vous pouvez maintenant fermer examshell",
+		"Time": "Vous pourez `grademe` votre exercice dans",
+		"Failed": "Échoué",
+		"Success": "Réussi",
+		"Trace": "Trace",
+		"Error": "Erreur"
+	},
+	"Help": {
+		"help": "Imprimer l'explication de la commande",
+		"finish" : "Close examshell, votre session actuelle est définitivement fermée",
+		"grademe": "Valider votre projet",
+		"status" : "Récupérer les informations sur la session en cours"
+	},
+	"Exercice":
+	{
+		"Start": "Le sujet sélectionné est",
+		"Dir": "Vous devez soumettre le projet dans le dossier :",
+		"Goal": "La validation de celui-ci vous donnera",
+		"Level": "Vous avez actuellement",
+		"Points": "points",
+		"Retry": "Nombre d'essai(s)"
+	},
+	"OutOfTime": "Le temps est terminé, il n'est plus possible de `grademe` son projet"
+}

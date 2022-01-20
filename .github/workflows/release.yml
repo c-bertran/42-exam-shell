@@ -1,0 +1,29 @@
+name: Build Binary 
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+
+      - name: Install dependencies && build
+        run: |
+          curl -sf https://gobinaries.com/tj/node-prune | sh
+          npm ci
+          npm run build
+
+      - name: Build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist
