@@ -3,6 +3,10 @@
 	Practice like a boss
 </h1>
 
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/c-bertran/examshell/Build%20Binary?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![Lines of code](https://img.shields.io/tokei/lines/github/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square"> <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/c-bertran/examshell/total?style=flat-square">
+
+
+
 <img src="md/main.gif"></img>
 
 ### `Examshell` will allow you to practice to be perfectly ready for the exams
