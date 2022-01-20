@@ -5,6 +5,9 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,8 +25,14 @@ jobs:
           npm ci
           npm run build
 
-      - name: Build artifact
-        uses: actions/upload-artifact@v2
+      - name: Pass ESLint
+        run: eslint . --ext .js,.jsx,.ts,.tsx
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: build
-          path: dist
+          files: |
+          dist/examshell-linux
+          dist/examshell-macos
+
