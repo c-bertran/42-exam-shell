@@ -26,7 +26,10 @@ jobs:
           npm run build
 
       - name: Pass ESLint
-        run: eslint . --ext .js,.jsx,.ts,.tsx
+        run: |
+          npm ci
+          npm install eslint
+          eslint . --ext .js,.jsx,.ts,.tsx
 
       - name: Release
         uses: softprops/action-gh-release@v1
