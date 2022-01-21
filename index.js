@@ -69,7 +69,7 @@ class Main
 {
 	constructor()
 	{
-		const _LANG = fs.readFileSync(path.join('.', 'srcs', 'lang', 'list.json'), { encoding: 'utf-8' });
+		const _LANG = fs.readFileSync(path.join(__dirname, 'srcs', 'lang', 'list.json'), { encoding: 'utf-8' });
 		if (!_LANG)
 		{
 			console.error('List of lang not exist, exit');
@@ -141,7 +141,7 @@ class Main
 				this.JSON.options.lang = this.JSON.LANGlist[x];
 				break;
 			}
-		const _base = fs.readFileSync(path.join('.', 'srcs', 'lang', `${this.JSON.options.lang}.json`));
+		const _base = fs.readFileSync(path.join(__dirname, 'srcs', 'lang', `${this.JSON.options.lang}.json`));
 		LANG = JSON.parse(_base);
 		const ListDiff = [
 			{ Difficulty: LANG.Difficulty.List[0], Equal: 'normal' },
