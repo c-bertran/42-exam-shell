@@ -6,28 +6,34 @@
 			"list": [
 				{
 					"name": "micro_paint",
-					"trace": true,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["fopen", "fread", "fscanf", "fclose", "write", "malloc", "calloc", "realloc", "free", "memset", "powf", "sqrtf"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%", "operations", "graph.png", "our_micro_paint"],
-						"checker": ["%MAKE%", "micro_paint.c", "operations", "corrects"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": true,
+							"allowed_functions": ["fopen", "fread", "fscanf", "fclose", "write", "malloc", "calloc", "realloc", "free", "memset", "powf", "sqrtf"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%", "operations", "graph.png", "our_micro_paint"],
+								"checker": ["%MAKE%", "micro_paint.c", "operations", "corrects"]
+							}
+						}
 					}
 				},
 				{
 					"name": "mini_paint",
-					"trace": true,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["fopen", "fread", "fscanf", "fclose", "write", "malloc", "calloc", "realloc", "free", "memset", "powf", "sqrtf"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%", "operations", "graph.png", "our_mini_paint"],
-						"checker": ["%MAKE%", "mini_paint.c", "operations", "corrects"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": true,
+							"allowed_functions": ["fopen", "fread", "fscanf", "fclose", "write", "malloc", "calloc", "realloc", "free", "memset", "powf", "sqrtf"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%", "operations", "graph.png", "our_mini_paint"],
+								"checker": ["%MAKE%", "mini_paint.c", "operations", "corrects"]
+							}
+						}
 					}
 				}
 			]

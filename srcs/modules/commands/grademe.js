@@ -64,9 +64,14 @@ class Grademe
 			throw new Error('Error in JSON declaration exercice');
 		if (this.JSON.parent.options.difficulty === 'hard'
 			&& Object.prototype.hasOwnProperty.call(diff, 'hard'))
+		{
 			this.JSON.current.selected = diff.hard;
+		}
 		else
+		{
+			this.JSON.parent.options.difficulty = 'normal';
 			this.JSON.current.selected = diff.normal;
+		}
 		this.JSON.current.selected.name = saveName;
 
 		this.JSON.path = {
