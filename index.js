@@ -1,31 +1,8 @@
 #!/usr/bin/env node
 
-/* ES6 module, pkg not support this
-import fs from 'fs';
-import { exec } from 'child_process';
-import OS from 'os';
-import path from 'path';
-import crypto from 'crypto';
-import process from 'process';
-import readline from 'readline';
-import inquirer from 'inquirer';
-import { fileURLToPath } from 'url';
-
-import checkLib from './srcs/modules/checkLib.js';
-import { logo } from './srcs/text.js';
-import COLORS from './srcs/modules/colors.js';
-import finish from './srcs/modules/commands/finish.js';
-import Grademe from './srcs/modules/commands/grademe.js';
-import help from './srcs/modules/commands/help.js';
-import IDDQD from './srcs/modules/commands/IDDQD.js';
-import status from './srcs/modules/commands/status.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-*/
-
 require('./srcs/modules/fspatch');
 const fs = require('fs');
+const https = require('https');
 const { exec } = require('child_process');
 const OS = require('os');
 const path = require('path');
@@ -365,12 +342,35 @@ class Main
 	}
 }
 
-//#region Start program
-const main = new Main();
+https.get(
+	'https://api.github.com/repos/c-bertran/examshell/releases/latest',
+	{
+		headers: { 'User-Agent': 'Mozilla/5.0' },
+	},
+	(res) =>
+	{
+		res.setEncoding('utf8');
+		let data = '';
+		res.on('data', (chunk) =>
+		{
+			data += chunk;
+		});
+		res.on('end', () =>
+		{
+			const blob = JSON.parse(data);
+			const currentVersion = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), { encoding: 'utf-8' })).version;
+			if (currentVersion !== blob.tag_name)
+			{
+				console.log(`${COLORS.bluelight}The ${COLORS.redlight}${blob.tag_name}${COLORS.bluelight} version is available for download`);
+				console.log(`${COLORS.reset}⇒ ${COLORS.greenlight}https://github.com/c-bertran/examshell/releases/latest ${COLORS.reset}⇐`);
+			}
 
-const examshell = async () =>
-{
-	await checkLib.check();
-	main.init();
-}; examshell();
-//#endregion
+			const main = new Main();
+			const examshell = async () =>
+			{
+				await checkLib.check();
+				main.init();
+			}; examshell();
+		});
+	},
+).on('error', (error) => console.error(error));
