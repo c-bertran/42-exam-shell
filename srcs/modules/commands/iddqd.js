@@ -1,9 +1,3 @@
-/* ES6
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
-import http from 'http';
-*/
 require('../fspatch');
 const fs = require('fs');
 const path = require('path');
@@ -43,5 +37,4 @@ class IDDQD
 	}
 }
 
-// export default IDDQD;
 module.exports = IDDQD;

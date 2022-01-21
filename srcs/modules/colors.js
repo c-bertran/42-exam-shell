@@ -13,5 +13,4 @@ const Colors = {
 	lightgray: '\x1b[37m',
 };
 
-// export default Colors;
 module.exports = Colors;

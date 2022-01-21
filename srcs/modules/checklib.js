@@ -1,9 +1,3 @@
-/* ES6
-import OS from 'os';
-import process from 'process';
-import { exec } from 'child_process';
-import inquirer from 'inquirer';
-*/
 const OS = require('os');
 const process = require('process');
 const { exec } = require('child_process');
@@ -86,5 +80,4 @@ class CheckLib
 	}
 }
 
-// export default CheckLib;
 module.exports = CheckLib;

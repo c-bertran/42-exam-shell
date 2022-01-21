@@ -1,8 +1,3 @@
-/* ES6
-import path from 'path';
-import fs from 'fs';
-import keywords from './keywords.js';
-*/
 require('../fspatch');
 const fs = require('fs');
 const path = require('path');
@@ -139,5 +134,4 @@ class checker
 	}
 }
 
-// export default checker;
 module.exports = checker;

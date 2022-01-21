@@ -1,4 +1,3 @@
-// import { clock } from '../clock.js';
 const { clock } = require('../clock');
 
 class status
@@ -12,5 +11,4 @@ class status
 	}
 }
 
-// export default status;
 module.exports = status;
