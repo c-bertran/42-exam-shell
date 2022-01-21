@@ -1,7 +1,3 @@
-/* ES6
-import fs from 'fs';
-import process from 'process';
-*/
 require('../fspatch');
 const fs = require('fs');
 const process = require('process');
@@ -15,5 +11,4 @@ class finish
 	}
 }
 
-// export default finish;
 module.exports = finish;

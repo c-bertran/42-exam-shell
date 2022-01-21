@@ -1,4 +1,3 @@
-// import COLORS from '../colors.js';
 const COLORS = require('../colors');
 
 class help
@@ -24,5 +23,4 @@ class help
 	}
 }
 
-// export default help;
 module.exports = help;

@@ -47,5 +47,4 @@ class keywords
 	}
 }
 
-// export default keywords
 module.exports = keywords;

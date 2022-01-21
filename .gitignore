@@ -72,5 +72,5 @@ web_modules/
 .webpack/
 
 .vscode
-
 dist
+a.out

@@ -1,21 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable consistent-return */
-/* ES6
-import process from 'process';
-import path from 'path';
-import fs from 'fs';
-import crypto from 'crypto';
-import { exec } from 'child_process';
-import { fileURLToPath } from 'url';
 
-import spinner from '../spinner.js'
-import COLORS from '../colors.js';
-import { timer } from '../clock.js';
-import checker from '../checker/checker.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-*/
 require('../fspatch');
 const fs = require('fs');
 const process = require('process');
@@ -39,12 +24,11 @@ class Grademe
 {
 	constructor(json, lang)
 	{
-		const dirname = json.options.exam;
-		const data = JSON.parse(fs.readFileSync(path.join(dirname, 'exam.json'), { encoding: 'utf-8' }));
+		const data = JSON.parse(fs.readFileSync(path.join(json.options.exam, 'exam.json'), { encoding: 'utf-8' }));
 		LANG = lang;
 		this.JSON = {
 			parent: json,
-			dirname,
+			dirname: json.options.exam,
 			data,
 			goal: {
 				current: Number(0),
@@ -73,18 +57,20 @@ class Grademe
 		const id = Math.floor(Math.random() * this.JSON.current.list.length);
 		this.JSON.current.selected = this.JSON.current.list[id];
 
-		let Difficulty;
-		const chmod = this.JSON.current.selected.difficulty;
-		const type = this.JSON.parent.options.difficulty;
-		if (chmod[0] === false && chmod[1] === false)
+		const diff = this.JSON.current.selected.difficulty;
+		const saveName = this.JSON.current.selected.name;
+		if (!Object.prototype.hasOwnProperty.call(diff, 'normal')
+			&& !Object.prototype.hasOwnProperty.call(diff, 'hard'))
 			throw new Error('Error in JSON declaration exercice');
-		if (type === 'normal')
-			Difficulty = (chmod[0] === true) ? 'normal' : 'hard';
+		if (this.JSON.parent.options.difficulty === 'hard'
+			&& Object.prototype.hasOwnProperty.call(diff, 'hard'))
+			this.JSON.current.selected = diff.hard;
 		else
-			Difficulty = (chmod[1] === true) ? 'hard' : 'normal';
+			this.JSON.current.selected = diff.normal;
+		this.JSON.current.selected.name = saveName;
 
 		this.JSON.path = {
-			exercice: path.join(this.JSON.parent.options.exam, this.JSON.current.selected.name, Difficulty),
+			exercice: path.join(this.JSON.parent.options.exam, this.JSON.current.selected.name, this.JSON.parent.options.difficulty),
 			subject: path.join(this.JSON.parent.git.subject, this.JSON.current.selected.name),
 			correction: path.join(this.JSON.parent.git.temp, hexaID()),
 		};
@@ -109,13 +95,6 @@ class Grademe
 					{
 						throw new Error(err2.message);
 					}
-					/*
-					fs.copyFile(path.join(this.JSON.path.exercice, el), path.join(this.JSON.path.subject, el), (err2) =>
-					{
-						if (err2)
-							throw new Error(err2.message);
-					});
-					*/
 		});
 
 		fs.mkdir(this.JSON.path.correction, (err) =>
@@ -194,7 +173,6 @@ class Grademe
 					{
 						throw new Error(err2.message);
 					}
-					// fs.copyFileSync(path.join(this.JSON.path.exercice, el), path.join(this.JSON.path.correction, el));
 		}
 		catch (err)
 		{
@@ -323,5 +301,4 @@ class Grademe
 	}
 }
 
-// export default Grademe;
 module.exports = Grademe;

@@ -49,7 +49,6 @@ function clock(secs)
 	return (`${Str.Hours}:${Str.Minutes}:${Str.Seconds}`);
 }
 
-// export { timer, clock };
 module.exports = {
 	timer,
 	clock,

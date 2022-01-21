@@ -6,28 +6,56 @@
 			"list": [
 				{
 					"name": "union",
-					"trace": false,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["write"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%"],
-						"checker": ["%MAKE%", "union.c"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": false,
+							"allowed_functions": ["write"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "union.c"]
+							}
+						},
+						"hard": {
+							"exponent": 3,
+							"trace": false,
+							"allowed_functions": ["write", "malloc", "free"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "union.c"]
+							}
+						}
 					}
 				},
 				{
 					"name": "inter",
-					"trace": false,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["write"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%"],
-						"checker": ["%MAKE%", "inter.c"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": false,
+							"allowed_functions": ["write"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "inter.c"]
+							}
+						},
+						"hard": {
+							"exponent": 3,
+							"trace": true,
+							"allowed_functions": ["write", "malloc", "free"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "inter.c"]
+							}
+						}
 					}
 				}
 			]
@@ -36,28 +64,56 @@
 			"list": [
 				{
 					"name": "ft_printf",
-					"trace": false,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%"],
-						"checker": ["%MAKE%", "main.c"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": false,
+							"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "main.c"]
+							}
+						},
+						"hard": {
+							"exponent": 3,
+							"trace": false,
+							"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%"],
+								"checker": ["%MAKE%", "main.c"]
+							}
+						}
 					}
 				},
 				{
 					"name": "get_next_line",
-					"trace": false,
-					"difficulty": [true, true],
-					"exponent": 2,
-					"allowed_functions": ["read", "free", "malloc"],
-					"moulinette": true,
-					"leaks": true,
-					"cp": {
-						"user": ["%SUBJECT%", "test.sh"],
-						"checker": ["%MAKE%", "get_next_line.c", "get_next_line.h", "main.c", "files"]
+					"difficulty": {
+						"normal": {
+							"exponent": 2,
+							"trace": false,
+							"allowed_functions": ["read", "free", "malloc"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%", "test.sh"],
+								"checker": ["%MAKE%", "get_next_line.c", "get_next_line.h", "main.c", "files"]
+							}
+						},
+						"hard": {
+							"exponent": 3,
+							"trace": false,
+							"allowed_functions": ["read", "free", "malloc"],
+							"moulinette": true,
+							"leaks": true,
+							"cp": {
+								"user": ["%SUBJECT%", "test.sh"],
+								"checker": ["%MAKE%", "get_next_line.c", "get_next_line.h", "main.c", "files"]
+							}
+						}
 					}
 				}
 			]

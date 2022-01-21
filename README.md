@@ -39,7 +39,8 @@ Launch your favorite command prompt, and simply run the program:
 Eventually, `Examshell` will allow you to create your own exams and share them with other people. This feature should be available soon
 
 ## Disclaimer
-The exams available are based as closely as possible on the official exams, however there may be some differences.
+The exams available are based as closely as possible on the official exams at 42, however there may be some differences.
+If you find a significant difference, don't hesitate to open an issue.
 
 ## License
 	Examshell Copyright (C) 2021 - ...  Clément Bertrand

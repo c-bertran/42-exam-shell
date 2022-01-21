@@ -1,7 +1,3 @@
-/* ES6
-import process from 'process';
-import OS from 'os';
-*/
 const process = require('process');
 const OS = require('os');
 
@@ -37,5 +33,4 @@ class Spinner
 	}
 }
 
-// export default Spinner;
 module.exports = Spinner;
