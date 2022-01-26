@@ -1,0 +1,24 @@
+{
+	"name": "Exam 04",
+	"goal": 100,
+	"exercices": [
+		[
+			{
+				"name": "microshell",
+				"difficulty": {
+					"normal": {
+						"exponent": 2,
+						"trace": true,
+						"moulinette": true,
+						"leaks": true,
+						"allowed_functions": ["malloc", "free", "write", "close", "fork", "waitpid", "signal", "kill", "exit", "chdir", "execve", "dup", "dup2", "pipe", "strcmp", "strncmp"],
+						"cp": {
+							"user": ["%SUBJECT%"],
+							"checker": ["%MAKE%", "microshell.c"]
+						}
+					}
+				}
+			}
+		]
+	]
+}
