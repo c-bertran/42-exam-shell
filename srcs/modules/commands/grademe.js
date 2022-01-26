@@ -54,8 +54,8 @@ class Grademe
 	{
 		this.JSON.retry = 0;
 		this.JSON.current = this.JSON.data.exercices[this.JSON.id];
-		const id = Math.floor(Math.random() * this.JSON.current.list.length);
-		this.JSON.current.selected = this.JSON.current.list[id];
+		const id = Math.floor(Math.random() * this.JSON.current.length);
+		this.JSON.current.selected = this.JSON.current[id];
 
 		const diff = this.JSON.current.selected.difficulty;
 		const saveName = this.JSON.current.selected.name;
@@ -224,11 +224,31 @@ class Grademe
 					}
 					if (this.JSON.current.selected.leaks === true)
 					{
-						const leaks = new Valgrind(path.join(this.JSON.path.correction, 'valgrind.xml'));
-						if (leaks.check() === true)
+						const ret = {
+							leaks: [],
+							fds: [],
+						};
+						const dirList = fs.readdirSync(this.JSON.path.correction, { encoding: 'utf-8', withFileTypes: false });
+						dirList.forEach((file) =>
+						{
+							if (/^valgrind_\d+.log/.test(file))
+							{
+								const valgrind = new Valgrind(path.join(this.JSON.path.correction, file));
+								if (valgrind.is_leaks())
+									ret.leaks.push(valgrind.leaks);
+								if (valgrind.is_open_fds())
+									ret.fds.push(valgrind.fds);
+							}
+						});
+						if (ret.leaks > 0)
 						{
 							isError = true;
-							this.failed(resolve, leaks.leaks);
+							this.failed(resolve, JSON.stringify(ret.leaks, null, 4));
+						}
+						else if (ret.fds > 0)
+						{
+							isError = true;
+							this.failed(resolve, JSON.stringify(ret.fds, null, 4));
 						}
 					}
 					if (isError === false)
