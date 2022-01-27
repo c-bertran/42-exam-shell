@@ -108,7 +108,11 @@ class Main
 		fs.access(this.JSON.git.temp, (err) =>
 		{
 			if (!err)
-				fs.rm(this.JSON.git.temp, { recursive: true, force: true });
+				fs.rm(this.JSON.git.temp, { recursive: true, force: true }, (err2) =>
+				{
+					if (err2)
+						throw new Error(err2);
+				});
 		});
 	}
 
@@ -246,7 +250,12 @@ class Main
 					setInterval(() => this.TIMER.start++, 1000);
 					setTimeout(() =>
 					{
-						fs.rm(this.JSON.git.temp, { recursive: true, force: true });
+						fs.rm(this.JSON.git.temp, { recursive: true, force: true }, (err) =>
+						{
+							// Callback present is here for rimraf error if no callback provided
+							if (err)
+								;
+						});
 						this.TIMER.finish = true;
 						this.Shell.write(null, {
 							ctrl: true,
