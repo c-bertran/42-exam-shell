@@ -9,7 +9,7 @@ clang -Wall -Werror -Wextra union.c -o union
 ./union one >> real
 ./union one two three >> real
 
-clang -Wall -Werror -Wextra render/union/union.c -o union2
+clang -Wall -Werror -Wextra $1/union/union.c -o union2
 ./union2 zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" > fake
 ./union2 ddf6vewg64f gtwthgdwthdwfteewhrtag6h4ffdhsd >> fake
 ./union2 "rien" "cette phrase ne cache rien" >> fake

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clang -Wall -Werror -Wextra -lm ./render/mini_paint/*.c -I ./render/mini_paint/ -o ./fake_mini_paint
+clang -Wall -Werror -Wextra -lm ./$1/mini_paint/*.c -I ./$1/mini_paint/ -o ./fake_mini_paint
 clang -Wall -Werror -Wextra -lm mini_paint.c -o ./real_mini_paint
 
 test() {

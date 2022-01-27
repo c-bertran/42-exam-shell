@@ -26,7 +26,7 @@ void	ft_error(char *str, char *type)
 {
 	ft_putstr(STDERR_FILENO, str);
 	ft_putstr(STDERR_FILENO, type);
-	//write(STDERR_FILENO, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 	kill(0, SIGINT);
 }
 

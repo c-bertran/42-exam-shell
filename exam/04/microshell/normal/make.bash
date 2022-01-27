@@ -1,25 +1,28 @@
 #!/bin/bash
-
-#!/bin/bash
 CAT_PATH=$(type -a cat | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
 GREP_PATH=$(type -a grep | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
 ECHO_PATH=$(type -a echo | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
 LS_PATH=$(type -a ls | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
 ID=0
 
-rm -f valgrind_*.log real_microshell fake_microshell real fake
+rm -f valgrind_*.log real_microshell fake_microshell real fake __diff
 touch real fake
 clang -Wall -Werror -Wextra microshell.c -o real_microshell
-clang -Wall -Werror -Wextra render/microshell/*.c -I ./render/microshell/ -o fake_microshell
+clang -Wall -Werror -Wextra $1/microshell/*.c -I ./$1/microshell/ -o fake_microshell
 
 execute () {
+	touch valgrind_$ID.log
+
 	echo $@ >> real
-	timeout 5s bash leaks.bash real_microshell $ID $@ >> real &
+	timeout 10s bash leaks.bash real_microshell $ID $@ >> real 2>&1 &
 	pid=$(pgrep -f leaks.bash)
 	wait $pid 2>/dev/null
 
+	rm -f valgrind_$ID.log
+	touch valgrind_$ID.log
+
 	echo $@ >> fake
-	timeout 5s bash leaks.bash fake_microshell $ID $@ >> fake &
+	timeout 10s bash leaks.bash fake_microshell $ID $@ >> fake 2>&1 &
 	pid=$(pgrep -f leaks.bash)
 	wait $pid 2>/dev/null
 

@@ -8,7 +8,7 @@ clang -Wall -Werror -Wextra inter.c -o inter
 ./inter >> real
 ./inter one two three >> real
 
-clang -Wall -Werror -Wextra render/inter/inter.c -o inter2
+clang -Wall -Werror -Wextra $1/inter/inter.c -o inter2
 ./inter2 zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" > fake
 ./inter2 ddf6vewg64f gtwthgdwthdwfteewhrtag6h4ffdhsd >> fake
 ./inter2 "rien" "cette phrase ne cache rien" >> fake
