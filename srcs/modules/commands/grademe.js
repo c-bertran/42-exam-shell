@@ -185,7 +185,7 @@ class Grademe
 			process.exit(-3);
 		}
 
-		exec('bash make.bash', {
+		exec(`bash make.bash ${LANG.Git.render}`, {
 			cwd: this.JSON.path.correction,
 			shell: '/bin/bash',
 			windowsHide: true,
