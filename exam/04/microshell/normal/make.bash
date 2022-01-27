@@ -1,13 +1,14 @@
 #!/bin/bash
 
 #!/bin/bash
-CAT_PATH=$(type -a cat | grep -Eo "is /.*" | grep -Eo "/.*")
-GREP_PATH=$(type -a grep | grep -Eo "is /.*" | grep -Eo "/.*")
-ECHO_PATH=$(type -a echo | grep -Eo "is /.*" | grep -Eo "/.*")
-LS_PATH=$(type -a ls | grep -Eo "is /.*" | grep -Eo "/.*")
+CAT_PATH=$(type -a cat | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
+GREP_PATH=$(type -a grep | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
+ECHO_PATH=$(type -a echo | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
+LS_PATH=$(type -a ls | grep -Eo "is /(bin|sbin|usr).*" | grep -Eo "/.*")
 ID=0
 
 rm -f valgrind_*.log real_microshell fake_microshell real fake
+touch real fake
 clang -Wall -Werror -Wextra microshell.c -o real_microshell
 clang -Wall -Werror -Wextra render/microshell/*.c -I ./render/microshell/ -o fake_microshell
 
@@ -54,4 +55,4 @@ execute blah "|" $ECHO_PATH OK ";"
 
 diff -y --suppress-common-lines real fake > __diff
 
-rm -freal_microshell fake_microshell real fake
+rm -f real_microshell fake_microshell real fake
