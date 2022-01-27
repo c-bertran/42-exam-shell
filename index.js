@@ -35,6 +35,8 @@ const hexaID = () => crypto
 	.toString('hex')
 	.slice(0, 16);
 
+let childServe;
+
 class Examen
 {
 	constructor()
@@ -290,7 +292,7 @@ class Main
 		{
 			this.Shell.pause();
 			const args = data.split(' ');
-			const command = args[0];
+			const command = args[0].toLowerCase();
 			if (command === 'status')
 			{
 				status.exec(this.JSON, this.TIMER);
@@ -308,10 +310,11 @@ class Main
 				if (!this.TIMER.finish)
 					await this.Grade.grade(this.TIMER);
 			}
-			else if (command === 'IDDQD')
+			else if (command === 'IDDQD' || command === 'iddqd')
 			{
-				const serve = new IDDQD();
-				serve.start();
+				if (childServe === undefined)
+					childServe = new IDDQD();
+				childServe.print();
 			}
 			else if (data.length)
 			{
