@@ -1,0 +1,35 @@
+{
+	"name": "Exam 05",
+	"goal": 100,
+	"exercices": [
+		[
+			{
+				"name": "module_00",
+				"difficulty": {
+					"normal": {
+						"exponent": 3,
+						"trace": false,
+						"allowed_functions": ["write"],
+						"moulinette": true,
+						"leaks": true,
+						"cp": {
+							"user": ["%SUBJECT%"],
+							"checker": ["%MAKE%", "union.c"]
+						}
+					},
+					"hard": {
+						"exponent": 3,
+						"trace": false,
+						"allowed_functions": ["write", "malloc", "free"],
+						"moulinette": true,
+						"leaks": true,
+						"cp": {
+							"user": ["%SUBJECT%"],
+							"checker": ["%MAKE%", "union.c"]
+						}
+					}
+				}
+			}
+		]
+	]
+}

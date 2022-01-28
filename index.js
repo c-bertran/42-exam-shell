@@ -317,9 +317,16 @@ class Main
 			else if (command === 'grademe' && !this.TIMER.printPrompt)
 			{
 				if (!this.TIMER.finish)
-					await this.Grade.grade(this.TIMER);
+					try
+					{
+						await this.Grade.grade(this.TIMER);
+					}
+					catch (error)
+					{
+						// do nothing, everything is made inside grademe class
+					}
 			}
-			else if (command === 'IDDQD' || command === 'iddqd')
+			else if (command === 'iddqd')
 			{
 				if (childServe === undefined)
 					childServe = new IDDQD();
@@ -344,9 +351,18 @@ class Main
 		this.Shell.on('SIGINT', () =>
 		{
 			process.stdout.write('\n');
-			process.exit(0);
+			this.Shell.write(null, {
+				ctrl: true,
+				name: 'u',
+			});
+			this.Shell.prompt();
 		});
 		this.Shell.on('SIGCONT', () =>
+		{
+			process.stdout.write('\n');
+			process.exit(0);
+		});
+		this.Shell.on('SIGTSTP', () =>
 		{
 			process.stdout.write('\n');
 			process.exit(0);

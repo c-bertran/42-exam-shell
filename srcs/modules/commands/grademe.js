@@ -43,6 +43,10 @@ class Grademe
 		};
 		this.oldTime = Number(0);
 		this.retryTime = Number(0);
+		this.promise = {
+			resolve: Function,
+			reject: Function,
+		};
 		setInterval(() =>
 		{
 			if (this.retryTime > 0)
@@ -143,25 +147,26 @@ class Grademe
 			console.error(err);
 			process.exit(-5);
 		}
-		return new Promise((resolve) =>
+		this.isError = false;
+		return new Promise((resolve, reject) =>
 		{
+			this.promise.resolve = resolve;
+			this.promise.reject = reject;
 			exec(`git clone ${this.JSON.parent.git.render}`, {
 				cwd: this.JSON.path.correction,
 				shell: '/bin/bash',
 				windowsHide: true,
-			}, (err) =>
+			}, (err, stdout, stderr) =>
 			{
-				if (err)
-					this.failed(resolve, err, true);
-			}).on('exit', (code) =>
-			{
-				if (code === 0)
-					this.execute_test(resolve);
+				if (err || stderr.length)
+					this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
+				else
+					this.execute_test();
 			});
 		});
 	}
 
-	execute_test(resolve)
+	execute_test()
 	{
 		try
 		{
@@ -189,22 +194,18 @@ class Grademe
 			cwd: this.JSON.path.correction,
 			shell: '/bin/bash',
 			windowsHide: true,
-		}, (err) =>
+		}, (err, stdout, stderr) =>
 		{
-			if (err)
-				this.failed(resolve, err, true);
-		}).on('exit', (code) =>
-		{
-			if (code !== 0)
+			if (err || stderr.length)
 			{
-				this.failed(resolve, `errno: ${code}`, true);
+				this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
 			}
 			else
 			{
 				const diff = fs.readFileSync(path.join(this.JSON.path.correction, '__diff'), { encoding: 'utf-8' });
 				if (diff.length > 0)
 				{
-					this.failed(resolve, diff);
+					this.failed(diff);
 				}
 				else
 				{
@@ -219,7 +220,7 @@ class Grademe
 						if (errors.length)
 						{
 							isError = true;
-							this.failed(resolve, errors);
+							this.failed(errors);
 						}
 					}
 					if (this.JSON.current.selected.leaks === true)
@@ -243,22 +244,22 @@ class Grademe
 						if (ret.leaks > 0)
 						{
 							isError = true;
-							this.failed(resolve, JSON.stringify(ret.leaks, null, 4));
+							this.failed(JSON.stringify(ret.leaks, null, 4));
 						}
 						else if (ret.fds > 0)
 						{
 							isError = true;
-							this.failed(resolve, JSON.stringify(ret.fds, null, 4));
+							this.failed(JSON.stringify(ret.fds, null, 4));
 						}
 					}
 					if (isError === false)
-						this.success(resolve);
+						this.success();
 				}
 			}
 		});
 	}
 
-	success(resolve)
+	success()
 	{
 		spinner.stop();
 		process.stdout.clearLine();
@@ -266,18 +267,13 @@ class Grademe
 		this.JSON.goal.current += Number(this.JSON.goal.add);
 		console.log(`${COLORS.greenlight}>>> ${LANG.Grademe.Success.toUpperCase()} <<<${COLORS.reset}`);
 		if (this.JSON.goal.current >= this.JSON.goal.max)
-		{
 			console.log(`${COLORS.bluelight}${LANG.Grademe.Finish}${COLORS.reset}`);
-			resolve('foo');
-		}
 		else
-		{
 			this.start();
-			resolve('foo');
-		}
+		this.promise.resolve('foo');
 	}
 
-	failed(resolve, data, forceTrace = false)
+	failed(data, forceTrace = false)
 	{
 		spinner.stop();
 		process.stdout.clearLine();
@@ -286,8 +282,7 @@ class Grademe
 		this.oldTime += this.oldTime * Number(this.JSON.current.selected.exponent);
 		this.retryTime = this.oldTime;
 
-		if (forceTrace === false)
-			console.log(`${COLORS.redlight}>>> ${LANG.Grademe.Failed.toUpperCase()} <<<${COLORS.reset}`);
+		console.log(`${COLORS.redlight}>>> ${LANG.Grademe.Failed.toUpperCase()} <<<${COLORS.reset}`);
 		if (this.JSON.current.selected.trace === true)
 		{
 			console.log(`${COLORS.reset}\n=== ${LANG.Grademe.Trace.toUpperCase()} ===`);
@@ -322,7 +317,7 @@ class Grademe
 				}
 			});
 		this.print_info();
-		resolve('foo');
+		this.promise.reject('foo');
 	}
 }
 
