@@ -10,7 +10,8 @@
 						"exponent": 3,
 						"trace": false,
 						"allowed_functions": ["write"],
-						"moulinette": true,
+						"forbidden_keywords": ["switch"],
+						"moulinette": [false, true],
 						"leaks": true,
 						"cp": {
 							"user": ["%SUBJECT%"],

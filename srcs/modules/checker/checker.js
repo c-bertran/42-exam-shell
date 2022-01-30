@@ -5,15 +5,21 @@ const keywords = require('./keywords');
 
 class Parser
 {
-	constructor(autorizedFunctions)
+	constructor(step, autorizedFunctions, forbiddenKeywords)
 	{
+		this.forbiddenKeywords = Array.from(forbiddenKeywords);
 		this.functions = {
 			declared: Array.from(autorizedFunctions),
 			using: [],
 		};
+		this.keywords = [];
+
+		this.typedef = [];
 		this.errors = [];
-		this.blob = undefined;
 		this.comments = [];
+
+		this.step = step;
+		this.blob = undefined;
 	}
 
 	parse(pathToFile)
@@ -27,42 +33,70 @@ class Parser
 		if (Object.keys(define).length)
 		{
 			this.blob = fs.readFileSync(pathToFile, { encoding: 'utf-8' });
-			this.comments = [];
-			const comments = {
-				simple: this.blob.matchAll(define.regex.simple_comment),
-				double: this.blob.matchAll(define.regex.double_comment),
-			};
-			for (const el of comments.simple)
-				this.comments.push({ start: el.index, end: el.index + el[0].length });
-			for (const el of comments.double)
-				this.comments.push({ start: el.index, end: el.index + el[0].length });
+			this.comments = Array.from(
+				this.blob.matchAll(define.regex.comment),
+				(el) => ({ start: el.index, end: el.index + el[0].length }),
+			);
 
-			const declared = Array.from(
-				this.blob.matchAll(define.regex.declar),
-				(m) => ({ found: m[1], index: m.index }),
-			).filter((el) =>
-			{
-				if (el.found.length > 0 && !this.#is_in_comment(el.index, el.index + el.found.length))
-					return true;
-				return false;
-			});
+			const isDeclared = this.#get_declared(define, pathToFile);
+			const isKeywords = this.#get_keywords(define, pathToFile);
+			const isUsing = this.#get_using(define, pathToFile);
 
-			const using = Array.from(
-				this.blob.matchAll(define.regex.using),
-				(m) => ({ file: pathToFile, found: m[1], index: m.index }),
-			).filter((el) =>
-			{
-				if (el.found.length > 0 && define.keywords.indexOf(el.found) === -1
-				&& !this.#is_in_comment(el.index, el.index + el.found.length))
-					return true;
-				return false;
-			});
-
-			for (const dec of declared)
+			for (const dec of isDeclared)
 				this.functions.declared.push(dec.found);
-			for (const use of using)
+			for (const key of isKeywords)
+				this.keywords.push(key);
+			for (const use of isUsing)
 				this.functions.using.push(use);
 		}
+	}
+
+	#get_declared(define)
+	{
+		return Array.from(
+			this.blob.matchAll(define.regex.declar),
+			(m) => ({ found: m[1], index: m.index }),
+		).filter((el) =>
+		{
+			if (el.found.length > 0 && !this.#is_in_comment(el.index, el.index + el.found.length))
+				return true;
+			return false;
+		});
+	}
+
+	#get_keywords(define, pathToFile)
+	{
+		let stringRegex = '\\s(';
+		for (const el of define.keywords)
+			stringRegex += `${el}|`;
+		stringRegex = stringRegex.slice(0, stringRegex.length - 1);
+		stringRegex += ')\\s';
+		const regex = new RegExp(stringRegex, 'gm');
+		return Array.from(
+			this.blob.matchAll(regex),
+			(el) => ({
+				file: pathToFile, keyword: el[1], start: el.index, end: el.index + el[1].length,
+			}),
+		).filter((el) =>
+		{
+			if (el.keyword.length > 0 && !this.#is_in_comment(el.start, el.end))
+				return true;
+			return false;
+		});
+	}
+
+	#get_using(define, pathToFile)
+	{
+		return Array.from(
+			this.blob.matchAll(define.regex.using),
+			(m) => ({ file: pathToFile, found: m[1], index: m.index }),
+		).filter((el) =>
+		{
+			if (el.found.length > 0 && define.keywords.indexOf(el.found) === -1
+			&& !this.#is_in_comment(el.index, el.index + el.found.length))
+				return true;
+			return false;
+		});
 	}
 
 	#is_in_comment(start, end)
@@ -75,9 +109,26 @@ class Parser
 
 	get_forbidden_functions()
 	{
-		for (const funct of this.functions.using)
-			if (this.functions.declared.indexOf(funct.found) === -1)
-				this.errors.push(funct);
+		if (!Array.isArray(this.step))
+		{
+			for (const funct of this.functions.using)
+				if (this.functions.declared.indexOf(funct.found) === -1)
+					this.errors.push(funct);
+			for (const key of this.keywords)
+				if (this.forbiddenKeywords.indexOf(key.keyword) === -1)
+					this.errors.push(key);
+		}
+		else
+		{
+			if (this.step[0] === true)
+				for (const funct of this.functions.using)
+					if (this.functions.declared.indexOf(funct.found) === -1)
+						this.errors.push(funct);
+			if (this.step[1] === true)
+				for (const key of this.keywords)
+					if (this.forbiddenKeywords.indexOf(key.keyword) !== -1)
+						this.errors.push(key);
+		}
 		return this.errors;
 	}
 }
@@ -87,21 +138,24 @@ class checker
 	/**
 	 * The checker verifies if the code written by the user respects the set rules
 	 * @param {String} directory path of the folder where these files are located
+	 * @param {Boolean|Array} step Defined how checker work, if `true`, functions and keywords is checked; if array, [{true|false}functions, {true|false}keywords] is checked
 	 * @param {Array} autorizedFunctions list of external functions allowed in the project. By default no external functions are allowed. Pass an empty array to have the default feature.
+	 * @param {Array} forbiddenKeywords list of forbidden keywords in the project (like continue, if, switch, ...). By default every keywords are allowed. Pass an empty array to have the default feature.
 	 */
-	constructor(directory, autorizedFunctions = [])
+	constructor(directory, step, autorizedFunctions = [], forbiddenKeywords = [])
 	{
 		const checkArgs = {
 			directory: (typeof directory !== 'string') ? '(`directory` is not a String)' : '',
 			functions: (!Array.isArray(autorizedFunctions)) ? '(`autorizedFunctions` is not a Array)' : '',
+			forbiddenKeywords: (!Array.isArray(forbiddenKeywords)) ? '(`forbiddenKeywords` is not a Array)' : '',
 		};
-		if (checkArgs.directory.length || checkArgs.functions.length)
-			throw new Error(`${checkArgs.directory}${checkArgs.functions}`);
+		if (checkArgs.directory.length || checkArgs.functions.length || checkArgs.forbiddenKeywords.length)
+			throw new Error(`${checkArgs.directory}${checkArgs.functions}${checkArgs.forbiddenKeywords}`);
 
+		this.step = step;
 		this.list = this.#tree_files(directory);
-		this.autorizedFunctions = autorizedFunctions;
 		this.errors = undefined;
-		this.parser = new Parser(this.autorizedFunctions);
+		this.parser = new Parser(step, autorizedFunctions, forbiddenKeywords);
 	}
 
 	#tree_files(directory)

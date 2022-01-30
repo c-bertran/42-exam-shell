@@ -210,11 +210,17 @@ class Grademe
 				else
 				{
 					let isError = Boolean(false);
-					if (this.JSON.current.selected.moulinette === true)
+					if (this.JSON.current.selected.moulinette === true || Array.isArray(this.JSON.current.selected.moulinette))
 					{
+						const elements = {
+							functs: (Object.prototype.hasOwnProperty.call(this.JSON.current.selected, 'allowed_functions')) ? this.JSON.current.selected.allowed_functions : [],
+							keys: (Object.prototype.hasOwnProperty.call(this.JSON.current.selected, 'forbidden_keywords')) ? this.JSON.current.selected.forbidden_keywords : [],
+						};
 						const check = new Checker(
 							path.join(this.JSON.path.correction, 'render', this.JSON.current.selected.name),
-							this.JSON.current.selected.allowed_functions,
+							this.JSON.current.selected.moulinette,
+							elements.functs,
+							elements.keys,
 						);
 						const errors = check.check();
 						if (errors.length)
