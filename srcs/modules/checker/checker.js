@@ -3,28 +3,30 @@ const fs = require('fs');
 const path = require('path');
 const keywords = require('./keywords');
 
+const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 class Parser
 {
 	constructor(step, autorizedFunctions, forbiddenKeywords)
 	{
 		this.forbiddenKeywords = Array.from(forbiddenKeywords);
-		this.functions = {
-			declared: Array.from(autorizedFunctions),
-			using: [],
-		};
-		this.keywords = [];
-
-		this.typedef = [];
-		this.errors = [];
-		this.comments = [];
-
 		this.step = step;
 		this.blob = undefined;
+		this.errors = [];
+		this.predefinedKeywords = [];
+		this.informations = {
+			functions: {
+				declared: Array.from(autorizedFunctions),
+				using: [],
+			},
+			keywords: [],
+			typedefs: [],
+			comments: [],
+		};
 	}
 
 	parse(pathToFile)
 	{
-		this.comments = [];
 		const info = {
 			base: path.basename(pathToFile),
 			ext: path.extname(pathToFile),
@@ -33,40 +35,34 @@ class Parser
 		if (Object.keys(define).length)
 		{
 			this.blob = fs.readFileSync(pathToFile, { encoding: 'utf-8' });
-			this.comments = Array.from(
+			this.informations.comments = Array.from(
 				this.blob.matchAll(define.regex.comment),
 				(el) => ({ start: el.index, end: el.index + el[0].length }),
 			);
+			if (!this.predefinedKeywords.length)
+				this.predefinedKeywords = Array.from(define.keywords, (el) => ({ keyword: el }));
+			this.informations.keywords = this.informations.keywords.concat(this.#get_keywords(define, pathToFile));
 
-			const isDeclared = this.#get_declared(define, pathToFile);
-			const isKeywords = this.#get_keywords(define, pathToFile);
-			const isUsing = this.#get_using(define, pathToFile);
+			this.informations.functions.declared = this.informations.functions.declared.concat(this.#get_declared(define, pathToFile));
 
-			for (const dec of isDeclared)
-				this.functions.declared.push(dec.found);
-			for (const key of isKeywords)
-				this.keywords.push(key);
-			for (const use of isUsing)
-				this.functions.using.push(use);
+			this.informations.typedefs = this.informations.typedefs.concat(this.#get_typedef(define, pathToFile));
+
+			this.informations.functions.using = this.informations.functions.using.concat(this.#get_using(define, pathToFile));
 		}
 	}
 
-	#get_declared(define)
+	// eslint-disable-next-line class-methods-use-this
+	#is_exist(array, key, compare)
 	{
-		return Array.from(
-			this.blob.matchAll(define.regex.declar),
-			(m) => ({ found: m[1], index: m.index }),
-		).filter((el) =>
-		{
-			if (el.found.length > 0 && !this.#is_in_comment(el.index, el.index + el.found.length))
+		for (const object of array)
+			if (compare.indexOf(object[key]) !== -1)
 				return true;
-			return false;
-		});
+		return false;
 	}
 
 	#get_keywords(define, pathToFile)
 	{
-		let stringRegex = '\\s(';
+		let stringRegex = '\\s(?<keyword>';
 		for (const el of define.keywords)
 			stringRegex += `${el}|`;
 		stringRegex = stringRegex.slice(0, stringRegex.length - 1);
@@ -74,12 +70,59 @@ class Parser
 		const regex = new RegExp(stringRegex, 'gm');
 		return Array.from(
 			this.blob.matchAll(regex),
-			(el) => ({
-				file: pathToFile, keyword: el[1], start: el.index, end: el.index + el[1].length,
-			}),
+			(m) => (
+				{
+					file: pathToFile,
+					index: m.index,
+					keyword: (m.groups.keyword) ? m.groups.keyword.trim() : null,
+				}
+			),
 		).filter((el) =>
 		{
-			if (el.keyword.length > 0 && !this.#is_in_comment(el.start, el.end))
+			if (el.keyword.length > 0
+				&& !this.#is_in_comment(el.start, el.end))
+				return true;
+			return false;
+		});
+	}
+
+	#get_declared(define, pathToFile)
+	{
+		return Array.from(
+			this.blob.matchAll(define.regex.declar),
+			(m) => (
+				{
+					file: pathToFile,
+					index: m.index,
+					declaration: (m.groups.declaration) ? m.groups.declaration.trim() : null,
+					isConst: !!(m.groups.is_const),
+				}
+			),
+		).filter((el) =>
+		{
+			if (el.declaration.length > 0
+				&& !this.#is_exist(this.predefinedKeywords, 'keyword', el.declaration)
+				&& !this.#is_in_comment(el.index, el.index + el.declaration.length))
+				return true;
+			return false;
+		});
+	}
+
+	#get_typedef(define, pathToFile)
+	{
+		return Array.from(
+			this.blob.matchAll(define.regex.typedef),
+			(m) => (
+				{
+					file: pathToFile,
+					index: m.index,
+					typedef: (m.groups.typedef) ? m.groups.typedef.trim() : null,
+				}
+			),
+		).filter((el) =>
+		{
+			if (el.typedef.length > 0
+				&& !this.#is_in_comment(el.index, el.index + el.typedef.length))
 				return true;
 			return false;
 		});
@@ -89,11 +132,19 @@ class Parser
 	{
 		return Array.from(
 			this.blob.matchAll(define.regex.using),
-			(m) => ({ file: pathToFile, found: m[1], index: m.index }),
+			(m) => (
+				{
+					file: pathToFile,
+					index: m.index,
+					using: (m.groups.function) ? m.groups.function.trim() : null,
+				}
+			),
 		).filter((el) =>
 		{
-			if (el.found.length > 0 && define.keywords.indexOf(el.found) === -1
-			&& !this.#is_in_comment(el.index, el.index + el.found.length))
+			if (el.using.length > 0
+				&& !this.#is_exist(this.informations.keywords, 'keyword', el.using)
+				&& !this.#is_exist(this.informations.typedefs, 'typedef', el.using)
+				&& !this.#is_in_comment(el.index, el.index + el.using.length))
 				return true;
 			return false;
 		});
@@ -101,7 +152,7 @@ class Parser
 
 	#is_in_comment(start, end)
 	{
-		for (const comment of this.comments)
+		for (const comment of this.informations.comments)
 			if (start > comment.start && end < comment.end)
 				return true;
 		return false;
@@ -111,21 +162,23 @@ class Parser
 	{
 		if (!Array.isArray(this.step))
 		{
-			for (const funct of this.functions.using)
-				if (this.functions.declared.indexOf(funct.found) === -1)
+			for (const funct of this.informations.functions.using)
+				if (!this.#is_exist(this.informations.functions.declared, 'using', funct.declaration))
 					this.errors.push(funct);
-			for (const key of this.keywords)
+
+			for (const key of this.informations.keywords)
 				if (this.forbiddenKeywords.indexOf(key.keyword) === -1)
 					this.errors.push(key);
 		}
 		else
 		{
 			if (this.step[0] === true)
-				for (const funct of this.functions.using)
-					if (this.functions.declared.indexOf(funct.found) === -1)
+				for (const funct of this.informations.functions.using)
+					if (!this.#is_exist(this.informations.functions.declared, 'declaration', funct.using))
 						this.errors.push(funct);
+
 			if (this.step[1] === true)
-				for (const key of this.keywords)
+				for (const key of this.informations.keywords)
 					if (this.forbiddenKeywords.indexOf(key.keyword) !== -1)
 						this.errors.push(key);
 		}
