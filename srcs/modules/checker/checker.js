@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const keywords = require('./keywords');
 
-const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+// Optional function for automatically escape special char from string
+// const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 class Parser
 {
