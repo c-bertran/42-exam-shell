@@ -7,6 +7,7 @@ const process = require('process');
 const path = require('path');
 const crypto = require('crypto');
 const { exec } = require('child_process');
+const glob = require('glob');
 const spinner = require('../spinner');
 const COLORS = require('../colors');
 const { timer } = require('../clock');
@@ -98,7 +99,9 @@ class Grademe
 				else
 					try
 					{
-						fs.copyDirSync(path.join(this.JSON.path.exercice, el), path.join(this.JSON.path.subject, el));
+						const files = glob.sync(path.join(this.JSON.path.exercice, el));
+						for (const file of files)
+							fs.copyDirSync(file, path.join(this.JSON.path.subject, path.basename(file)));
 					}
 					catch (err2)
 					{
@@ -158,7 +161,7 @@ class Grademe
 				windowsHide: true,
 			}, (err, stdout, stderr) =>
 			{
-				if (err || stderr.length)
+				if (err || (stderr.length && /warning: You appear to have cloned an empty repository/gm.test(stderr)))
 					this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
 				else
 					this.execute_test();
@@ -177,7 +180,9 @@ class Grademe
 				else
 					try
 					{
-						fs.copyDirSync(path.join(this.JSON.path.exercice, el), path.join(this.JSON.path.correction, el));
+						const files = glob.sync(path.join(this.JSON.path.exercice, el));
+						for (const file of files)
+							fs.copyDirSync(file, path.join(this.JSON.path.correction, path.basename(file)));
 					}
 					catch (err2)
 					{

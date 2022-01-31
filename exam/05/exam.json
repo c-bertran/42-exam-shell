@@ -1,6 +1,7 @@
 {
 	"name": "Exam 05",
 	"goal": 100,
+	"time": "3h",
 	"exercices": [
 		[
 			{
@@ -9,24 +10,30 @@
 					"normal": {
 						"exponent": 3,
 						"trace": false,
-						"allowed_functions": ["write"],
+						"forbidden_keywords": ["switch"],
+						"moulinette": [false, true],
+						"leaks": true,
+						"cp": {
+							"user": ["%SUBJECT%", "*.cpp", "*.hpp", "Warlock.hpp"],
+							"checker": ["%MAKE%", "*.cpp", "*.hpp"]
+						}
+					}
+				}
+			}
+		],
+		[
+			{
+				"name": "module_01",
+				"difficulty": {
+					"normal": {
+						"exponent": 3,
+						"trace": false,
 						"forbidden_keywords": ["switch"],
 						"moulinette": [false, true],
 						"leaks": true,
 						"cp": {
 							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "union.c"]
-						}
-					},
-					"hard": {
-						"exponent": 3,
-						"trace": false,
-						"allowed_functions": ["write", "malloc", "free"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "union.c"]
+							"checker": ["%MAKE%", "Warlock.cpp", "Warlock.hpp", "main.c"]
 						}
 					}
 				}

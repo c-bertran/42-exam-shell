@@ -9,7 +9,7 @@ Elle possède les attributs privés suivants :
 * title (string)
 
 Puisqu'ils sont privés, vous écrirez les getters suivants :
-* getName, renvoie une référence à la chaîne constante.
+* getName, renvoie une référence à une chaîne de caractères constante.
 * getTitle, renvoie une référence à une chaîne de caractères constante.
 
 Ces deux fonctions devront être appelables sur un Warlock constant.
@@ -45,7 +45,7 @@ Vous allez donc écrire la fonction suivante :
 
 Elle doit afficher :
 
-<NAME>: I am <NAME>, <TITLE> !
+<NAME>: I am <NAME>, <TITLE>!
 
 Voici un exemple d'une fonction principale de test et de sa sortie associée :
 
