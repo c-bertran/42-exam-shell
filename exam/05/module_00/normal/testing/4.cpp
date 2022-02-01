@@ -1,6 +1,6 @@
 #include "Warlock.hpp"
 
-int main()
+int main(void)
 {
   Warlock const richard("Richard", "Mistress of Magma");
   richard.introduce();
@@ -13,5 +13,5 @@ int main()
 
   delete jack;
 
-  return (0);
+  return 0;
 }

@@ -1,9 +1,9 @@
-Assignment name  : cpp_module_01
+Assignment name  : module_01
 Expected files   : Warlock.cpp Warlock.hpp
                    ASpell.hpp ASpell.cpp
-				   ATarget.hpp ATarget.cpp
-				   Fwoosh.hpp Fwoosh.cpp
-				   Dummy.hpp Dummy.cpp
+				           ATarget.hpp ATarget.cpp
+				           Fwoosh.hpp Fwoosh.cpp
+				           Dummy.hpp Dummy.cpp
 --------------------------------------------------------------------------------
 
 In the Warlock class, the switch statement is FORBIDDEN and its use would
