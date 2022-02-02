@@ -1,11 +1,9 @@
 <h1 align="center">
-    <img height="100" src="md/logo.svg" alt=""><br>
+  <img height="100" src="md/logo.svg" alt=""><br>
 	Practice like a boss
 </h1>
 
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/c-bertran/examshell/Build%20Binary?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![Lines of code](https://img.shields.io/tokei/lines/github/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
-
-
 
 <img src="md/main.gif"></img>
 
@@ -34,6 +32,14 @@ Launch your favorite command prompt, and simply run the program:
 ```sh
 ./examshell
 ```
+
+## Exams
+The following exams are available:
+- Exam 02
+- Exam 03
+- Exam 04
+- Exam 05
+- Exam 06 (*in progress*)
 
 ## Upcoming features
 Eventually, `Examshell` will allow you to create your own exams and share them with other people. This feature should be available soon
