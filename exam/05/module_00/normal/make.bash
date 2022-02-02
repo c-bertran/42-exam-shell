@@ -19,7 +19,6 @@ execute () {
 	fi
 }
 
-# Failed compilation
 until [ $ID -gt 4 ]
 do
 	execute

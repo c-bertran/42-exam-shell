@@ -25,7 +25,6 @@ execute () {
 	fi
 }
 
-# Failed compilation
 until [ $ID -gt 5 ]
 do
 	execute
