@@ -2,7 +2,10 @@
 	"Hello": "Bienvenue dans Examshell",
 	"Difficulty": {
 		"Question" : "Sélectionnez votre difficulté",
-		"List": ["Normal", "Difficile"]
+		"List": [
+			{ "title": "Normal", "value": "Normal" },
+			{ "title": "Difficile", "value": "Difficile" }
+		]
 	},
 	"Select": {
 		"Question": "Sélectionnez votre examen"
@@ -18,6 +21,7 @@
 	"Options":
 	{
 		"Question": "(Optionnel) Sélectionnez les options que vous souhaitez activer",
+		"Hint": "Espace pour sélectionner, Retour pour valider",
 		"Infinite": ["Illimité", "Il n'y a plus de limite de temps"],
 		"Doom": ["Doom", "Tout votre travail et votre git sont réinitialisés si grademe échou !"]
 	},

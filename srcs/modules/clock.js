@@ -1,6 +1,35 @@
 /* eslint-disable no-param-reassign */
 
-function timer(secs)
+function timer(TIME)
+{
+	if (TIME.days === 0 && TIME.hours === 0 && TIME.minutes === 0 && TIME.seconds === 0)
+		return;
+	--TIME.seconds;
+	if (TIME.seconds < 0)
+	{
+		--TIME.minutes;
+		TIME.seconds = 59;
+	}
+	if (TIME.minutes < 0)
+	{
+		--TIME.hours;
+		TIME.minutes = 59;
+	}
+	if (TIME.hours < 0)
+	{
+		--TIME.days;
+		TIME.hours = 23;
+	}
+	if (TIME.hours === -1)
+	{
+		TIME.seconds = 0;
+		TIME.minutes = 0;
+		TIME.hours = 0;
+		TIME.days = 0;
+	}
+}
+
+function secondsToClock(secs)
 {
 	const secNum = parseInt(secs, 10);
 	let hours = Math.floor(secNum / 3600);
@@ -16,40 +45,7 @@ function timer(secs)
 	return `${hours}:${minutes}:${seconds}`;
 }
 
-function clock(secs)
-{
-	let Hours = 0;
-	let Minutes = 0;
-	if (secs >= 3600)
-	{
-		Hours = Math.round(secs / 3600);
-		secs %= 3600;
-	}
-	if (secs >= 60)
-	{
-		Minutes = Math.round(secs / 60);
-		secs %= 60;
-	}
-	secs = Math.round(secs);
-	const Str = {
-		Hours: (2 - Hours).toString(),
-		Minutes: (60 - Minutes).toString(),
-		Seconds: (60 - secs).toString(),
-	};
-	if (Str.Minutes === 60)
-		Str.Minutes = 59;
-	if (Str.Seconds === 60)
-		Str.Seconds = 59;
-	if (Str.Hours < 10)
-		Str.Hours = `0${Str.Hours}`;
-	if (Str.Minutes < 10)
-		Str.Minutes = `0${Str.Minutes}`;
-	if (Str.Seconds < 10)
-		Str.Seconds = `0${Str.Seconds}`;
-	return (`${Str.Hours}:${Str.Minutes}:${Str.Seconds}`);
-}
-
 module.exports = {
 	timer,
-	clock,
+	secondsToClock,
 };

@@ -10,7 +10,7 @@ const { exec } = require('child_process');
 const glob = require('glob');
 const spinner = require('../spinner');
 const COLORS = require('../colors');
-const { timer } = require('../clock');
+const { secondsToClock } = require('../clock');
 const Checker = require('../checker/checker');
 const Valgrind = require('../checker/valgrind');
 
@@ -136,7 +136,7 @@ class Grademe
 	{
 		if (this.retryTime > 0)
 		{
-			console.log(`${COLORS.redlight}${LANG.Grademe.Time} ${COLORS.bluelight}${timer(this.retryTime)} ${COLORS.reset}`);
+			console.log(`${COLORS.redlight}${LANG.Grademe.Time} ${COLORS.bluelight}${secondsToClock(this.retryTime)} ${COLORS.reset}`);
 			return;
 		}
 		spinner.spin(LANG.Grademe.Correction);

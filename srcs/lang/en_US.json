@@ -2,7 +2,10 @@
 	"Hello": "Welcome to examshell",
 	"Difficulty": {
 		"Question" : "Select your difficulty",
-		"List": ["Normal", "Hard"]
+		"List": [
+			{ "title": "Normal", "value": "Normal" },
+			{ "title": "Hard", "value": "Hard" }
+		]
 	},
 	"Select": {
 		"Question": "Select your exam"
@@ -18,6 +21,7 @@
 	"Options":
 	{
 		"Question": "(Optional) Select the options you wish to activate",
+		"Hint": "Space to select, Return to submit",
 		"Infinite": ["Infinite", "There is no time limit anymore"],
 		"Doom": ["Doom", "All your work and your git is reset if grademe failed !"]
 	},

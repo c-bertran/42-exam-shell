@@ -1,7 +1,7 @@
 const OS = require('os');
 const process = require('process');
 const { exec } = require('child_process');
-const inquirer = require('inquirer');
+const prompts = require('prompts');
 
 class CheckLib
 {
@@ -41,13 +41,11 @@ class CheckLib
 			console.error('Under MacOS, automatic installation is unavailable. Please install `git`, `clang` and `valgrind` manually');
 			process.exit(127);
 		}
-		await inquirer.prompt([
-			{
-				type: 'password',
-				name: 'password',
-				message: 'Password',
-			},
-		]).then((answer) =>
+		await prompts({
+			type: 'password',
+			name: 'password',
+			message: 'Password',
+		}).then((answer) =>
 		{
 			this.child(`echo "${answer.password}" | sudo -S apt install -y valgrind git clang`, true).then(() =>
 			{
