@@ -9,7 +9,7 @@ const path = require('path');
 const crypto = require('crypto');
 const process = require('process');
 const readline = require('readline');
-const inquirer = require('inquirer');
+const prompts = require('prompts');
 
 const checkLib = require('./srcs/modules/checklib');
 const { logo } = require('./srcs/text');
@@ -19,6 +19,7 @@ const Grademe = require('./srcs/modules/commands/grademe');
 const help = require('./srcs/modules/commands/help');
 const IDDQD = require('./srcs/modules/commands/iddqd');
 const status = require('./srcs/modules/commands/status');
+const { timer } = require('./srcs/modules/clock');
 
 let LANG;
 
@@ -141,8 +142,6 @@ class Main
 			},
 		};
 		this.TIMER = {
-			start: 0,
-			end: 10800, // default time to 3h
 			finish: false,
 			printPrompt: false,
 			isRet: Object,
@@ -169,15 +168,14 @@ class Main
 		const langArr = [];
 		for (const x in this.JSON.LANGlist)
 			if (Object.prototype.hasOwnProperty.call(this.JSON.LANGlist, x))
-				langArr.push(x);
-		const selectedLang = await inquirer.prompt([
-			{
-				type: 'list',
-				name: 'lang',
-				message: 'Select your language',
-				choices: langArr,
-			},
-		]).then((answer) => answer).catch((error) =>
+				langArr.push({ title: x, value: this.JSON.LANGlist[x] });
+		this.JSON.options.lang = await prompts({
+			type: 'select',
+			name: 'lang',
+			message: 'Select your language',
+			choices: langArr,
+			initial: 0,
+		}).then((data) => data.lang).catch((error) =>
 		{
 			if (error.isTtyError)
 				console.error('Prompt couldn\'t be rendered in the current environment');
@@ -186,12 +184,6 @@ class Main
 			process.exit(-1);
 		});
 
-		for (const x in this.JSON.LANGlist)
-			if (x === selectedLang.lang)
-			{
-				this.JSON.options.lang = this.JSON.LANGlist[x];
-				break;
-			}
 		const _base = fs.readFileSync(path.join(__dirname, 'srcs', 'lang', `${this.JSON.options.lang}.json`));
 		LANG = JSON.parse(_base);
 		const ListDiff = [
@@ -202,39 +194,38 @@ class Main
 
 		const Exams = [];
 		for (const exam of Exam.list)
-			Exams.push(exam.data.name);
-		inquirer.prompt([
+			Exams.push({ title: exam.data.name, value: exam.data.name });
+		prompts([
 			{
-				type: 'checkbox',
+				type: 'multiselect',
 				name: 'options',
 				message: LANG.Options.Question,
 				choices: [
 					{
-						name: ` ${LANG.Options.Infinite[0]} > ${LANG.Options.Infinite[1]}`,
+						title: ` ${LANG.Options.Infinite[0]} > ${LANG.Options.Infinite[1]}`,
 						value: '--infinite',
 					},
 					{
-						name: ` ${LANG.Options.Doom[0]}     > ${LANG.Options.Doom[1]}`,
+						title: ` ${LANG.Options.Doom[0]}     > ${LANG.Options.Doom[1]}`,
 						value: '--doom',
 					},
 				],
 			},
 			{
-				type: 'list',
-				name: 'difficulty',
+				type: 'select',
+				name: 'value',
 				message: LANG.Difficulty.Question,
 				choices: LANG.Difficulty.List,
 			},
 			{
-				type: 'list',
+				type: 'select',
 				name: 'exam',
 				message: LANG.Select.Question,
 				choices: Exams,
 			},
 		]).then((answer) =>
 		{
-			// Add lang key for more convenience
-			answer.lang = selectedLang.lang; // eslint-disable-line no-param-reassign
+			answer.lang = this.JSON.options.lang; // eslint-disable-line no-param-reassign
 
 			if (answer.options.indexOf('--infinite') !== -1)
 				this.JSON.options.infinite = true;
@@ -297,7 +288,7 @@ class Main
 			{
 				if (!this.JSON.options.infinite)
 				{
-					setInterval(() => this.TIMER.start++, 1000);
+					setInterval(() => timer(this.TIMER.isRet), 1000);
 					setTimeout(() =>
 					{
 						fs.rm(this.JSON.git.temp, { recursive: true, force: true }, (err) =>
@@ -315,7 +306,7 @@ class Main
 						this.Shell.write(null, {
 							name: 'enter',
 						});
-					}, (this.TIMER.end * 1000));
+					}, this.TIMER.isRet.time * 1000);
 				}
 				console.log(`\n${COLORS.bluelight}${LANG.Info.Dir} '${COLORS.green}${this.JSON.git.main}${COLORS.reset}'`);
 				console.log(`${COLORS.bluelight}${LANG.Info.Git}${COLORS.reset}\n`);
@@ -354,7 +345,7 @@ class Main
 			const command = args[0].toLowerCase();
 			if (command === 'status')
 			{
-				status.exec(this.JSON, this.TIMER);
+				status.exec(this.JSON, this.TIMER.isRet, this.Grade);
 			}
 			else if (command === 'finish')
 			{

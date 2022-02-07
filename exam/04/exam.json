@@ -15,7 +15,7 @@
 						"allowed_functions": ["malloc", "free", "write", "close", "fork", "waitpid", "signal", "kill", "exit", "chdir", "execve", "dup", "dup2", "pipe", "strcmp", "strncmp"],
 						"cp": {
 							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "microshell.c"]
+							"checker": ["%MAKE%", "microshell.c", "random.txt"]
 						}
 					}
 				}

@@ -30,7 +30,7 @@ execute () {
 }
 
 execute $LS_PATH
-execute $CAT_PATH microshell.c
+execute $CAT_PATH random.txt
 execute $LS_PATH microshell.c
 execute $LS_PATH salut
 execute ";"
@@ -48,14 +48,14 @@ execute $LS_PATH "|" $GREP_PATH micro "|" $CAT_PATH -n ";" $ECHO_PATH dernier ";
 execute $ECHO_PATH ftest ";" $ECHO_PATH ftewerwerwerst ";" $ECHO_PATH werwerwer ";" $ECHO_PATH qweqweqweqew ";" $ECHO_PATH qwewqeqrtregrfyukui ";"
 execute $LS_PATH ftest ";" $LS_PATH ";" $LS_PATH werwer ";" $LS_PATH microshell.c ";" $LS_PATH microshell.c ";"
 execute $LS_PATH "|" $GREP_PATH micro ";" $LS_PATH "|" $GREP_PATH micro ";" $LS_PATH "|" $GREP_PATH micro ";" $LS_PATH "|" $GREP_PATH micro ";"
-execute $CAT_PATH microshell.c "|" $GREP_PATH a "|" $GREP_PATH b ";" $CAT_PATH microshell.c ";"
-execute $CAT_PATH microshell.c "|" $GREP_PATH a "|" $GREP_PATH w ";" $CAT_PATH microshell.c ";"
-execute $CAT_PATH microshell.c "|" $GREP_PATH a "|" $GREP_PATH w ";" $CAT_PATH microshell.c
-execute $CAT_PATH microshell.c ";" $CAT_PATH microshell.c "|" $GREP_PATH a "|" $GREP_PATH b "|" $GREP_PATH z ";" $CAT_PATH microshell.c
-execute ";" $CAT_PATH microshell.c ";" $CAT_PATH microshell.c "|" $GREP_PATH a "|" $GREP_PATH b "|" $GREP_PATH z ";" $CAT_PATH microshell.c
+execute $CAT_PATH random.txt "|" $GREP_PATH a "|" $GREP_PATH b ";" $CAT_PATH random.txt ";"
+execute $CAT_PATH random.txt "|" $GREP_PATH a "|" $GREP_PATH w ";" $CAT_PATH random.txt ";"
+execute $CAT_PATH random.txt "|" $GREP_PATH a "|" $GREP_PATH w ";" $CAT_PATH random.txt
+execute $CAT_PATH random.txt ";" $CAT_PATH random.txt "|" $GREP_PATH a "|" $GREP_PATH b "|" $GREP_PATH z ";" $CAT_PATH random.txt
+execute ";" $CAT_PATH random.txt ";" $CAT_PATH random.txt "|" $GREP_PATH a "|" $GREP_PATH b "|" $GREP_PATH z ";" $CAT_PATH random.txt
 execute blah "|" $ECHO_PATH OK
 execute blah "|" $ECHO_PATH OK ";"
 
 diff -y --suppress-common-lines real fake > __diff
 
-rm -f real_microshell fake_microshell real fake
+rm -f real_microshell fake_microshell microshell.c real fake
