@@ -9,7 +9,6 @@ const def = {
 		regex: {
 			declar: /(?<declaration>[\w<>:_\[\]~&=+\/*!-]+)[\s ]*\(.*\)\s*{/gm,
 			using: /(?<function>[\w:_~&*]+)[\s ]*\(/gm,
-			// using: /(?<function>[\w:_\[\]~&=+/*!]+)[\s ]*\(/gm,
 			comment: /(\/\*([^*]|(\*+[^*/]))*\*+\/)|(\/\/.*)/gm,
 		},
 	},
@@ -29,7 +28,6 @@ const def = {
 		regex: {
 			declar: /(?<declaration>[\w<>:_\[\]~&=+\/*!-]+)[\s ]*\(.*\)\s*(?<is_const>const\s*)?\s*{/gm,
 			using: /(?<function>[\w:_~&*]+)[\s ]*\(/gm,
-			// using: /(?<function>[\w:_\[\]~&=+/*!]+)[\s ]*\(/gm,
 			typedef: /typedef\s+[\w:<> \t,]+\s+(?<typedef>[\w*&-]*);?/gm,
 			comment: /(\/\*([^*]|(\*+[^*/]))*\*+\/)|(\/\/.*)/gm,
 		},

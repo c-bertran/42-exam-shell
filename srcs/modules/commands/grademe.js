@@ -127,13 +127,15 @@ class Grademe
 		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Start} ${COLORS.redlight}${this.JSON.current.selected.name}${COLORS.reset}`);
 		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Dir} ${COLORS.greenlight}~/${LANG.Git.render}/${this.JSON.current.selected.name}${COLORS.reset}`);
 		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Goal} ${COLORS.magenta}${this.JSON.goal.add} ${COLORS.reset}${LANG.Exercice.Points}${COLORS.reset}`);
-		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Level} ${COLORS.yellow}${Number(this.JSON.goal.current)}${COLORS.reset}/${COLORS.bluelight}100${COLORS.reset}`);
+		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Level} ${COLORS.yellow}${Number(this.JSON.goal.current)}${COLORS.reset}/${COLORS.bluelight}${this.JSON.goal.max}${COLORS.reset}`);
 		console.log(`│ ${COLORS.bluelight}>> ${COLORS.reset}${LANG.Exercice.Retry}: ${COLORS.yellow}${this.JSON.retry}${COLORS.reset}`);
 		console.log('└────╯\n');
 	}
 
 	grade()
 	{
+		if (this.JSON.goal.current >= this.JSON.goal.max)
+			return;
 		if (this.retryTime > 0)
 		{
 			console.log(`${COLORS.redlight}${LANG.Grademe.Time} ${COLORS.bluelight}${secondsToClock(this.retryTime)} ${COLORS.reset}`);
@@ -231,7 +233,7 @@ class Grademe
 						if (errors.length)
 						{
 							isError = true;
-							this.failed(errors);
+							this.failed(JSON.stringify(errors, null, 2));
 						}
 					}
 					if (this.JSON.current.selected.leaks === true)

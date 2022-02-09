@@ -17,7 +17,12 @@ class Parser
 		this.predefinedKeywords = [];
 		this.informations = {
 			functions: {
-				declared: Array.from(autorizedFunctions),
+				declared: Array.from(autorizedFunctions, (el, i) => ({
+					file: String(''),
+					index: Number((i + 1) * -1),
+					declaration: String(el),
+					isConst: Boolean(false),
+				})),
 				using: [],
 			},
 			keywords: [],
@@ -46,7 +51,8 @@ class Parser
 
 			this.informations.functions.declared = this.informations.functions.declared.concat(this.#get_declared(define, pathToFile));
 
-			this.informations.typedefs = this.informations.typedefs.concat(this.#get_typedef(define, pathToFile));
+			if (Object.prototype.hasOwnProperty.call(define.regex, 'typedef'))
+				this.informations.typedefs = this.informations.typedefs.concat(this.#get_typedef(define, pathToFile));
 
 			this.informations.functions.using = this.informations.functions.using.concat(this.#get_using(define, pathToFile));
 		}
@@ -55,6 +61,8 @@ class Parser
 	// eslint-disable-next-line class-methods-use-this
 	#is_exist(array, key, compare)
 	{
+		if (array.length < 1)
+			return false;
 		for (const object of array)
 			if (compare.indexOf(object[key]) !== -1)
 				return true;
@@ -143,8 +151,8 @@ class Parser
 		).filter((el) =>
 		{
 			if (el.using.length > 0
-				&& !this.#is_exist(this.informations.keywords, 'keyword', el.using)
-				&& !this.#is_exist(this.informations.typedefs, 'typedef', el.using)
+				&& (!this.#is_exist(this.informations.keywords, 'keyword', el.using))
+				&& (!this.#is_exist(this.informations.typedefs, 'typedef', el.using))
 				&& !this.#is_in_comment(el.index, el.index + el.using.length))
 				return true;
 			return false;
@@ -164,12 +172,13 @@ class Parser
 		if (!Array.isArray(this.step))
 		{
 			for (const funct of this.informations.functions.using)
-				if (!this.#is_exist(this.informations.functions.declared, 'using', funct.declaration))
+				if (!this.#is_exist(this.informations.functions.declared, 'declaration', funct.using))
 					this.errors.push(funct);
 
-			for (const key of this.informations.keywords)
-				if (this.forbiddenKeywords.indexOf(key.keyword) === -1)
-					this.errors.push(key);
+			if (this.forbiddenKeywords.length > 0)
+				for (const key of this.informations.keywords)
+					if (this.forbiddenKeywords.indexOf(key.keyword) === -1)
+						this.errors.push(key);
 		}
 		else
 		{
@@ -178,7 +187,7 @@ class Parser
 					if (!this.#is_exist(this.informations.functions.declared, 'declaration', funct.using))
 						this.errors.push(funct);
 
-			if (this.step[1] === true)
+			if (this.step[1] === true && this.forbiddenKeywords.length > 0)
 				for (const key of this.informations.keywords)
 					if (this.forbiddenKeywords.indexOf(key.keyword) !== -1)
 						this.errors.push(key);

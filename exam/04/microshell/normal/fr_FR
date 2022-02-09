@@ -24,8 +24,8 @@ microshell
 i love my microshell
 $>
 
-Conseils:
+Conseil:
 N'oubliez pas de passer les variables d'environment à execve
 
-Conseils:
+Conseil:
 Ne fuitez pas de file descriptor !
