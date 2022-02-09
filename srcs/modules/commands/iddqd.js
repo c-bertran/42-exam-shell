@@ -24,7 +24,7 @@ const logo = (config) => `
    ███████                                                         ███████   
    █████                                                             █████   
    ██                                                                   ██
-                     is running on http://${config.host}:${config.port}
+                    is running on http://${config.host}:${config.port}
 `;
 
 const mimeType = {

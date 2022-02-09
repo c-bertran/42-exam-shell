@@ -1,4 +1,4 @@
-const COLORS = require('../colors');
+const formats = require('../formats');
 
 class help
 {
@@ -8,17 +8,17 @@ class help
 		switch (command)
 		{
 			case 'status':
-				console.log(`${COLORS.bluelight}status ${COLORS.reset}${LANG.Help.status}`);
+				console.log(`${formats.foreground.light.blue}status ${formats.format.reset}${LANG.Help.status}`);
 				break;
 			case 'grademe':
-				console.log(`${COLORS.bluelight}grademe ${COLORS.reset}${LANG.Help.grademe}`);
+				console.log(`${formats.foreground.light.blue}grademe ${formats.format.reset}${LANG.Help.grademe}`);
 				break;
 			case 'finish':
-				console.log(`${COLORS.bluelight}finish ${COLORS.reset}${LANG.Help.finish}`);
+				console.log(`${formats.foreground.light.blue}finish ${formats.format.reset}${LANG.Help.finish}`);
 				break;
 			case 'help':
 			default:
-				console.log(`${COLORS.bluelight}help ${COLORS.reset}${LANG.Help.help} (${COLORS.bluelight}help${COLORS.reset} [command])`);
+				console.log(`${formats.foreground.light.blue}help ${formats.format.reset}${LANG.Help.help} (${formats.foreground.light.blue}help${formats.format.reset} [command])`);
 		}
 	}
 }
