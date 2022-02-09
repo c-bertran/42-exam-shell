@@ -1,4 +1,4 @@
-const COLORS = require('../colors');
+const formats = require('../formats');
 
 class status
 {
@@ -9,8 +9,8 @@ class status
 		{
 			console.log('╓───────────────────╖');
 			console.log('║        ⏰         ║');
-			console.log(`║      ${COLORS.green}${TIME.days.toString().padStart(2, 0)}${COLORS.reset} days      ║`);
-			console.log(`║    ${COLORS.cyan}${TIME.hours.toString().padStart(2, 0)}${COLORS.reset}h ${COLORS.cyan}${TIME.minutes.toString().padStart(2, 0)}${COLORS.reset}m ${COLORS.cyan}${TIME.seconds.toString().padStart(2, 0)}${COLORS.reset}s    ║`);
+			console.log(`║      ${formats.foreground.normal.green}${TIME.days.toString().padStart(2, 0)}${formats.format.reset} days      ║`);
+			console.log(`║    ${formats.foreground.normal.cyan}${TIME.hours.toString().padStart(2, 0)}${formats.format.reset}h ${formats.foreground.normal.cyan}${TIME.minutes.toString().padStart(2, 0)}${formats.format.reset}m ${formats.foreground.normal.cyan}${TIME.seconds.toString().padStart(2, 0)}${formats.format.reset}s    ║`);
 			console.log('╙───────────────────╜\n');
 		}
 		else

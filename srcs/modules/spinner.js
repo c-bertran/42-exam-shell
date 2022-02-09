@@ -1,29 +1,89 @@
 const process = require('process');
-const OS = require('os');
+const os = require('os');
+const formats = require('./formats');
+
+const spinners = {
+	normal: [
+		80,
+		'⣷',
+		'⣯',
+		'⣟',
+		'⡿',
+		'⢿',
+		'⣻',
+		'⣽',
+		'⣾',
+	],
+	bar: [
+		80,
+		'█        ',
+		'██       ',
+		'███      ',
+		'████     ',
+		'█████    ',
+		' █████   ',
+		'  █████  ',
+		'   █████ ',
+		'    █████',
+		'     ████',
+		'      ███',
+		'       ██',
+		'        █',
+		'         ',
+	],
+	bounce: [
+		80,
+		'█        ',
+		'██       ',
+		' ██      ',
+		'  ██     ',
+		'   ██    ',
+		'    ██   ',
+		'     ██  ',
+		'      ██ ',
+		'       ██',
+		'        █',
+		'       ██',
+		'      ██ ',
+		'     ██  ',
+		'    ██   ',
+		'   ██    ',
+		'  ██     ',
+		' ██      ',
+		'██       ',
+	],
+};
 
 let saveInterval;
+let string;
 class Spinner
 {
-	static spin(string)
+	static start(title = undefined, type = 'normal', color = formats.foreground.light.cyan)
 	{
+		string = title;
 		process.stdout.write('\x1B[?25l');
-		const spinners = ['⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽', '⣾'];
-		let index = 0;
+		let index = 1;
 		saveInterval = setInterval(() =>
 		{
-			process.stdout.clearLine();
-			let line = spinners[index];
+			process.stdout.write(formats.erase.cursorToStartLine);
+			let line = spinners[type][index];
 			if (line === undefined)
 			{
-				index = 0;
-				line = spinners[index];
+				index = 1;
+				line = spinners[type][index];
 			}
-			if (OS.platform === 'win32')
-				process.stdout.write(`${line} ${string}\x1b[0G`);
+			if (os.platform === 'win32')
+				process.stdout.write(` ${color}${line} ${formats.format.reset}${(string !== undefined) ? string : ''}\x1b[0G`);
 			else
-				process.stdout.write(`${line} ${string}\r`);
-			index = index >= spinners.length ? 0 : ++index;
-		}, 80);
+				process.stdout.write(` ${color}${line} ${formats.format.reset}${(string !== undefined) ? string : ''}\r`);
+			index = index >= spinners[type].length ? 1 : ++index;
+		}, spinners[type][0]);
+	}
+
+	static update(newTitle)
+	{
+		process.stdout.write(formats.erase.cursorToEndLine);
+		string = newTitle;
 	}
 
 	static stop()

@@ -13,7 +13,7 @@ const prompts = require('prompts');
 
 const checkLib = require('./srcs/modules/checklib');
 const { logo } = require('./srcs/text');
-const COLORS = require('./srcs/modules/colors');
+const formats = require('./srcs/modules/formats');
 const finish = require('./srcs/modules/commands/finish');
 const Grademe = require('./srcs/modules/commands/grademe');
 const help = require('./srcs/modules/commands/help');
@@ -278,7 +278,7 @@ class Main
 		});
 		bash.stderr.on('data', () =>
 		{
-			console.error(`${COLORS.red}${LANG.Errors.GitInit}${COLORS.reset}`);
+			console.error(`${formats.foreground.normal.red}${LANG.Errors.GitInit}${formats.format.reset}`);
 			process.exit(2);
 		});
 		bash.on('exit', (code) =>
@@ -308,14 +308,14 @@ class Main
 						});
 					}, this.TIMER.isRet.time * 1000);
 				}
-				console.log(`\n${COLORS.bluelight}${LANG.Info.Dir} '${COLORS.green}${this.JSON.git.main}${COLORS.reset}'`);
-				console.log(`${COLORS.bluelight}${LANG.Info.Git}${COLORS.reset}\n`);
+				console.log(`\n${formats.foreground.light.blue}${LANG.Info.Dir} '${formats.foreground.normal.green}${this.JSON.git.main}${formats.format.reset}'`);
+				console.log(`${formats.foreground.light.blue}${LANG.Info.Git}${formats.format.reset}\n`);
 				this.Grade = new Grademe(this.JSON, LANG);
 				this.Grade.start();
 				this.Shell = readline.createInterface({
 					input: process.stdin,
 					output: process.stdout,
-					prompt: `${COLORS.greenlight}examshell ${COLORS.magenta}>${COLORS.reset} `,
+					prompt: `${formats.format.bold}${formats.foreground.light.green}examshell ${formats.foreground.light.magenta}>${formats.format.reset} `,
 					completer: (line) =>
 					{
 						const commands = ['status', 'grademe', 'help', 'finish'];
@@ -330,7 +330,7 @@ class Main
 			}
 			else
 			{
-				console.error(`${COLORS.red}${LANG.Errors.Exec} ${COLORS.magenta}${code}${COLORS.reset}`);
+				console.error(`${formats.foreground.normal.red}${LANG.Errors.Exec} ${formats.foreground.normal.magenta}${code}${formats.format.reset}`);
 				process.exit(2);
 			}
 		});
@@ -379,11 +379,11 @@ class Main
 				{
 					this.TIMER.printPrompt = true;
 					process.stdout.clearLine();
-					process.stdout.write(`${COLORS.reset}${LANG.OutOfTime}\n`);
+					process.stdout.write(`${formats.format.reset}${LANG.OutOfTime}\n`);
 				}
 				else
 				{
-					console.log(`${command} : ${COLORS.red}${LANG.Errors.Command}`);
+					console.log(`${command} : ${formats.foreground.normal.red}${LANG.Errors.Command}`);
 				}
 			}
 			this.Shell.resume();
@@ -430,8 +430,8 @@ https.get(
 			const currentVersion = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), { encoding: 'utf-8' })).version;
 			if (currentVersion !== blob.tag_name)
 			{
-				console.log(`${COLORS.bluelight}The ${COLORS.redlight}${blob.tag_name}${COLORS.bluelight} version is available for download`);
-				console.log(`${COLORS.reset}⇒ ${COLORS.greenlight}https://github.com/c-bertran/examshell/releases/latest ${COLORS.reset}⇐`);
+				console.log(`${formats.foreground.light.blue}The ${formats.foreground.light.red}${blob.tag_name}${formats.foreground.light.blue} version is available for download`);
+				console.log(`${formats.format.reset}⇒ ${formats.foreground.light.green}https://github.com/c-bertran/examshell/releases/latest ${formats.format.reset}⇐`);
 			}
 
 			const main = new Main();
