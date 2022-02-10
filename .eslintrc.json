@@ -12,6 +12,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+	"ignorePatterns": ["**/iddqd/**/*.js"],
     "rules": {
         "brace-style": ["warn", "allman"],
 		"curly": ["warn", "multi", "consistent"],
