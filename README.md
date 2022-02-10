@@ -3,7 +3,7 @@
 	Practice like a boss
 </h1>
 
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/c-bertran/examshell/Build%20Binary?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![Lines of code](https://img.shields.io/tokei/lines/github/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/c-bertran/examshell/Build%20Binary?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![GitHub repo size](https://img.shields.io/github/repo-size/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
 
 <img src="md/main.gif"></img>
 
@@ -25,7 +25,7 @@ Some options have been added:
   - `Doom`: To make your practice harder, if you fail the whole rendering folder is reset, as well as the associated git
 
 ## Setup
-Download the latest version of the software. This one is available for MacOS and Linux
+Download the ![latest version](https://github.com/c-bertran/examshell/releases/latest) of the software. This one is available for MacOS and Linux
 
 ## How to use
 Launch your favorite command prompt, and simply run the program:
