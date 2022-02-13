@@ -5,63 +5,6 @@
 	"exercices": [
 		[
 			{
-				"name": "union",
-				"difficulty": {
-					"normal": {
-						"exponent": 2,
-						"trace": false,
-						"allowed_functions": ["write"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "union.c"]
-						}
-					},
-					"hard": {
-						"exponent": 3,
-						"trace": false,
-						"allowed_functions": ["write", "malloc", "free"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "union.c"]
-						}
-					}
-				}
-			},
-			{
-				"name": "inter",
-				"difficulty": {
-					"normal": {
-						"exponent": 2,
-						"trace": false,
-						"allowed_functions": ["write"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "inter.c"]
-						}
-					},
-					"hard": {
-						"exponent": 3,
-						"trace": true,
-						"allowed_functions": ["write", "malloc", "free"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "inter.c"]
-						}
-					}
-				}
-			}
-		],
-		[
-			
-			{
 				"name": "get_next_line",
 				"difficulty": {
 					"normal": {
