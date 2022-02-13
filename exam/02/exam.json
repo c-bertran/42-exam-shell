@@ -60,39 +60,13 @@
 			}
 		],
 		[
-			{
-				"name": "ft_printf",
-				"difficulty": {
-					"normal": {
-						"exponent": 2,
-						"trace": false,
-						"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "main.c"]
-						}
-					},
-					"hard": {
-						"exponent": 3,
-						"trace": false,
-						"allowed_functions": ["malloc", "free", "write", "va_start", "va_arg", "va_copy", "va_end"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "main.c"]
-						}
-					}
-				}
-			},
+			
 			{
 				"name": "get_next_line",
 				"difficulty": {
 					"normal": {
 						"exponent": 2,
-						"trace": false,
+						"trace": true,
 						"allowed_functions": ["read", "free", "malloc"],
 						"moulinette": true,
 						"leaks": true,
@@ -103,7 +77,7 @@
 					},
 					"hard": {
 						"exponent": 3,
-						"trace": false,
+						"trace": true,
 						"allowed_functions": ["read", "free", "malloc"],
 						"moulinette": true,
 						"leaks": true,

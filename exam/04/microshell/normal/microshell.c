@@ -33,7 +33,10 @@ void	ft_error(char *str, char *type)
 // ======= Command ======= //
 void cd(char **argv)
 {
-	if (!argv[0] || argv[1])
+	int x = 0;
+	while (argv[x])
+		++x;
+	if (x < 2 || x > 2 || argv[1] && strcmp(argv[1], "-") == 0)
 		ft_error("error: cd: bad arguments", NULL);
 	else if (chdir(argv[1]) == -1)
 		ft_error("error: cd: cannot change directory to ", argv[1]);

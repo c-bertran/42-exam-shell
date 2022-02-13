@@ -10,6 +10,9 @@ int
 # define F	r += printf
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat"
+
 int
 	main(void)
 {
@@ -50,3 +53,5 @@ int
 	F("-%s-%s-%s-%s-\n", "", "toto", "wiurwuyrhwrywuier", NULL);
 	printf("\nwritten: %d\n", r);
 }
+
+#pragma clang diagnostic pop

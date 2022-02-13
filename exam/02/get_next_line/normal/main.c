@@ -21,5 +21,6 @@ int	main(int argc, char **argv)
 	}
 	free(line);
 	line = NULL;
+	close(fd);
 	return 0;
 }

@@ -10,6 +10,9 @@ int
 # define F	r += printf
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat"
+
 int
 	main(void)
 {
@@ -97,3 +100,5 @@ int
 	F("s4w10p ~%10.10s` ~%10.10s` ~%10.10s` ~%10.10s` ~%10.10s`\n", "", "toto", "0123456789", "tjehurthteutuiehteute", NULL);
 	printf("written: %d\n", r);
 }
+
+#pragma clang diagnostic pop

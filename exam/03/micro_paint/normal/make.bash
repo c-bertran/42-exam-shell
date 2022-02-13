@@ -22,6 +22,6 @@ test real_micro_paint real
 test fake_micro_paint fake
 
 diff -y --suppress-common-lines real fake > __diff
-bash leaks.bash fake_micro_paint corrects/3
+bash leaks.bash fake_micro_paint 0 corrects/3
 
 rm -rf fake real corrects operations micro_paint.c fake_micro_paint real_micro_paint

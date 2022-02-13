@@ -53,6 +53,8 @@ gnl_test 215600 $1
 rm -rf real_gnl fake_gnl
 
 gnl_test 42 $1
+
 diff -y --suppress-common-lines real fake >> __diff
-bash leaks.bash fake_gnl
+bash leaks.bash fake_gnl 0 files/multiple_line_with_nl
+
 rm -rf fake real real_gnl fake_gnl
