@@ -55,6 +55,8 @@ class Parser
 				this.informations.typedefs = this.informations.typedefs.concat(this.#get_typedef(define, pathToFile));
 
 			this.informations.functions.using = this.informations.functions.using.concat(this.#get_using(define, pathToFile));
+
+			console.log('using', this.informations.functions.using);
 		}
 	}
 
@@ -150,6 +152,12 @@ class Parser
 			),
 		).filter((el) =>
 		{
+			console.log(
+				el.using,
+				this.#is_exist(this.informations.keywords, 'keyword', el.using),
+				this.#is_exist(this.informations.typedefs, 'typedef', el.using),
+				this.#is_in_comment(el.index, el.index + el.using.length),
+			);
 			if (el.using.length > 0
 				&& (!this.#is_exist(this.informations.keywords, 'keyword', el.using))
 				&& (!this.#is_exist(this.informations.typedefs, 'typedef', el.using))
