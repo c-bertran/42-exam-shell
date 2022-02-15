@@ -7,11 +7,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "preinstall": "curl -sf https://gobinaries.com/tj/node-prune | sh",
-    "postinstall": "node-prune",
+    "prune": "curl -sf https://gobinaries.com/tj/node-prune | sh; node-prune",
     "build": "pkg --compress Brotli --output dist/examshell .",
     "debug": "pkg --debug --output dist/examshell .",
-    "lint": "eslint ."
+    "lint": "./node_modules/.bin/eslint ."
   },
   "pkg": {
     "assets": [
