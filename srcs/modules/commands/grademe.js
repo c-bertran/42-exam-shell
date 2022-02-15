@@ -34,7 +34,7 @@ class Grademe
 			goal: {
 				current: Number(0),
 				max: Number(data.goal),
-				add: Number(Math.floor(data.goal / data.exercices.length)),
+				add: Number(Math.ceil(data.goal / data.exercices.length)),
 			},
 			id: Number(0),
 			numberExercices: data.exercices.length,
@@ -61,7 +61,6 @@ class Grademe
 		this.JSON.current = this.JSON.data.exercices[this.JSON.id];
 		const id = Math.floor(Math.random() * this.JSON.current.length);
 		this.JSON.current.selected = this.JSON.current[id];
-
 		const diff = this.JSON.current.selected.difficulty;
 		const saveName = this.JSON.current.selected.name;
 		if (!Object.prototype.hasOwnProperty.call(diff, 'normal')
@@ -280,9 +279,14 @@ class Grademe
 		this.JSON.goal.current += Number(this.JSON.goal.add);
 		console.log(`${formats.foreground.light.green}>>> ${LANG.Grademe.Success.toUpperCase()} <<<${formats.format.reset}`);
 		if (this.JSON.goal.current >= this.JSON.goal.max)
+		{
+			this.JSON.goal.current = this.JSON.goal.max;
 			console.log(`${formats.foreground.light.blue}${LANG.Grademe.Finish}${formats.format.reset}`);
+		}
 		else
+		{
 			this.start();
+		}
 		this.promise.resolve('foo');
 	}
 
