@@ -21,7 +21,6 @@ jobs:
 
       - name: Install dependencies && build
         run: |
-          git clone https://github.com/rileytestut/ldid.git ldid && cd ldid && sh ./make.sh
           curl -sf https://gobinaries.com/tj/node-prune | sh
           npm ci
           npm run build
