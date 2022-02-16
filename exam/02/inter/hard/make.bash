@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-clang -Wall -Werror -Wextra inter.c -o inter
+clang -Wall -Werror -Wextra inter.c -o inter || exit 100;
 ./inter zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" > real
 ./inter ddf6vewg64f gtwthgdwthdwfteewhrtag6h4ffdhsd >> real
 ./inter "rien" "cette phrase ne cache rien" >> real

@@ -204,7 +204,10 @@ class Grademe
 		{
 			if (err || stderr.length)
 			{
-				this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
+				if (err && err.code === 100)
+					throw new Error(err);
+				else
+					this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
 			}
 			else
 			{

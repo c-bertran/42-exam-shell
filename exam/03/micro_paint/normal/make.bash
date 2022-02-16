@@ -1,7 +1,7 @@
 #!/bin/bash
 
 clang -Wall -Werror -Wextra -lm ./$1/micro_paint/*.c -I ./$1/micro_paint/ -o ./fake_micro_paint
-clang -Wall -Werror -Wextra -lm micro_paint.c -o ./real_micro_paint
+clang -Wall -Werror -Wextra -lm micro_paint.c -o ./real_micro_paint || exit 100;
 
 test() {
 	./$1 >> $2

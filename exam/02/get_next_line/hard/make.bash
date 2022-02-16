@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-clang -Wall -Werror -Wextra get_next_line.c main.c -I ./ -o real_gnl
+clang -Wall -Werror -Wextra get_next_line.c main.c -I ./ -o real_gnl || exit 100;
 clang -Wall -Werror -Wextra $1/get_next_line/get_next_line.c main.c -I ./$1/get_next_line/ -o fake_gnl
 
 # REAL =========================================================================

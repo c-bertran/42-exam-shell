@@ -7,7 +7,7 @@ ID=0
 
 rm -f valgrind_*.log real_microshell fake_microshell real fake __diff
 touch real fake
-clang -Wall -Werror -Wextra microshell.c -o real_microshell
+clang -Wall -Werror -Wextra microshell.c -o real_microshell || exit 100;
 clang -Wall -Werror -Wextra $1/microshell/*.c -I ./$1/microshell/ -o fake_microshell
 
 execute () {

@@ -7,7 +7,7 @@ rm -f valgrind_*.log real_warlock fake_warlock
 execute () {
 	rm -f real_warlock fake_warlock
 	
-	clang++ -Wall -Werror -Wextra -std=c++98 Warlock.cpp testing/$ID.cpp -I ./ -o real_warlock > /dev/null 2>&1
+	clang++ -Wall -Werror -Wextra -std=c++98 Warlock.cpp testing/$ID.cpp -I ./ -o real_warlock > /dev/null 2>&1 || exit 100;
 	if [ $? -ne 0 ]
 	then
 		echo "Failed with $ID.cpp" >> real

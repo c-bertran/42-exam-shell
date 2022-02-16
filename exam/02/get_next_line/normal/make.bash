@@ -4,7 +4,7 @@ set -e
 rm -rf fake real real_gnl fake_gnl
 
 gnl_test () {
-	clang -Wall -Werror -Wextra -D BUFFER_SIZE=$1 get_next_line.c main.c -I ./ -o real_gnl
+	clang -Wall -Werror -Wextra -D BUFFER_SIZE=$1 get_next_line.c main.c -I ./ -o real_gnl || exit 100;
 	clang -Wall -Werror -Wextra -D BUFFER_SIZE=$1 $2/get_next_line/get_next_line.c main.c -I ./$2/get_next_line/ -o fake_gnl
 	# REAL =====================================================================
 	./real_gnl files/41_no_nl >> real
