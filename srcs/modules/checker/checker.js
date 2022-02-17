@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 require('../fspatch');
 const fs = require('fs');
 const path = require('path');
@@ -41,10 +42,12 @@ class Parser
 		if (Object.keys(define).length)
 		{
 			this.blob = fs.readFileSync(pathToFile, { encoding: 'utf-8' });
+
 			this.informations.comments = Array.from(
-				this.blob.matchAll(define.regex.comment),
+				this.blob.matchAll(RegExp(define.regex.comment[0], define.regex.comment[1])),
 				(el) => ({ start: el.index, end: el.index + el[0].length }),
 			);
+
 			if (!this.predefinedKeywords.length)
 				this.predefinedKeywords = Array.from(define.keywords, (el) => ({ keyword: el }));
 			this.informations.keywords = this.informations.keywords.concat(this.#get_keywords(define, pathToFile));
@@ -58,7 +61,6 @@ class Parser
 		}
 	}
 
-	// eslint-disable-next-line class-methods-use-this
 	#is_exist(array, key, compare)
 	{
 		if (array.length < 1)
@@ -69,16 +71,20 @@ class Parser
 		return false;
 	}
 
-	#get_keywords(define, pathToFile)
+	#generate_keywords(list, justList = false)
 	{
-		let stringRegex = '\\s(?<keyword>';
-		for (const el of define.keywords)
+		let stringRegex = (justList === false) ? '\\s(?<keyword>' : '';
+		for (const el of list)
 			stringRegex += `${el}|`;
 		stringRegex = stringRegex.slice(0, stringRegex.length - 1);
-		stringRegex += ')\\s';
-		const regex = new RegExp(stringRegex, 'gm');
+		stringRegex += (justList === false) ? ')\\s' : '';
+		return stringRegex;
+	}
+
+	#get_keywords(define, pathToFile)
+	{
 		return Array.from(
-			this.blob.matchAll(regex),
+			this.blob.matchAll(RegExp(this.#generate_keywords(define.keywords), 'gm')),
 			(m) => (
 				{
 					file: pathToFile,
@@ -98,7 +104,7 @@ class Parser
 	#get_declared(define, pathToFile)
 	{
 		return Array.from(
-			this.blob.matchAll(define.regex.declar),
+			this.blob.matchAll(RegExp(define.regex.declar[0], define.regex.declar[1])),
 			(m) => (
 				{
 					file: pathToFile,
@@ -120,7 +126,7 @@ class Parser
 	#get_typedef(define, pathToFile)
 	{
 		return Array.from(
-			this.blob.matchAll(define.regex.typedef),
+			this.blob.matchAll(RegExp(define.regex.typedef[0], define.regex.typedef[1])),
 			(m) => (
 				{
 					file: pathToFile,
@@ -139,8 +145,11 @@ class Parser
 
 	#get_using(define, pathToFile)
 	{
+		const list = `${this.#generate_keywords(define.keywords, true)}|${this.#generate_keywords(define.arithmetic, true)}`;
 		return Array.from(
-			this.blob.matchAll(define.regex.using),
+			this.blob.matchAll(
+				RegExp(define.regex.using[0].replace('%KEYWORDS%', list), define.regex.using[1]),
+			),
 			(m) => (
 				{
 					file: pathToFile,
@@ -177,7 +186,7 @@ class Parser
 
 			if (this.forbiddenKeywords.length > 0)
 				for (const key of this.informations.keywords)
-					if (this.forbiddenKeywords.indexOf(key.keyword) === -1)
+					if (this.forbiddenKeywords.indexOf(key.keyword) !== -1)
 						this.errors.push(key);
 		}
 		else
