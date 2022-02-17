@@ -6,10 +6,11 @@ const def = {
 			'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int',
 			'long', 'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct',
 			'switch', 'typedef', 'union', 'unsigned', 'void', 'volatile', 'while'],
+		arithmetic: ['\\+', '\\-', '\\*', '\\/', '\\%', '\\+\\+', '\\-\\-'],
 		regex: {
-			declar: /(?<declaration>[\w<>:_\[\]~&=+\/!-]+)[\s ]*\(.*\)\s*{/gm,
-			using: /(?<function>[\w:_~&]+)[\s ]*\(/gm,
-			comment: /(\/\*([^*]|(\*+[^*/]))*\*+\/)|(\/\/.*)/gm,
+			declar: ['(?<=\\w\\s+)(?<declaration>[\\w<>:_\\[\\]~&=+\\/!-]+)[\\s ]*\\(.*\\)\\s*{', 'gm'],
+			using: ['(?<function>[\\w:_~&]+)(?<!%KEYWORDS%)[\\s ]*\\(', 'gm'],
+			comment: ['(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)', 'gm'],
 		},
 	},
 	cpp: {
@@ -25,11 +26,12 @@ const def = {
 			'this', 'throw', 'true', 'try', 'typedef', 'typeid', 'typename',
 			'union', 'unsigned', 'using', 'virtual', 'void', 'volatile',
 			'wchar_t', 'while', 'xor', 'xor_eq'],
+		arithmetic: ['\\+', '\\-', '\\*', '\\/', '\\%', '\\+\\+', '\\-\\-'],
 		regex: {
-			declar: /(?<declaration>[\w<>:_\[\]~&=+\/!-]+)[\s ]*\(.*\)\s*(?<is_const>const\s*)?\s*{/gm,
-			using: /(?<function>[\w:_~&]+)[\s ]*\(/gm,
-			typedef: /typedef\s+[\w:<> \t,]+\s+(?<typedef>[\w*&-]*);?/gm,
-			comment: /(\/\*([^*]|(\*+[^*/]))*\*+\/)|(\/\/.*)/gm,
+			declar: ['(?<=\\w\\s+)(?<declaration>[\\w<>:_\\[\\]~&=+\\/!-]+)[\\s ]*\\(.*\\)\\s*(?<is_const>const\\s*)?\\s*{', 'gm'],
+			using: ['(?<function>[\\w:_~&]+)(?<!%KEYWORDS%)[\\s ]*\\(', 'gm'],
+			typedef: ['typedef\\s+[\\w:<> \\t,]+\\s+(?<typedef>[\\w*&-]*);?', 'gm'],
+			comment: ['(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)', 'gm'],
 		},
 	},
 };
