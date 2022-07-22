@@ -23,7 +23,6 @@ When a client connect to the server:
 Clients must be able to send messages to your program:
 - message will only be printable characters, no need to check.
 - a single message always end with a \n.
-- a single message will never be longer than 4096 characters.
 - when the server receive a message, it must resend it to all the other client with "client %d: " before the message.
 
 When a client disconnect from the server, a message is sent to all the client that was connected to the server: "server: client %d just left\n".
@@ -36,8 +35,6 @@ To help you, you will find the file main.c with the beginning of a server and ma
 You also have a nc executable in the subject folder which only connects to localhost in order to test your server.
 
 Warning our tester is expecting that you send the messages as fast as you can. Don't do un-necessary buffer.
-
-Evaluation can be a bit longer than usual...
 
 Hint: you can use nc to test your program
 Hint: you should use nc to test your program

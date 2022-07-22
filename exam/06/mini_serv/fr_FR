@@ -23,7 +23,6 @@ Quand un client se connecte au serveur :
 Les clients doivent être capables d'envoyer des messages à votre programme :
 - le message ne sera composé que de caractères imprimables, pas besoin de vérifier.
 - un message unique se termine toujours par un \n.
-- un message unique ne sera jamais plus long que 4096 caractères.
 - lorsque le serveur reçoit un message, il doit le renvoyer à tous les autres clients avec "client %d : " devant le message.
 
 Lorsqu'un client se déconnecte du serveur, un message est envoyé à tous les clients qui étaient connectés au serveur : "server : client %d just left\n".
