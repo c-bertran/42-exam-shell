@@ -250,7 +250,6 @@ const main = () =>
 	{
 		newVersion = `${__data.major}.${__data.minor}.${__data.patch}${(__data.version.length > 0) ? `-${__data.version}` : ''}`;
 	}
-	console.log(newVersion);
 
 	endQuestion(_package.version, newVersion);
 }; main();
