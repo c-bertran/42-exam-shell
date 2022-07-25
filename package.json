@@ -4,13 +4,14 @@
   "license": "GPLv3",
   "author": "cbertran",
   "description": "Examshell",
-  "main": "index.js",
+  "main": "srcs/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node srcs/index.js",
     "prune": "curl -sf https://gobinaries.com/tj/node-prune | sh; node-prune",
     "build": "pkg --compress Brotli --output dist/examshell .",
     "debug": "pkg --debug --output dist/examshell .",
-    "lint": "./node_modules/.bin/eslint ."
+    "lint": "./node_modules/.bin/eslint .",
+    "lintFix": "./node_modules/.bin/eslint --fix ."
   },
   "pkg": {
     "assets": [
@@ -23,7 +24,7 @@
       "node16-linux-x64"
     ]
   },
-  "bin": "index.js",
+  "bin": "srcs/index.js",
   "engines": {
     "node": ">=16.13"
   },
