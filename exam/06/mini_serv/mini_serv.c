@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int clients = 0, fd_max = 0, idx[65536];
+int clients = 0, fd_max = 0, clientId[65536];
 char *msg[65536] = { NULL };
 char readBuf[2049], writeBuf[128];
 fd_set readFds, writeFds, fds;
@@ -117,10 +117,10 @@ int main(int argc, char **argv)
 					{
 						// Add client
 						fd_max = (client > fd_max) ? client : fd_max;
-						idx[client] = clients++;
+						clientId[client] = clients++;
 						msg[client] = NULL;
 						FD_SET(client, &fds);
-						sprintf(writeBuf, "server: client %d just arrived\n", idx[client]);
+						sprintf(writeBuf, "server: client %d just arrived\n", clientId[client]);
 						print_data(client, writeBuf);
 						break;
 					}
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 					if (readSize <= 0)
 					{
 						// Delete client
-						sprintf(writeBuf, "server: client %d just left\n", idx[fd]);
+						sprintf(writeBuf, "server: client %d just left\n", clientId[fd]);
 						print_data(fd, writeBuf);
 						free(msg[fd]);
 						msg[fd] = NULL;
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 					msg[fd] = str_join(msg[fd], readBuf);
 					while (extract_message(&(msg[fd]), &temp))
 					{
-						sprintf(writeBuf, "client %d: ", idx[fd]);
+						sprintf(writeBuf, "client %d: ", clientId[fd]);
 						print_data(fd, writeBuf);
 						print_data(fd, temp);
 						free(temp);

@@ -6,18 +6,15 @@
 		[
 			{
 				"name": "mini_serv",
-				"difficulty": {
-					"normal": {
-						"exponent": 3,
-						"trace": true,
-						"allowed_functions": ["write", "close", "select", "socket", "accept", "listen", "send", "recv", "bind", "strstr", "malloc", "realloc", "free", "calloc", "bzero", "atoi", "sprintf", "strlen", "exit", "strcpy", "strcat", "memset"],
-						"moulinette": true,
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%", "main.c"],
-							"checker": ["%MAKE%"]
-						}
-					}
+				"exponent": 3,
+				"trace": true,
+				"forbidden_keywords": ["DEFINE"],
+				"allowed_functions": ["write", "close", "select", "socket", "accept", "listen", "send", "recv", "bind", "strstr", "malloc", "realloc", "free", "calloc", "bzero", "atoi", "sprintf", "strlen", "exit", "strcpy", "strcat", "memset"],
+				"moulinette": true,
+				"leaks": true,
+				"cp": {
+					"user": ["%SUBJECT%", "main.c"],
+					"checker": ["%MAKE%"]
 				}
 			}
 		]

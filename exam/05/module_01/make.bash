@@ -1,6 +1,6 @@
 #!/bin/bash
 ID=0
-BASE="./$1/module_02"
+BASE="./$1/module_01"
 
 rm -f valgrind_*.log real_warlock fake_warlock
 
@@ -8,8 +8,7 @@ execute () {
 	rm -f real_warlock fake_warlock
 
 	clang++ -Wall -Werror -Wextra -std=c++98 \
-	ASpell.cpp ATarget.cpp BrickWall.cpp Dummy.cpp Fireball.cpp Fwoosh.cpp Polymorph.cpp SpellBook.cpp TargetGenerator.cpp Warlock.cpp testing/$ID.cpp \
-	-I ./ -o real_warlock > /dev/null 2>&1 || exit 100;
+	ASpell.cpp ATarget.cpp Dummy.cpp Fwoosh.cpp Warlock.cpp testing/$ID.cpp -I ./ -o real_warlock > /dev/null 2>&1
 	if [ $? -ne 0 ]
 	then
 		echo "Failed with $ID.cpp" >> real
@@ -18,8 +17,7 @@ execute () {
 	fi
 
 	clang++ -Wall -Werror -Wextra -std=c++98 \
-	$BASE/ASpell.cpp $BASE/ATarget.cpp $BASE/BrickWall.cpp $BASE/Dummy.cpp $BASE/Fireball.cpp $BASE/Fwoosh.cpp $BASE/Polymorph.cpp $BASE/SpellBook.cpp $BASE/TargetGenerator.cpp $BASE/Warlock.cpp testing/$ID.cpp \
-	-I $BASE/ -o fake_warlock > /dev/null 2>&1
+	$BASE/ASpell.cpp $BASE/ATarget.cpp $BASE/Dummy.cpp $BASE/Fwoosh.cpp $BASE/Warlock.cpp testing/$ID.cpp -I $BASE/ -o fake_warlock > /dev/null 2>&1
 	if [ $? -ne 0 ]
 	then
 		echo "Failed with $ID.cpp" >> fake
@@ -28,7 +26,7 @@ execute () {
 	fi
 }
 
-until [ $ID -gt 1 ]
+until [ $ID -gt 5 ]
 do
 	execute
 	ID=$(($ID + 1))

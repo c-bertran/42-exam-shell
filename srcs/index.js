@@ -130,7 +130,6 @@ class Main
 				infinite: Boolean(false),
 				doom: Boolean(false),
 				lang: String,
-				difficulty: String,
 				exam: String,
 			},
 			git: {
@@ -186,10 +185,6 @@ class Main
 
 		const _base = fs.readFileSync(path.join(__dirname, '..', 'srcs', 'lang', `${this.JSON.options.lang}.json`));
 		LANG = JSON.parse(_base);
-		const ListDiff = [
-			{ Difficulty: LANG.Difficulty.List[0], Equal: 'normal' },
-			{ Difficulty: LANG.Difficulty.List[1], Equal: 'hard' },
-		];
 		//#endregion
 
 		const Exams = [];
@@ -213,12 +208,6 @@ class Main
 			},
 			{
 				type: 'select',
-				name: 'value',
-				message: LANG.Difficulty.Question,
-				choices: LANG.Difficulty.List,
-			},
-			{
-				type: 'select',
 				name: 'exam',
 				message: LANG.Select.Question,
 				choices: Exams,
@@ -231,14 +220,7 @@ class Main
 				this.JSON.options.infinite = true;
 			if (answer.options.indexOf('--doom') !== -1)
 				this.JSON.options.doom = true;
-
-			for (const el of ListDiff)
-				if (el.Difficulty === answer.difficulty)
-				{
-					this.JSON.options.difficulty = el.Equal;
-					break;
-				}
-
+			
 			for (const exam of Exam.list)
 				if (exam.data.name === answer.exam)
 				{
@@ -278,7 +260,6 @@ class Main
 		});
 		bash.stderr.on('data', (err) =>
 		{
-			console.error(err);
 			console.error(`${formats.foreground.normal.red}${LANG.Errors.GitInit}${formats.format.reset}`);
 			process.exit(2);
 		});

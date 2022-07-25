@@ -6,54 +6,42 @@
 		[
 			{
 				"name": "module_00",
-				"difficulty": {
-					"normal": {
-						"exponent": 3,
-						"trace": false,
-						"forbidden_keywords": ["switch"],
-						"moulinette": [false, true],
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "testing", "*.cpp", "*.hpp"]
-						}
-					}
+				"exponent": 3,
+				"trace": false,
+				"forbidden_keywords": ["switch"],
+				"moulinette": [false, true],
+				"leaks": true,
+				"cp": {
+					"user": ["%SUBJECT%"],
+					"checker": ["%MAKE%", "testing", "*.cpp", "*.hpp"]
 				}
 			}
 		],
 		[
 			{
 				"name": "module_01",
-				"difficulty": {
-					"normal": {
-						"exponent": 3,
-						"trace": false,
-						"forbidden_keywords": ["switch"],
-						"moulinette": [false, true],
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "testing", "*.cpp", "*.hpp"]
-						}
-					}
+				"exponent": 3,
+				"trace": false,
+				"forbidden_keywords": ["switch"],
+				"moulinette": [false, true],
+				"leaks": true,
+				"cp": {
+					"user": ["%SUBJECT%"],
+					"checker": ["%MAKE%", "testing", "*.cpp", "*.hpp"]
 				}
 			}
 		],
 		[
 			{
 				"name": "module_02",
-				"difficulty": {
-					"normal": {
-						"exponent": 3,
-						"trace": false,
-						"forbidden_keywords": ["switch"],
-						"moulinette": [false, true],
-						"leaks": true,
-						"cp": {
-							"user": ["%SUBJECT%"],
-							"checker": ["%MAKE%", "*.cpp", "*.hpp", "main.c"]
-						}
-					}
+				"exponent": 3,
+				"trace": false,
+				"forbidden_keywords": ["switch"],
+				"moulinette": [false, true],
+				"leaks": true,
+				"cp": {
+					"user": ["%SUBJECT%"],
+					"checker": ["%MAKE%", "*.cpp", "*.hpp", "main.c"]
 				}
 			}
 		]
