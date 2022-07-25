@@ -1,6 +1,6 @@
 {
   "name": "examshell",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "license": "GPLv3",
   "author": "cbertran",
   "description": "Examshell",
@@ -12,6 +12,10 @@
     "debug": "pkg --debug --output dist/examshell .",
     "lint": "./node_modules/.bin/eslint .",
     "lintFix": "./node_modules/.bin/eslint --fix ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/c-bertran/examshell.git"
   },
   "pkg": {
     "assets": [
