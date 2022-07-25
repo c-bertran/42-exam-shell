@@ -101,7 +101,17 @@ class Examen
 					return undefined;
 				}
 			return undefined;
-		}).filter((dir) => dir !== undefined);
+		}).filter((dir) => {
+			if (dir !== undefined)
+			{
+				if (Object.prototype.hasOwnProperty.call(dir.data, 'desactivate'))
+					return !dir.data.desactivate;
+				return true;
+			}
+			return false;
+		});
+		console.log(this.exam);
+		process.exit(0);
 	}
 
 	get list()

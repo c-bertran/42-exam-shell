@@ -1,5 +1,6 @@
 {
 	"name": "Exam 06",
+	"desactivate": true,
 	"goal": 100,
 	"time": "3h",
 	"exercices": [
