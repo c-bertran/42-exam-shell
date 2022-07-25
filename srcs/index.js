@@ -110,8 +110,6 @@ class Examen
 			}
 			return false;
 		});
-		console.log(this.exam);
-		process.exit(0);
 	}
 
 	get list()
