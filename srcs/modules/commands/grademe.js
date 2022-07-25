@@ -61,25 +61,11 @@ class Grademe
 		this.JSON.current = this.JSON.data.exercices[this.JSON.id];
 		const id = Math.floor(Math.random() * this.JSON.current.length);
 		this.JSON.current.selected = this.JSON.current[id];
-		const diff = this.JSON.current.selected.difficulty;
 		const saveName = this.JSON.current.selected.name;
-		if (!Object.prototype.hasOwnProperty.call(diff, 'normal')
-			&& !Object.prototype.hasOwnProperty.call(diff, 'hard'))
-			throw new Error('Error in JSON declaration exercice');
-		if (this.JSON.parent.options.difficulty === 'hard'
-			&& Object.prototype.hasOwnProperty.call(diff, 'hard'))
-		{
-			this.JSON.current.selected = diff.hard;
-		}
-		else
-		{
-			this.JSON.parent.options.difficulty = 'normal';
-			this.JSON.current.selected = diff.normal;
-		}
 		this.JSON.current.selected.name = saveName;
 
 		this.JSON.path = {
-			exercice: path.join(this.JSON.parent.options.exam, this.JSON.current.selected.name, this.JSON.parent.options.difficulty),
+			exercice: path.join(this.JSON.parent.options.exam, this.JSON.current.selected.name),
 			subject: path.join(this.JSON.parent.git.subject, this.JSON.current.selected.name),
 			correction: path.join(this.JSON.parent.git.temp, hexaID()),
 		};
@@ -90,7 +76,7 @@ class Grademe
 				throw new Error(err.message);
 			for (const el of this.JSON.current.selected.cp.user)
 				if (el === '%SUBJECT%')
-					fs.copyFile(path.join(this.JSON.path.exercice, this.JSON.parent.options.lang), path.join(this.JSON.path.subject, 'subject.txt'), (err2) =>
+					fs.copyFile(path.join(this.JSON.path.exercice, 'subjects', this.JSON.parent.options.lang), path.join(this.JSON.path.subject, 'subject.txt'), (err2) =>
 					{
 						if (err2)
 							throw new Error(err2.message);
@@ -205,7 +191,7 @@ class Grademe
 			if (err || stderr.length)
 			{
 				if (err && err.code === 100)
-					throw new Error(err);
+					throw new Error(err.message);
 				else
 					this.failed((stderr.length) ? stderr : `errno: ${err.code}`, true);
 			}
