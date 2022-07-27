@@ -58,4 +58,4 @@ execute blah "|" $ECHO_PATH OK ";"
 
 diff -y --suppress-common-lines real fake > __diff
 
-rm -f real_microshell fake_microshell #real fake microshell.c
+rm -f real_microshell fake_microshell real fake microshell.c

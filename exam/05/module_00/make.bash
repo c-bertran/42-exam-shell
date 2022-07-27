@@ -33,4 +33,4 @@ done
 
 diff -y --suppress-common-lines real fake > __diff
 
-#rm -f real_warlock fake_warlock real fake
+rm -f real_warlock fake_warlock real fake
