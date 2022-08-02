@@ -15,7 +15,7 @@
 				"leaks": true,
 				"cp": {
 					"user": ["%SUBJECT%", "main.c"],
-					"checker": ["%MAKE%"]
+					"checker": ["%MAKE%", "tests"]
 				}
 			}
 		]

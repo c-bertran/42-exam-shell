@@ -77,8 +77,13 @@ int	main(int argc, char **argv)
 			if (FD_ISSET(STDIN_FILENO, &reads))
 			{
 				ssize_t typed = read(STDIN_FILENO, buffer, BUFFER_SIZE - 1);
+			#ifdef MAIN
+				if (typed < 0)
+					break;
+			#else
 				if (typed <= 0)
 					break;
+			#endif
 				buffer[typed] = 0;
 				do_send = 1;
 			}
