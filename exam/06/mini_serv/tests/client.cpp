@@ -59,11 +59,7 @@ int	main(int argc, char **argv)
 			{
 				int received = recv(sockfd, buffer, BUFFER_SIZE - 1, MSG_DONTWAIT);
 				if (received <= 0)
-				{
-					if (received == 0)
-						std::cout << "Server disconnected" << std::endl;
 					break;
-				}
 				buffer[received] = 0;
 				std::cout << buffer;
 			}
