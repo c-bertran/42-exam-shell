@@ -39,6 +39,7 @@ clang++ -Wall -Werror -Wextra -std=c++11 tests/client.cpp -o client > /dev/null 
 clang++ -Wall -Werror -Wextra -std=c++11 tests/messages.cpp -o messages > /dev/null 2>&1
 
 start_serv () {
+	declare PID=0
 	USER_PORT=$( ./port_checker )
 	if [ $USER_PORT -eq -1 ]
 	then
@@ -46,6 +47,10 @@ start_serv () {
 		exit -1
 	fi
 	./fake_serv $USER_PORT >/dev/null 2>&1 &
+	until pids=$(pidof fake_serv)
+	do
+		sleep 1
+	done
 
 	CHECKER_PORT=$( ./port_checker )
 	if [ $CHECKER_PORT -eq -1 ]
@@ -54,21 +59,33 @@ start_serv () {
 		exit -1
 	fi
 	./real_serv $CHECKER_PORT >/dev/null 2>&1 &
+	until pids=$(pidof real_serv)
+	do
+		sleep 1
+	done
 
-	./main_client $USER_PORT >> fake_$I &
-	./main_client $CHECKER_PORT >> real_$I &
-	sleep 3
-	echo "Test $I >>>> $CLIENTS client(s)" | tee -a fake_$I | tee -a real_$I
+	./main_client $USER_PORT >> fake &
+	until pids=$(pidof main_client $USER_PORT)
+	do
+		sleep 1
+	done
+
+	./main_client $CHECKER_PORT >> real &
+	until pids=$(pidof main_client $CHECKER_PORT)
+	do
+		sleep 1
+	done
+
+	echo "Test $I >>>> $CLIENTS client(s)" | tee -a fake | tee -a real
 }
 
 stop_serv () {
-	killall -w -9 client
-	killall -w -9 main_client
-	killall -w -9 *_serv
+	killall -w -9 main_client || true
+	killall -w -9 *_serv || true
 }
 
 execute () {
-	CLIENTS=$((1 + $RANDOM % 10))
+	CLIENTS=$((1 + $RANDOM % 7))
 	start_serv
 	until [ $X -gt $CLIENTS ]
 	do
@@ -78,27 +95,36 @@ execute () {
 		then
 			TIME=$RET
 		fi
-		./messages $SEED | ./client $USER_PORT >/dev/null 2>&1 &
-		./messages $SEED | ./client $CHECKER_PORT >/dev/null 2>&1 &
+		#./messages $SEED | ./client $USER_PORT >/dev/null 2>&1 &
+		#./messages $SEED | ./client $CHECKER_PORT >/dev/null 2>&1 &
+		./messages $SEED | ./client $USER_PORT >/dev/null &
+		./messages $SEED | ./client $CHECKER_PORT >/dev/null &
+		echo "$SEED-$X"
 		X=$(($X + 1))
 	done
 	TIME=$(($TIME + 5))
 	progress_bar $TIME
 	stop_serv
-	diff -y --suppress-common-lines real_$I fake_$I > __diff_$I
+	diff -y --suppress-common-lines real fake > __diff
+	cp real real_$I
+	cp fake fake_$I
 	if [ ! $? -eq 0 ]
 	then
 		echo "Diff failed, stop testing"
 		exit $I
-	else
+	else 
 		echo "Diff ok, continue"
 	fi
 }
 
+touch fake real
 until [ $I -gt 5 ]
 do
 	execute
+	> fake
+	> real
 	I=$(($I + 1))
 done
 
-rm -f fake* real* main_client client messages port_checker *.out
+rm -f fake_serv real_serv main_client client messages port_checker *.out
+#rm -f fake* real* main_client client messages port_checker *.out

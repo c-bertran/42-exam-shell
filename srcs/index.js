@@ -101,7 +101,8 @@ class Examen
 					return undefined;
 				}
 			return undefined;
-		}).filter((dir) => {
+		}).filter((dir) =>
+		{
 			if (dir !== undefined)
 			{
 				if (Object.prototype.hasOwnProperty.call(dir.data, 'desactivate'))
@@ -220,7 +221,13 @@ class Main
 				message: LANG.Select.Question,
 				choices: Exams,
 			},
-		]).then((answer) =>
+		], {
+			onCancel: () =>
+			{
+				console.error('For the program to work properly, you must at least select a language, no options and an exam. Restart the application to do this');
+				process.exit(127);
+			},
+		}).then((answer) =>
 		{
 			answer.lang = this.JSON.options.lang; // eslint-disable-line no-param-reassign
 
@@ -228,7 +235,7 @@ class Main
 				this.JSON.options.infinite = true;
 			if (answer.options.indexOf('--doom') !== -1)
 				this.JSON.options.doom = true;
-			
+
 			for (const exam of Exam.list)
 				if (exam.data.name === answer.exam)
 				{
@@ -266,7 +273,7 @@ class Main
 			shell: '/bin/bash',
 			windowsHide: true,
 		});
-		bash.stderr.on('data', (err) =>
+		bash.stderr.on('data', () =>
 		{
 			console.error(`${formats.foreground.normal.red}${LANG.Errors.GitInit}${formats.format.reset}`);
 			process.exit(2);
@@ -401,6 +408,10 @@ class Main
 	}
 }
 
+/**
+ * Start application
+ */
+
 https.get(
 	'https://api.github.com/repos/c-bertran/examshell/releases/latest',
 	{
@@ -423,7 +434,6 @@ https.get(
 				console.log(`${formats.foreground.light.blue}The ${formats.foreground.light.red}${blob.tag_name}${formats.foreground.light.blue} version is available for download`);
 				console.log(`${formats.format.reset}⇒ ${formats.foreground.light.green}https://github.com/c-bertran/examshell/releases/latest ${formats.format.reset}⇐`);
 			}
-
 			const main = new Main();
 			const examshell = async () =>
 			{
@@ -439,7 +449,8 @@ process.on('uncaughtException', (err) =>
 {
 	console.error(`An error at ${(new Date()).toUTCString()} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/examshell/issues) with the error code below :`);
 	console.error(`${formats.foreground.normal.red}═══════════════ ${formats.foreground.normal.yellow}⚠${formats.format.reset}  Error ${formats.foreground.normal.yellow}⚠${formats.format.reset}  ${formats.foreground.normal.red}══════════════${formats.format.reset}`);
-	console.error(err);
+	console.error(err.message);
+	console.error(`${formats.foreground.normal.magenta}══ Stack ═════════════════════════════════${formats.format.reset}`);
 	console.error(`${formats.foreground.normal.red}══════════════════════════════════════════${formats.format.reset}`);
 	process.exit(127);
 });
