@@ -17,9 +17,6 @@ This one will have the same behaviors as the real examshell:
 
 Some options have been added:
 - Multilingual interface (currently available in `French` and `English`)
-- Two difficulty:
-  - `Normal`
-  - `Hard`
 - Two options:
   - `Infinite`: Disables the timer, so the time is unlimited
   - `Doom`: To make your practice harder, if you fail the whole rendering folder is reset, as well as the associated git
@@ -31,6 +28,11 @@ Download the ![latest version](https://github.com/c-bertran/examshell/releases/l
 Launch your favorite command prompt, and simply run the program:
 ```sh
 ./examshell
+```
+
+If a rights problem occurs during the execution, make the following command:
+```sh
+chmod +x examshell
 ```
 
 ## Exams
