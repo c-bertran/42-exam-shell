@@ -243,13 +243,12 @@ const main = () =>
 			process.exit(1);
 		}
 	}
-	
+
 	if (!__data.force)
 		newVersion = calcVersion(_package.version);
 	else
-	{
+
 		newVersion = `${__data.major}.${__data.minor}.${__data.patch}${(__data.version.length > 0) ? `-${__data.version}` : ''}`;
-	}
 
 	endQuestion(_package.version, newVersion);
 }; main();

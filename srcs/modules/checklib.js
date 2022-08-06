@@ -5,9 +5,9 @@ const prompts = require('prompts');
 
 class CheckLib
 {
-	static error(error = undefined, code = Number(127))
+	static error(error = '', code = Number(127))
 	{
-		console.error(`${error} ${code}`);
+		console.error(`[Error ${code}] ${error}`);
 		process.exit(code);
 	}
 
@@ -36,22 +36,30 @@ class CheckLib
 
 	static async install(resolve)
 	{
-		if (OS.platform() !== 'linux')
-		{
-			console.error('Under MacOS, automatic installation is unavailable. Please install `git`, `clang` and `valgrind` manually');
-			process.exit(127);
-		}
 		await prompts({
 			type: 'password',
 			name: 'password',
 			message: 'Password',
+		}, {
+			onCancel: () => this.error('The prompt was cancelled. Please install `git`, `clang` and `valgrind` manually, or restart this application', 122),
 		}).then((answer) =>
 		{
 			this.child(`echo "${answer.password}" | sudo -S apt install -y valgrind git clang`, true).then(() =>
 			{
 				console.log('Installation success, start program');
 				resolve(true);
+			}).catch(() =>
+			{
+				console.error('User password is incorrect');
+				this.install(resolve);
 			});
+		}).catch((error) =>
+		{
+			if (error.isTtyError)
+				console.error('Prompt couldn\'t be rendered in the current environment');
+			else
+				console.error(error.message);
+			process.exit(-1);
 		});
 	}
 
@@ -59,10 +67,10 @@ class CheckLib
 	{
 		const platform = OS.platform();
 
-		const DefLib = (lib) => `/sbin/ldconfig -p | grep -E "${lib}"`; // eslint-disable-line no-unused-vars
-
 		if (platform !== 'linux' && platform !== 'darwin')
-			this.error(`${platform}: unsupported plateform, please use linux or darwin`);
+			this.error(`${platform}: unsupported plateform, please use linux or darwin`, 120);
+		if (platform !== 'linux')
+			this.error('Under MacOS, automatic installation is unavailable. Please install `git`, `clang` and `valgrind` manually', 121);
 		return new Promise((resolve) =>
 		{
 			Promise.all([
