@@ -450,8 +450,15 @@ process.on('uncaughtException', (err) =>
 {
 	console.error(`An error at ${(new Date()).toUTCString()} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/examshell/issues) with the error code below :`);
 	console.error(`${formats.foreground.normal.red}═══════════════ ${formats.foreground.normal.yellow}⚠${formats.format.reset}  Error ${formats.foreground.normal.yellow}⚠${formats.format.reset}  ${formats.foreground.normal.red}══════════════${formats.format.reset}`);
+	console.error(`${formats.foreground.normal.magenta}══ Info    ═════════════════════════════${formats.format.reset}`);
+	console.error(`Version: ${JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), { encoding: 'utf-8' })).version}`);
+	console.error(`${OS.platform()} - ${OS.arch()}, ${OS.version()}`);
+	console.error(`Total memory: ${(OS.totalmem() / 1073741824).toPrecision(2)}GB`);
+	console.error(`Heap usage: ${(process.memoryUsage().heapTotal / 1048576).toPrecision(2)}MB`);
+	console.error(`\n${formats.foreground.normal.magenta}══ Message ═════════════════════════════${formats.format.reset}`);
 	console.error(err.message);
-	console.error(`${formats.foreground.normal.magenta}══ Stack ═════════════════════════════════${formats.format.reset}`);
+	console.error(`\n${formats.foreground.normal.magenta}══ Stack   ═════════════════════════════${formats.format.reset}`);
+	console.error(err.stack);
 	console.error(`${formats.foreground.normal.red}══════════════════════════════════════════${formats.format.reset}`);
 	process.exit(127);
 });
