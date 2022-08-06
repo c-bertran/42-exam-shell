@@ -41,7 +41,7 @@ class CheckLib
 			name: 'password',
 			message: 'Password',
 		}, {
-			onCancel: () => this.error('The prompt was cancelled. Please install `git`, `clang` and `valgrind` manually, or restart this application', 122),
+			onCancel: () => this.error('The prompt was cancelled. Please install `git`, `clang` and `valgrind` manually, or restart this application for retry', 122),
 		}).then((answer) =>
 		{
 			this.child(`echo "${answer.password}" | sudo -S apt install -y valgrind git clang`, true).then(() =>
