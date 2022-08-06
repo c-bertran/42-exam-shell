@@ -191,7 +191,8 @@ class Main
 				console.error(error.message);
 			process.exit(-1);
 		});
-
+		if (!this.JSON.options.lang)
+			this.JSON.options.lang = 'en_US';
 		const _base = fs.readFileSync(path.join(__dirname, '..', 'srcs', 'lang', `${this.JSON.options.lang}.json`));
 		LANG = JSON.parse(_base);
 		//#endregion
@@ -224,7 +225,7 @@ class Main
 		], {
 			onCancel: () =>
 			{
-				console.error('For the program to work properly, you must at least select a language, no options and an exam. Restart the application to do this');
+				console.error('For the program to work properly, you must at least select no options and an exam. Restart the application to do this');
 				process.exit(127);
 			},
 		}).then((answer) =>
