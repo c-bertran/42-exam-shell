@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require('./modules/fspatch');
+
 const fs = require('fs');
 const https = require('https');
 const { exec } = require('child_process');
@@ -19,77 +20,25 @@ const Grademe = require('./modules/commands/grademe');
 const help = require('./modules/commands/help');
 const IDDQD = require('./modules/commands/iddqd');
 const status = require('./modules/commands/status');
-const { timer } = require('./modules/clock');
+const { convertTime, timer } = require('./modules/clock');
 
-let LANG;
-
-const RandomFinish = [
-	'i\'m too young to die',
-	'hey, not too rough',
-	'hurt me plenty',
-	'ultra-violence',
-	'nightmare',
-];
-
-const hexaID = () => crypto
-	.randomBytes(Math.ceil(16 / 2))
-	.toString('hex')
-	.slice(0, 16);
-
-let childServe;
-
-/**
- * Transform string time to real time
- * Accept days `d`, hours `h`, minutes `m`, seconds `s`
- * Exemple: `3d 14h 41m 17s`
- * @param {String} time String containing time information
- * @returns {Object} Time parsed in array
- */
-const ConvertTime = (time) =>
-{
-	const regex = /(?<days>\d*)d|(?<hours>\d*)h|(?<minutes>\d*)m|(?<seconds>\d*)s/gm;
-	const ret = {
-		days: Number(0),
-		hours: Number(0),
-		minutes: Number(0),
-		seconds: Number(0),
-		time: Number(0),
-	};
-
-	const match = Array.from(time.matchAll(regex), (m) => (
-		{
-			days: Number(m.groups.days),
-			hours: Number(m.groups.hours),
-			minutes: Number(m.groups.minutes),
-			seconds: Number(m.groups.seconds),
-		}
-	));
-	for (const obj of match)
-	{
-		if (!Number.isNaN(obj.days))
-			ret.days += obj.days;
-		if (!Number.isNaN(obj.hours))
-			ret.hours += obj.hours;
-		if (!Number.isNaN(obj.minutes))
-			ret.minutes += obj.minutes;
-		if (!Number.isNaN(obj.seconds))
-			ret.seconds += obj.seconds;
-	}
-	ret.time += ret.days * 86400;
-	ret.time += ret.hours * 3600;
-	ret.time += ret.minutes * 60;
-	ret.time += ret.seconds;
-	return ret;
-};
-
-class Examen
+class Main
 {
 	constructor()
 	{
-		this.path = path.join(__dirname, '..', 'exam');
-		this.exam = fs.readdirSync(this.path).map((dir) =>
+		this.childServe = undefined;
+		this.randomFinish = [
+			'i\'m too young to die',
+			'hey, not too rough',
+			'hurt me plenty',
+			'ultra-violence',
+			'nightmare',
+		];
+
+		const examPath = path.join(__dirname, '..', 'exam');
+		this.exam = fs.readdirSync(examPath).map((dir) =>
 		{
-			const filePath = path.join(this.path, dir);
+			const filePath = path.join(examPath, dir);
 			if (fs.statSync(filePath).isDirectory())
 				try
 				{
@@ -111,27 +60,19 @@ class Examen
 			}
 			return false;
 		});
-	}
 
-	get list()
-	{
-		return this.exam;
-	}
-}
-
-const Exam = new Examen();
-
-class Main
-{
-	constructor()
-	{
+		this.LANG = undefined;
 		const _LANG = fs.readFileSync(path.join(__dirname, 'lang', 'list.json'), { encoding: 'utf-8' });
 		if (!_LANG)
 		{
 			console.error('List of lang not exist, exit');
 			process.exit(1);
 		}
-		const generateID = hexaID();
+
+		const generateID = crypto
+			.randomBytes(Math.ceil(16 / 2))
+			.toString('hex')
+			.slice(0, 16);
 		this.JSON = {
 			LANGlist: JSON.parse(_LANG),
 			args: process.argv.slice(2),
@@ -149,14 +90,17 @@ class Main
 				subject: String,
 			},
 		};
+
 		this.TIMER = {
 			finish: false,
 			printPrompt: false,
 			isRet: Object,
 		};
 		globalThis.TIMER = this.TIMER;
+
 		this.Grade = undefined;
 		this.Shell = undefined;
+
 		fs.access(this.JSON.git.temp, (err) =>
 		{
 			if (!err)
@@ -171,7 +115,6 @@ class Main
 	async init()
 	{
 		console.log(logo);
-
 		//#region Lang selection
 		const langArr = [];
 		for (const x in this.JSON.LANGlist)
@@ -194,24 +137,24 @@ class Main
 		if (!this.JSON.options.lang)
 			this.JSON.options.lang = 'en_US';
 		const _base = fs.readFileSync(path.join(__dirname, '..', 'srcs', 'lang', `${this.JSON.options.lang}.json`));
-		LANG = JSON.parse(_base);
+		this.LANG = JSON.parse(_base);
 		//#endregion
 
 		const Exams = [];
-		for (const exam of Exam.list)
+		for (const exam of this.exam)
 			Exams.push({ title: exam.data.name, value: exam.data.name });
 		prompts([
 			{
 				type: 'multiselect',
 				name: 'options',
-				message: LANG.Options.Question,
+				message: this.LANG.Options.Question,
 				choices: [
 					{
-						title: ` ${LANG.Options.Infinite[0]} > ${LANG.Options.Infinite[1]}`,
+						title: ` ${this.LANG.Options.Infinite[0]} > ${this.LANG.Options.Infinite[1]}`,
 						value: '--infinite',
 					},
 					{
-						title: ` ${LANG.Options.Doom[0]}     > ${LANG.Options.Doom[1]}`,
+						title: ` ${this.LANG.Options.Doom[0]}     > ${this.LANG.Options.Doom[1]}`,
 						value: '--doom',
 					},
 				],
@@ -219,7 +162,7 @@ class Main
 			{
 				type: 'select',
 				name: 'exam',
-				message: LANG.Select.Question,
+				message: this.LANG.Select.Question,
 				choices: Exams,
 			},
 		], {
@@ -237,20 +180,20 @@ class Main
 			if (answer.options.indexOf('--doom') !== -1)
 				this.JSON.options.doom = true;
 
-			for (const exam of Exam.list)
+			for (const exam of this.exam)
 				if (exam.data.name === answer.exam)
 				{
 					this.JSON.options.exam = exam.path;
 					if (Object.prototype.hasOwnProperty.call(exam.data, 'time'))
 					{
-						this.TIMER.isRet = ConvertTime(exam.data.time);
+						this.TIMER.isRet = convertTime(exam.data.time);
 						this.TIMER.end = this.TIMER.isRet.time;
 					}
 					break;
 				}
 
-			this.JSON.git.render = path.join(this.JSON.git.main, LANG.Git.render);
-			this.JSON.git.subject = path.join(this.JSON.git.main, LANG.Git.subject);
+			this.JSON.git.render = path.join(this.JSON.git.main, this.LANG.Git.render);
+			this.JSON.git.subject = path.join(this.JSON.git.main, this.LANG.Git.subject);
 			fs.mkdirSync(this.JSON.git.temp, { recursive: true });
 			fs.mkdirSync(this.JSON.git.main, { recursive: true });
 			fs.mkdirSync(this.JSON.git.render, { recursive: true });
@@ -276,7 +219,7 @@ class Main
 		});
 		bash.stderr.on('data', () =>
 		{
-			console.error(`${formats.foreground.normal.red}${LANG.Errors.GitInit}${formats.format.reset}`);
+			console.error(`${formats.foreground.normal.red}${this.LANG.Errors.GitInit}${formats.format.reset}`);
 			process.exit(2);
 		});
 		bash.on('exit', (code) =>
@@ -300,15 +243,15 @@ class Main
 							ctrl: true,
 							name: 'u',
 						});
-						this.Shell.write(RandomFinish[Math.floor(Math.random() * RandomFinish.length)]);
+						this.Shell.write(this.randomFinish[Math.floor(Math.random() * this.randomFinish.length)]);
 						this.Shell.write(null, {
 							name: 'enter',
 						});
 					}, this.TIMER.isRet.time * 1000);
 				}
-				console.log(`\n${formats.foreground.light.blue}${LANG.Info.Dir} '${formats.foreground.normal.green}${this.JSON.git.main}${formats.format.reset}'`);
-				console.log(`${formats.foreground.light.blue}${LANG.Info.Git}${formats.format.reset}\n`);
-				this.Grade = new Grademe(this.JSON, LANG);
+				console.log(`\n${formats.foreground.light.blue}${this.LANG.Info.Dir} '${formats.foreground.normal.green}${this.JSON.git.main}${formats.format.reset}'`);
+				console.log(`${formats.foreground.light.blue}${this.LANG.Info.Git}${formats.format.reset}\n`);
+				this.Grade = new Grademe(this.JSON, this.LANG);
 				this.Grade.start();
 				this.Shell = readline.createInterface({
 					input: process.stdin,
@@ -328,7 +271,7 @@ class Main
 			}
 			else
 			{
-				console.error(`${formats.foreground.normal.red}${LANG.Errors.Exec} ${formats.foreground.normal.magenta}${code}${formats.format.reset}`);
+				console.error(`${formats.foreground.normal.red}${this.LANG.Errors.Exec} ${formats.foreground.normal.magenta}${code}${formats.format.reset}`);
 				process.exit(2);
 			}
 		});
@@ -351,7 +294,7 @@ class Main
 			}
 			else if (command === 'help')
 			{
-				help.exec(args, LANG);
+				help.exec(args, this.LANG);
 			}
 			else if (command === 'grademe' && !this.TIMER.printPrompt)
 			{
@@ -367,9 +310,9 @@ class Main
 			}
 			else if (command === 'iddqd')
 			{
-				if (childServe === undefined)
-					childServe = new IDDQD();
-				childServe.print();
+				if (this.childServe === undefined)
+					this.childServe = new IDDQD();
+				this.childServe.print();
 			}
 			else if (data.length)
 			{
@@ -377,11 +320,11 @@ class Main
 				{
 					this.TIMER.printPrompt = true;
 					process.stdout.clearLine();
-					process.stdout.write(`${formats.format.reset}${LANG.OutOfTime}\n`);
+					process.stdout.write(`${formats.format.reset}${this.LANG.OutOfTime}\n`);
 				}
 				else
 				{
-					console.log(`${command} : ${formats.foreground.normal.red}${LANG.Errors.Command}`);
+					console.log(`${command} : ${formats.foreground.normal.red}${this.LANG.Errors.Command}`);
 				}
 			}
 			this.Shell.resume();
@@ -412,7 +355,6 @@ class Main
 /**
  * Start application
  */
-
 https.get(
 	'https://api.github.com/repos/c-bertran/examshell/releases/latest',
 	{

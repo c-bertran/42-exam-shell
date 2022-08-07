@@ -212,7 +212,7 @@ class Grademe
 							keys: (Object.prototype.hasOwnProperty.call(this.JSON.current.selected, 'forbidden_keywords')) ? this.JSON.current.selected.forbidden_keywords : [],
 						};
 						const check = new Checker(
-							path.join(this.JSON.path.correction, 'render', this.JSON.current.selected.name),
+							path.join(this.JSON.path.correction, LANG.Git.render, this.JSON.current.selected.name),
 							this.JSON.current.selected.moulinette,
 							elements.functs,
 							elements.keys,
