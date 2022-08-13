@@ -14,19 +14,12 @@ const { secondsToClock } = require('../clock');
 const Checker = require('../checker/checker');
 const Valgrind = require('../checker/valgrind');
 
-let LANG;
-
-const hexaID = () => crypto
-	.randomBytes(Math.ceil(16 / 2))
-	.toString('hex')
-	.slice(0, 16);
-
 class Grademe
 {
 	constructor(json, lang)
 	{
 		const data = JSON.parse(fs.readFileSync(path.join(json.options.exam, 'exam.json'), { encoding: 'utf-8' }));
-		LANG = lang;
+		this.lang = lang;
 		this.JSON = {
 			parent: json,
 			dirname: json.options.exam,
@@ -67,7 +60,10 @@ class Grademe
 		this.JSON.path = {
 			exercice: path.join(this.JSON.parent.options.exam, this.JSON.current.selected.name),
 			subject: path.join(this.JSON.parent.git.subject, this.JSON.current.selected.name),
-			correction: path.join(this.JSON.parent.git.temp, hexaID()),
+			correction: path.join(this.JSON.parent.git.temp, crypto
+				.randomBytes(Math.ceil(16 / 2))
+				.toString('hex')
+				.slice(0, 16)),
 		};
 
 		fs.mkdir(this.JSON.path.subject, (err) =>
@@ -109,11 +105,11 @@ class Grademe
 	print_info()
 	{
 		console.log('┌────╮');
-		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${LANG.Exercice.Start} ${formats.foreground.light.red}${this.JSON.current.selected.name}${formats.format.reset}`);
-		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${LANG.Exercice.Dir} ${formats.foreground.light.green}~/${LANG.Git.render}/${this.JSON.current.selected.name}${formats.format.reset}`);
-		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${LANG.Exercice.Goal} ${formats.foreground.light.magenta}${this.JSON.goal.add} ${formats.format.reset}${LANG.Exercice.Points}${formats.format.reset}`);
-		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${LANG.Exercice.Level} ${formats.foreground.normal.yellow}${Number(this.JSON.goal.current)}${formats.format.reset}/${formats.foreground.light.blue}${this.JSON.goal.max}${formats.format.reset}`);
-		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${LANG.Exercice.Retry}: ${formats.foreground.normal.yellow}${this.JSON.retry}${formats.format.reset}`);
+		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${this.lang.Exercice.Start} ${formats.foreground.light.red}${this.JSON.current.selected.name}${formats.format.reset}`);
+		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${this.lang.Exercice.Dir} ${formats.foreground.light.green}~/${this.lang.Git.render}/${this.JSON.current.selected.name}${formats.format.reset}`);
+		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${this.lang.Exercice.Goal} ${formats.foreground.light.magenta}${this.JSON.goal.add} ${formats.format.reset}${this.lang.Exercice.Points}${formats.format.reset}`);
+		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${this.lang.Exercice.Level} ${formats.foreground.normal.yellow}${Number(this.JSON.goal.current)}${formats.format.reset}/${formats.foreground.light.blue}${this.JSON.goal.max}${formats.format.reset}`);
+		console.log(`│ ${formats.foreground.light.blue}>> ${formats.format.reset}${this.lang.Exercice.Retry}: ${formats.foreground.normal.yellow}${this.JSON.retry}${formats.format.reset}`);
 		console.log('└────╯\n');
 	}
 
@@ -123,10 +119,10 @@ class Grademe
 			return;
 		if (this.retryTime > 0)
 		{
-			console.log(`${formats.foreground.light.red}${LANG.Grademe.Time} ${formats.foreground.light.blue}${secondsToClock(this.retryTime)} ${formats.format.reset}`);
+			console.log(`${formats.foreground.light.red}${this.lang.Grademe.Time} ${formats.foreground.light.blue}${secondsToClock(this.retryTime)} ${formats.format.reset}`);
 			return;
 		}
-		spinner.start(LANG.Grademe.Correction, 'bar');
+		spinner.start(this.lang.Grademe.Correction, 'bar');
 		try
 		{
 			fs.rmSync(this.JSON.path.correction, { recursive: true, force: true });
@@ -182,7 +178,7 @@ class Grademe
 			process.exit(-3);
 		}
 
-		exec(`bash make.bash ${LANG.Git.render}`, {
+		exec(`bash make.bash ${this.lang.Git.render}`, {
 			cwd: this.JSON.path.correction,
 			shell: '/bin/bash',
 			windowsHide: true,
@@ -212,7 +208,7 @@ class Grademe
 							keys: (Object.prototype.hasOwnProperty.call(this.JSON.current.selected, 'forbidden_keywords')) ? this.JSON.current.selected.forbidden_keywords : [],
 						};
 						const check = new Checker(
-							path.join(this.JSON.path.correction, LANG.Git.render, this.JSON.current.selected.name),
+							path.join(this.JSON.path.correction, this.lang.Git.render, this.JSON.current.selected.name),
 							this.JSON.current.selected.moulinette,
 							elements.functs,
 							elements.keys,
@@ -266,11 +262,11 @@ class Grademe
 		process.stdout.clearLine();
 		this.JSON.id += 1;
 		this.JSON.goal.current += Number(this.JSON.goal.add);
-		console.log(`${formats.foreground.light.green}>>> ${LANG.Grademe.Success.toUpperCase()} <<<${formats.format.reset}`);
+		console.log(`${formats.foreground.light.green}>>> ${this.lang.Grademe.Success.toUpperCase()} <<<${formats.format.reset}`);
 		if (this.JSON.goal.current >= this.JSON.goal.max)
 		{
 			this.JSON.goal.current = this.JSON.goal.max;
-			console.log(`${formats.foreground.light.blue}${LANG.Grademe.Finish}${formats.format.reset}`);
+			console.log(`${formats.foreground.light.blue}${this.lang.Grademe.Finish}${formats.format.reset}`);
 		}
 		else
 		{
@@ -288,10 +284,10 @@ class Grademe
 		this.oldTime += this.oldTime * Number(this.JSON.current.selected.exponent);
 		this.retryTime = this.oldTime;
 
-		console.log(`${formats.foreground.light.red}>>> ${LANG.Grademe.Failed.toUpperCase()} <<<${formats.format.reset}`);
+		console.log(`${formats.foreground.light.red}>>> ${this.lang.Grademe.Failed.toUpperCase()} <<<${formats.format.reset}`);
 		if (this.JSON.current.selected.trace === true)
 		{
-			console.log(`${formats.format.reset}\n=== ${LANG.Grademe.Trace.toUpperCase()} ===`);
+			console.log(`${formats.format.reset}\n=== ${this.lang.Grademe.Trace.toUpperCase()} ===`);
 			if (Array.isArray(data))
 				for (const el of data)
 					console.log(path.basename(el.file), el.found);
@@ -301,7 +297,7 @@ class Grademe
 		}
 		else if (forceTrace === true)
 		{
-			console.log(`\n=== ${LANG.Grademe.Error.toUpperCase()} ===`);
+			console.log(`\n=== ${this.lang.Grademe.Error.toUpperCase()} ===`);
 			console.log(`${formats.format.reset}${data}${formats.format.reset}`);
 			console.log('=============');
 		}
@@ -327,4 +323,26 @@ class Grademe
 	}
 }
 
-module.exports = Grademe;
+module.exports = {
+	name: 'grademe',
+	description: 'Grade current exercice',
+	instance: undefined,
+	get: () => this.instance,
+	init: (JSON, LANG) =>
+	{
+		this.instance = new Grademe(JSON, LANG);
+		this.instance.start();
+	},
+	exec: async (_commands, _JSON, _LANG, TIMER) =>
+	{
+		if (this.instance && !TIMER.printPrompt && !TIMER.finish)
+			try
+			{
+				await this.instance.grade(TIMER);
+			}
+			catch (error)
+			{
+				// do nothing, everything is made inside grademe class
+			}
+	}
+};

@@ -15,10 +15,12 @@ class Commands
 			const __import = require(path.join(this.commandPath, file));
 			if (typeof (__import) !== 'object' || (typeof (__import) === 'object' && (!__import.name || !__import.exec)))
 				return false;
-			__import.name = __import.name.toLowerCase();
 			__import['file'] = file; // eslint-disable-line dot-notation
-			__import.ratio = 0;
+			__import.name = __import.name.toLowerCase();
+			__import.ratio = 0.0;
 			__import.check = false;
+			if (!__import.hide)
+				__import.hide = false;
 			return __import;
 		}).filter((el) => el !== false);
 		this.#checkIfDuplication();
@@ -52,29 +54,45 @@ class Commands
 			{
 				this.list[id].ratio = 1.0;
 				this.list[id].check = true;
-				return;
 			}
-			for (let i = 0; i < compare.length; i++)
-				if (str.indexOf(compare[i]) > -1)
-					++matches;
-				else
-					--matches;
-			this.list[id].ratio = matches / str.length;
-			this.list[id].check = matches / str.length >= ratio || str === '';
+			else
+			{
+				for (let i = 0; i < compare.length; i++)
+					(str.indexOf(compare[i]) > -1) ? ++matches : --matches;
+				this.list[id].ratio = matches / str.length;
+				this.list[id].check = matches / str.length >= ratio || str === '';
+			}
+			if (this.list[id].ratio < 0.0)
+			{
+				this.list[id].ratio = 0.0;
+				this.list[id].check = false;
+			}
 		};
 
 		for (const id in this.list)
 			if (Object.prototype.hasOwnProperty.call(this.list, id))
+			{
+				this.list[id].ratio = 0.0;
+				this.list[id].check = false;
 				_search(id, commandName, 0.5);
+			}
 	}
 
-	execute(...args)
+	get(name)
 	{
-		this.#fuzzySearch(args[0]);
-		const occ = this.list.findIndex((el) => el.ratio >= 1.0);
+		const i = this.list.findIndex((el) => el.name === name.toLowerCase());
+		if (i !== -1)
+			return this.list[i];
+		return {};
+	}
+
+	execute(data, JSON, LANG, TIMER, GRADEME)
+	{
+		const commands = data.split(' ').map((el) => el.toLowerCase());
+		const occ = this.list.findIndex((el) => el.name === commands[0]);
 		if (occ !== -1)
 		{
-			this.list[occ].exec(...args);
+			this.list[occ].exec(commands, JSON, LANG, TIMER, GRADEME);
 			return [];
 		}
 		return this.list;
