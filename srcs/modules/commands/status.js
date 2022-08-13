@@ -1,16 +1,17 @@
 const formats = require('../formats');
 
-class status
-{
-	static exec(json, TIME, GRADE)
+module.exports = {
+	name: 'status',
+	description: 'Print status of current examen',
+	exec: (_commands, JSON, _LANG, TIMER, GRADEME) =>
 	{
-		GRADE.print_info();
-		if (!json.options.infinite)
+		GRADEME.print_info();
+		if (!JSON.options.infinite)
 		{
 			console.log('╓───────────────────╖');
 			console.log('║        ⏰         ║');
-			console.log(`║      ${formats.foreground.normal.green}${TIME.days.toString().padStart(2, 0)}${formats.format.reset} days      ║`);
-			console.log(`║    ${formats.foreground.normal.cyan}${TIME.hours.toString().padStart(2, 0)}${formats.format.reset}h ${formats.foreground.normal.cyan}${TIME.minutes.toString().padStart(2, 0)}${formats.format.reset}m ${formats.foreground.normal.cyan}${TIME.seconds.toString().padStart(2, 0)}${formats.format.reset}s    ║`);
+			console.log(`║      ${formats.foreground.normal.green}${TIMER.days.toString().padStart(2, 0)}${formats.format.reset} days      ║`);
+			console.log(`║    ${formats.foreground.normal.cyan}${TIMER.hours.toString().padStart(2, 0)}${formats.format.reset}h ${formats.foreground.normal.cyan}${TIMER.minutes.toString().padStart(2, 0)}${formats.format.reset}m ${formats.foreground.normal.cyan}${TIMER.seconds.toString().padStart(2, 0)}${formats.format.reset}s    ║`);
 			console.log('╙───────────────────╜\n');
 		}
 		else
@@ -21,6 +22,4 @@ class status
 			console.log('╙───────────────────╜\n');
 		}
 	}
-}
-
-module.exports = status;
+};

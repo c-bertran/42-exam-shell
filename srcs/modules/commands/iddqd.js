@@ -97,4 +97,15 @@ class IDDQD
 	}
 }
 
-module.exports = IDDQD;
+let childServe;
+module.exports = {
+	name: 'iddqd',
+	description: 'Start doom',
+	hide: true,
+	exec: () =>
+	{
+		if (childServe === undefined)
+			childServe = new IDDQD();
+		childServe.print();
+	}
+};

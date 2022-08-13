@@ -1,10 +1,10 @@
-require('../fspatch');
 const fs = require('fs');
 const process = require('process');
 
-class finish
-{
-	static exec(JSON)
+module.exports = {
+	name: 'finish',
+	description: 'Terminates the exam and leaves the program',
+	exec: (_commands, JSON) =>
 	{
 		fs.rm(JSON.git.temp, { recursive: true, force: true }, (err) =>
 		{
@@ -13,7 +13,5 @@ class finish
 				;
 		});
 		process.exit(0);
-	}
-}
-
-module.exports = finish;
+	},
+};

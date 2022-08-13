@@ -13,7 +13,7 @@ const prompts = require('prompts');
 const readline = require('readline');
 
 const Commands = require('./modules/commands');
-const Grademe = require('./modules/commands/grademe');
+// const Grademe = require('./modules/commands/grademe');
 // const IDDQD = require('./modules/commands/iddqd');
 const checkLib = require('./modules/checklib');
 // const finish = require('./modules/commands/finish');
@@ -101,7 +101,6 @@ class Main
 		};
 		globalThis.TIMER = this.TIMER;
 
-		this.Grade = undefined;
 		this.Shell = undefined;
 
 		fs.access(this.JSON.git.temp, (err) =>
@@ -254,8 +253,10 @@ class Main
 				}
 				console.log(`\n${formats.foreground.light.blue}${this.LANG.Info.Dir} '${formats.foreground.normal.green}${this.JSON.git.main}${formats.format.reset}'`);
 				console.log(`${formats.foreground.light.blue}${this.LANG.Info.Git}${formats.format.reset}\n`);
-				this.Grade = new Grademe(this.JSON, this.LANG);
-				this.Grade.start();
+
+				this.commands.get('grademe').init(this.JSON, this.LANG);
+				this.commands.get('grademe').get().start();
+				
 				this.Shell = readline.createInterface({
 					input: process.stdin,
 					output: process.stdout,
@@ -285,41 +286,8 @@ class Main
 		this.Shell.on('line', async (data) =>
 		{
 			this.Shell.pause();
-			const args = data.split(' ');
-			// const command = args[0].toLowerCase();
-			const isExec = this.commands.execute(data, args);
-			/*
-			if (command === 'status')
-			{
-				status.exec(this.JSON, this.TIMER.isRet, this.Grade);
-			}
-			else if (command === 'finish')
-			{
-				finish.exec(this.JSON);
-			}
-			else if (command === 'help')
-			{
-				help.exec(args, this.LANG);
-			}
-			else if (command === 'grademe' && !this.TIMER.printPrompt)
-			{
-				if (!this.TIMER.finish)
-					try
-					{
-						await this.Grade.grade(this.TIMER);
-					}
-					catch (error)
-					{
-						// do nothing, everything is made inside grademe class
-					}
-			}
-			else if (command === 'iddqd')
-			{
-				if (this.childServe === undefined)
-					this.childServe = new IDDQD();
-				this.childServe.print();
-			}
-			else */
+			const isExec = this.commands.execute(data, this.JSON, this.LANG, this.TIMER, this.commands.get('grademe').get());
+			
 			if (!isExec.length || data.length)
 				if (this.TIMER.finish && !this.TIMER.printPrompt)
 				{
@@ -333,7 +301,7 @@ class Main
 					const command = args[0].toLowerCase();
 
 					for (const el of isExec)
-						if (el.ratio > 0.5)
+						if (!el.hide && el.ratio >= 0.5)
 							print.push({
 								command: el.name,
 								description: el.description,

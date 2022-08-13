@@ -1,11 +1,11 @@
 const formats = require('../formats');
 
-class help
-{
-	static exec(args, LANG)
+module.exports = {
+	name: 'help',
+	description: 'Print help',
+	exec: (commands, _JSON, LANG) =>
 	{
-		const command = args[1];
-		switch (command)
+		switch (commands[1])
 		{
 			case 'status':
 				console.log(`${formats.foreground.light.blue}status ${formats.format.reset}${LANG.Help.status}`);
@@ -21,6 +21,4 @@ class help
 				console.log(`${formats.foreground.light.blue}help ${formats.format.reset}${LANG.Help.help} (${formats.foreground.light.blue}help${formats.format.reset} [command])`);
 		}
 	}
-}
-
-module.exports = help;
+};
