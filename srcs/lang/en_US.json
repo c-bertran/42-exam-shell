@@ -28,7 +28,8 @@
 	"Errors": {
 		"GitInit": "Are you sure you have git and bash installed ?",
 		"Exec": "Child failed with error code",
-		"Command": "Command not found"
+		"Command": "Command not found",
+		"Help": "Did you mean :"
 	},
 	"Grademe" : {
 		"Correction": "Your exercise is being corrected",

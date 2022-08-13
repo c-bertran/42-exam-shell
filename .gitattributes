@@ -179,3 +179,7 @@ Procfile          text
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
+
+# Game
+*.jsdos			binary
+*.wasm			binary

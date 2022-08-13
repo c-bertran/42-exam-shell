@@ -2,24 +2,25 @@
 
 require('./modules/fspatch');
 
-const fs = require('fs');
-const https = require('https');
 const { exec } = require('child_process');
 const OS = require('os');
-const path = require('path');
 const crypto = require('crypto');
+const fs = require('fs');
+const https = require('https');
+const path = require('path');
 const process = require('process');
-const readline = require('readline');
 const prompts = require('prompts');
+const readline = require('readline');
 
-const checkLib = require('./modules/checklib');
-const { logo } = require('./text');
-const formats = require('./modules/formats');
-const finish = require('./modules/commands/finish');
+const Commands = require('./modules/commands');
 const Grademe = require('./modules/commands/grademe');
-const help = require('./modules/commands/help');
-const IDDQD = require('./modules/commands/iddqd');
-const status = require('./modules/commands/status');
+// const IDDQD = require('./modules/commands/iddqd');
+const checkLib = require('./modules/checklib');
+// const finish = require('./modules/commands/finish');
+const formats = require('./modules/formats');
+const Spinner = require('./modules/spinner');
+// const help = require('./modules/commands/help');
+// const status = require('./modules/commands/status');
 const { convertTime, timer } = require('./modules/clock');
 
 class Main
@@ -69,6 +70,8 @@ class Main
 			process.exit(1);
 		}
 
+		this.commands = new Commands();
+
 		const generateID = crypto
 			.randomBytes(Math.ceil(16 / 2))
 			.toString('hex')
@@ -114,7 +117,7 @@ class Main
 
 	async init()
 	{
-		console.log(logo);
+		console.log('\n███████╗██╗  ██╗ █████╗ ███╗   ███╗███████╗██╗  ██╗███████╗██╗     ██╗\n██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║██╔════╝██║  ██║██╔════╝██║     ██║\n█████╗   ╚███╔╝ ███████║██╔████╔██║███████╗███████║█████╗  ██║     ██║\n██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║╚════██║██╔══██║██╔══╝  ██║     ██║\n███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║███████║██║  ██║███████╗███████╗███████╗\n╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\nby cbertran (cbertran@student.42.fr)\n');
 		//#region Lang selection
 		const langArr = [];
 		for (const x in this.JSON.LANGlist)
@@ -283,7 +286,9 @@ class Main
 		{
 			this.Shell.pause();
 			const args = data.split(' ');
-			const command = args[0].toLowerCase();
+			// const command = args[0].toLowerCase();
+			const isExec = this.commands.execute(data, args);
+			/*
 			if (command === 'status')
 			{
 				status.exec(this.JSON, this.TIMER.isRet, this.Grade);
@@ -314,8 +319,8 @@ class Main
 					this.childServe = new IDDQD();
 				this.childServe.print();
 			}
-			else if (data.length)
-			{
+			else */
+			if (!isExec.length || data.length)
 				if (this.TIMER.finish && !this.TIMER.printPrompt)
 				{
 					this.TIMER.printPrompt = true;
@@ -324,9 +329,22 @@ class Main
 				}
 				else
 				{
-					console.log(`${command} : ${formats.foreground.normal.red}${this.LANG.Errors.Command}`);
+					const print = [];
+					const command = args[0].toLowerCase();
+
+					for (const el of isExec)
+						if (el.ratio > 0.5)
+							print.push({
+								command: el.name,
+								description: el.description,
+							});
+					console.log(`${command} : ${formats.foreground.normal.red}${this.LANG.Errors.Command}${formats.format.reset}`);
+					if (Object.keys(print).length > 0)
+					{
+						console.log(this.LANG.Errors.Help);
+						console.table(print);
+					}
 				}
-			}
 			this.Shell.resume();
 			this.Shell.prompt();
 		});
@@ -355,6 +373,18 @@ class Main
 /**
  * Start application
  */
+const start = () =>
+{
+	const main = new Main();
+	const examshell = async () =>
+	{
+		await checkLib.check();
+		main.init();
+	};
+	examshell();
+};
+
+Spinner.start('Checks if an update is available', 'bounce');
 https.get(
 	'https://api.github.com/repos/c-bertran/examshell/releases/latest',
 	{
@@ -370,6 +400,8 @@ https.get(
 		});
 		res.on('end', () =>
 		{
+			Spinner.stop();
+			console.log('\x1b[1K');
 			const blob = JSON.parse(data);
 			const currentVersion = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), { encoding: 'utf-8' })).version;
 			if (currentVersion !== blob.tag_name)
@@ -377,16 +409,16 @@ https.get(
 				console.log(`${formats.foreground.light.blue}The ${formats.foreground.light.red}${blob.tag_name}${formats.foreground.light.blue} version is available for download`);
 				console.log(`${formats.format.reset}⇒ ${formats.foreground.light.green}https://github.com/c-bertran/examshell/releases/latest ${formats.format.reset}⇐`);
 			}
-			const main = new Main();
-			const examshell = async () =>
-			{
-				await checkLib.check();
-				main.init();
-			};
-			examshell();
+			start();
 		});
 	},
-).on('error', (error) => console.error(error));
+).on('error', () =>
+{
+	Spinner.stop();
+	console.log('\x1b[1K');
+	console.log('An error has occurred, the update search is skipped');
+	start();
+}).setTimeout(15 * 1000);
 
 process.on('uncaughtException', (err) =>
 {

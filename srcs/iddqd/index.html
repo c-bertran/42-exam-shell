@@ -1,26 +1,26 @@
 <!doctype html>
 <html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<style>
-			html, body, #jsdos
-			{
-				width: 100%;
-				height: 100%;
-				margin: 0;
-				padding: 0;
-			}
-		</style>
-		<script src="js-dos/js-dos.js"></script>
-		<link href="js-dos/js-dos.css" rel="stylesheet">
-	</head>
-	<body>
-		<div id="jsdos"/>
-	</body>
-	<footer>
-		<script>
-			emulators.pathPrefix = "js-dos/";
-			Dos(document.getElementById("jsdos")).run("bundle.jsdos");
-		</script>
-	</footer>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    html, body, #jsdos {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script src="js-dos/js-dos.js"></script>
+  <link href="js-dos/js-dos.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="jsdos" />
+  <script>
+    emulators.pathPrefix = "js-dos/";
+    Dos(document.getElementById("jsdos"), {}).run("bundle.jsdos");
+  </script>
+</body>
+
 </html>

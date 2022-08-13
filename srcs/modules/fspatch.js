@@ -1,7 +1,13 @@
-// https://github.com/serverless/serverless/blob/94ff3b22ab13afc60fb4e672520b4db527ee0432/lib/utils/standalone-patch.js
-// Workaround 'pkg' bug: https://github.com/zeit/pkg/issues/420
-// Copying files from snapshot via `fs.copyFileSync` crashes with ENOENT
-// Overriding copyFileSync with primitive alternative
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-bitwise */
+
+/**
+ * https://github.com/serverless/serverless/blob/94ff3b22ab13afc60fb4e672520b4db527ee0432/lib/utils/standalone-patch.js
+ *
+ * Workaround 'pkg' bug: https://github.com/zeit/pkg/issues/420
+ * Copying files from snapshot via `fs.copyFileSync` crashes with ENOENT
+ * Overriding copyFileSync with primitive alternative
+ */
 
 require('./fscopyDir');
 const fs = require('fs');
@@ -23,8 +29,8 @@ if (fs.copyFile)
 		}
 		if (typeof flags === 'function')
 		{
-			callback = flags; // eslint-disable-line no-param-reassign
-			flags = 0; // eslint-disable-line no-param-reassign
+			callback = flags;
+			flags = 0;
 		}
 		else if (typeof callback !== 'function')
 		{
@@ -38,7 +44,7 @@ if (fs.copyFile)
 				callback(readError);
 				return;
 			}
-			if (flags & fs.constants.COPYFILE_EXCL) // eslint-disable-line no-bitwise
+			if (flags & fs.constants.COPYFILE_EXCL)
 				fs.stat(dest, (statError) =>
 				{
 					if (!statError)
@@ -66,7 +72,7 @@ if (fs.copyFile)
 			return;
 		}
 		const content = fs.readFileSync(src);
-		if (flags & fs.constants.COPYFILE_EXCL) // eslint-disable-line no-bitwise
+		if (flags & fs.constants.COPYFILE_EXCL)
 		{
 			try
 			{
