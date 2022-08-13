@@ -28,7 +28,8 @@
 	"Errors": {
 		"GitInit": "Êtes-vous sûr d'avoir installé git et bash ?",
 		"Exec": "Child a échoué avec le code d'erreur",
-		"Command": "Commande introuvable"
+		"Command": "Commande introuvable",
+		"Help": "Vouliez-vous dire :"
 	},
 	"Grademe" : {
 		"Correction": "Votre exercice est en cours de correction",

@@ -209,10 +209,10 @@ class checker
 {
 	/**
 	 * The checker verifies if the code written by the user respects the set rules
-	 * @param {String} directory path of the folder where these files are located
-	 * @param {Boolean|Array} step Defined how checker work, if `true`, functions and keywords is checked; if array, [{true|false}functions, {true|false}keywords] is checked
-	 * @param {Array} autorizedFunctions list of external functions allowed in the project. By default no external functions are allowed. Pass an empty array to have the default feature.
-	 * @param {Array} forbiddenKeywords list of forbidden keywords in the project (like continue, if, switch, ...). By default every keywords are allowed. Pass an empty array to have the default feature.
+	 * @param {string} directory path of the folder where these files are located
+	 * @param {boolean|boolean[]} step Defined how checker work, if `true`, functions and keywords is checked; if array, [{true|false}functions, {true|false}keywords] is checked
+	 * @param {string[]} autorizedFunctions list of external functions allowed in the project. By default no external functions are allowed. Pass an empty array to have the default feature.
+	 * @param {string[]} forbiddenKeywords list of forbidden keywords in the project (like continue, if, switch, ...). By default every keywords are allowed. Pass an empty array to have the default feature.
 	 */
 	constructor(directory, step, autorizedFunctions = [], forbiddenKeywords = [])
 	{
