@@ -285,7 +285,6 @@ class Main
 				this.TIMER,
 				this.commands.get('grademe').instance(),
 			);
-			console.log('parent', this.TIMER);
 			this.Shell.resume();
 			this.Shell.prompt();
 		});
