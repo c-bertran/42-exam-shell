@@ -10,8 +10,8 @@ module.exports = {
 		{
 			console.log('╓───────────────────╖');
 			console.log('║        ⏰         ║');
-			console.log(`║      ${formats.foreground.normal.green}${TIMER.days.toString().padStart(2, 0)}${formats.format.reset} days      ║`);
-			console.log(`║    ${formats.foreground.normal.cyan}${TIMER.hours.toString().padStart(2, 0)}${formats.format.reset}h ${formats.foreground.normal.cyan}${TIMER.minutes.toString().padStart(2, 0)}${formats.format.reset}m ${formats.foreground.normal.cyan}${TIMER.seconds.toString().padStart(2, 0)}${formats.format.reset}s    ║`);
+			console.log(`║      ${formats.foreground.normal.green}${TIMER.isRet.days.toString().padStart(2, 0)}${formats.format.reset} days      ║`);
+			console.log(`║    ${formats.foreground.normal.cyan}${TIMER.isRet.hours.toString().padStart(2, 0)}${formats.format.reset}h ${formats.foreground.normal.cyan}${TIMER.isRet.minutes.toString().padStart(2, 0)}${formats.format.reset}m ${formats.foreground.normal.cyan}${TIMER.isRet.seconds.toString().padStart(2, 0)}${formats.format.reset}s    ║`);
 			console.log('╙───────────────────╜\n');
 		}
 		else
@@ -21,5 +21,5 @@ module.exports = {
 			console.log('║        ♾          ║');
 			console.log('╙───────────────────╜\n');
 		}
-	}
+	},
 };

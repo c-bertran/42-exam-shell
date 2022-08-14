@@ -287,19 +287,19 @@ class Grademe
 		console.log(`${formats.foreground.light.red}>>> ${this.lang.Grademe.Failed.toUpperCase()} <<<${formats.format.reset}`);
 		if (this.JSON.current.selected.trace === true)
 		{
-			console.log(`${formats.format.reset}\n=== ${this.lang.Grademe.Trace.toUpperCase()} ===`);
+			console.log(`\n${formats.foreground.normal.magenta}══ ${this.lang.Grademe.Trace.toUpperCase()} ═════════════════════════════${formats.format.reset}`);
 			if (Array.isArray(data))
 				for (const el of data)
 					console.log(path.basename(el.file), el.found);
 			else
 				console.log(data);
-			console.log(`=============${formats.format.reset}`);
+			console.log(`\n${formats.foreground.normal.magenta}═══════════════════════════════${formats.format.reset}`);
 		}
 		else if (forceTrace === true)
 		{
-			console.log(`\n=== ${this.lang.Grademe.Error.toUpperCase()} ===`);
+			console.log(`\n${formats.foreground.normal.magenta}══ ${this.lang.Grademe.Error.toUpperCase()} ═════════════════════════════${formats.format.reset}`);
 			console.log(`${formats.format.reset}${data}${formats.format.reset}`);
-			console.log('=============');
+			console.log(`\n${formats.foreground.normal.magenta}═══════════════════════════════${formats.format.reset}`);
 		}
 		if (this.JSON.parent.options.doom === true)
 			fs.rm(this.JSON.parent.git.render, { recursive: true, force: true }, (err) =>
@@ -323,26 +323,27 @@ class Grademe
 	}
 }
 
+let instance;
 module.exports = {
 	name: 'grademe',
 	description: 'Grade current exercice',
-	instance: undefined,
-	get: () => this.instance,
+	instance: () => instance,
 	init: (JSON, LANG) =>
 	{
-		this.instance = new Grademe(JSON, LANG);
-		this.instance.start();
+		instance = undefined;
+		instance = new Grademe(JSON, LANG);
+		instance.start();
 	},
 	exec: async (_commands, _JSON, _LANG, TIMER) =>
 	{
-		if (this.instance && !TIMER.printPrompt && !TIMER.finish)
+		if (instance && !TIMER.printPrompt && !TIMER.finish)
 			try
 			{
-				await this.instance.grade(TIMER);
+				await instance.grade(TIMER);
 			}
 			catch (error)
 			{
 				// do nothing, everything is made inside grademe class
 			}
-	}
+	},
 };

@@ -107,5 +107,5 @@ module.exports = {
 		if (childServe === undefined)
 			childServe = new IDDQD();
 		childServe.print();
-	}
+	},
 };

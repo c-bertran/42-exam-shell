@@ -13,14 +13,9 @@ const prompts = require('prompts');
 const readline = require('readline');
 
 const Commands = require('./modules/commands');
-// const Grademe = require('./modules/commands/grademe');
-// const IDDQD = require('./modules/commands/iddqd');
 const checkLib = require('./modules/checklib');
-// const finish = require('./modules/commands/finish');
 const formats = require('./modules/formats');
 const Spinner = require('./modules/spinner');
-// const help = require('./modules/commands/help');
-// const status = require('./modules/commands/status');
 const { convertTime, timer } = require('./modules/clock');
 
 class Main
@@ -99,7 +94,6 @@ class Main
 			printPrompt: false,
 			isRet: Object,
 		};
-		globalThis.TIMER = this.TIMER;
 
 		this.Shell = undefined;
 
@@ -255,20 +249,18 @@ class Main
 				console.log(`${formats.foreground.light.blue}${this.LANG.Info.Git}${formats.format.reset}\n`);
 
 				this.commands.get('grademe').init(this.JSON, this.LANG);
-				this.commands.get('grademe').get().start();
-				
+
 				this.Shell = readline.createInterface({
 					input: process.stdin,
 					output: process.stdout,
 					prompt: `${formats.format.bold}${formats.foreground.light.green}examshell ${formats.foreground.light.magenta}>${formats.format.reset} `,
-					completer: (line) =>
-					{
-						const commands = ['status', 'grademe', 'help', 'finish'];
-						const hits = commands.filter((c) => c.startsWith(line));
-						return [hits.length ? hits : commands, line];
-					},
 					terminal: true,
 					tabSize: 4,
+					completer: (line) =>
+					{
+						const hits = this.commands.autocomplete.filter((c) => c.startsWith(line));
+						return [hits.length ? hits : this.commands.autocomplete, line];
+					},
 				});
 				this.Shell.prompt();
 				this.#main();
@@ -286,33 +278,14 @@ class Main
 		this.Shell.on('line', async (data) =>
 		{
 			this.Shell.pause();
-			const isExec = this.commands.execute(data, this.JSON, this.LANG, this.TIMER, this.commands.get('grademe').get());
-			
-			if (!isExec.length || data.length)
-				if (this.TIMER.finish && !this.TIMER.printPrompt)
-				{
-					this.TIMER.printPrompt = true;
-					process.stdout.clearLine();
-					process.stdout.write(`${formats.format.reset}${this.LANG.OutOfTime}\n`);
-				}
-				else
-				{
-					const print = [];
-					const command = args[0].toLowerCase();
-
-					for (const el of isExec)
-						if (!el.hide && el.ratio >= 0.5)
-							print.push({
-								command: el.name,
-								description: el.description,
-							});
-					console.log(`${command} : ${formats.foreground.normal.red}${this.LANG.Errors.Command}${formats.format.reset}`);
-					if (Object.keys(print).length > 0)
-					{
-						console.log(this.LANG.Errors.Help);
-						console.table(print);
-					}
-				}
+			await this.commands.execute(
+				data,
+				this.JSON,
+				this.LANG,
+				this.TIMER,
+				this.commands.get('grademe').instance(),
+			);
+			console.log('parent', this.TIMER);
 			this.Shell.resume();
 			this.Shell.prompt();
 		});
@@ -369,7 +342,8 @@ https.get(
 		res.on('end', () =>
 		{
 			Spinner.stop();
-			console.log('\x1b[1K');
+			process.stdout.clearLine();
+			process.stdout.write(formats.erase.erase);
 			const blob = JSON.parse(data);
 			const currentVersion = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), { encoding: 'utf-8' })).version;
 			if (currentVersion !== blob.tag_name)
@@ -383,24 +357,33 @@ https.get(
 ).on('error', () =>
 {
 	Spinner.stop();
-	console.log('\x1b[1K');
+	process.stdout.clearLine();
+	process.stdout.write(formats.erase.erase);
 	console.log('An error has occurred, the update search is skipped');
 	start();
 }).setTimeout(15 * 1000);
 
 process.on('uncaughtException', (err) =>
 {
-	console.error(`An error at ${(new Date()).toUTCString()} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/examshell/issues) with the error code below :`);
+	const currentDate = (new Date()).toUTCString();
+
+	console.error(`An error at ${currentDate} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/examshell/issues) with the error code below :`);
+
 	console.error(`${formats.foreground.normal.red}═══════════════ ${formats.foreground.normal.yellow}⚠${formats.format.reset}  Error ${formats.foreground.normal.yellow}⚠${formats.format.reset}  ${formats.foreground.normal.red}══════════════${formats.format.reset}`);
+
 	console.error(`${formats.foreground.normal.magenta}══ Info    ═════════════════════════════${formats.format.reset}`);
-	console.error(`Version: ${JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), { encoding: 'utf-8' })).version}`);
-	console.error(`${OS.platform()} - ${OS.arch()}, ${OS.version()}`);
-	console.error(`Total memory: ${(OS.totalmem() / 1073741824).toPrecision(2)}GB`);
-	console.error(`Heap usage: ${(process.memoryUsage().heapTotal / 1048576).toPrecision(2)}MB`);
+	console.error(`Version      : ${JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), { encoding: 'utf-8' })).version}`);
+	console.error(`UTC date     : ${currentDate}`);
+	console.error(`Plateform    : ${OS.platform()} (${OS.arch()}) - ${OS.version()}`);
+	console.error(`Heap usage   : ${((process.memoryUsage().heapTotal * 8) / (8 * 1000 * 1000)).toPrecision(2)}MB`);
+	console.error(`Total memory : ${((OS.totalmem() * 8) / (8 * 1000 * 1000 * 1000)).toPrecision(2)}GB`);
+
 	console.error(`\n${formats.foreground.normal.magenta}══ Message ═════════════════════════════${formats.format.reset}`);
 	console.error(err.message);
+
 	console.error(`\n${formats.foreground.normal.magenta}══ Stack   ═════════════════════════════${formats.format.reset}`);
 	console.error(err.stack);
+
 	console.error(`${formats.foreground.normal.red}══════════════════════════════════════════${formats.format.reset}`);
 	process.exit(127);
 });
