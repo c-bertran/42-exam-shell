@@ -1,3 +1,5 @@
+const os = require('os');
+
 module.exports = {
 	format: {
 		reset: '\x1b[0m',
@@ -13,6 +15,7 @@ module.exports = {
 	erase: {
 		cursorToEndScreen: '\x1b[0J',
 		cursorToStartScreen: '\x1b[1J',
+		erase: (os.platform === 'win32') ? '\x1b[0G' : '\r',
 		screen: '\x1b[2J',
 		save: '\x1b[3J',
 		cursorToEndLine: '\x1b[0K',

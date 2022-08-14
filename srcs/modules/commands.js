@@ -4,6 +4,7 @@ require('./fspatch');
 
 const fs = require('fs');
 const path = require('path');
+const formats = require('./formats');
 
 class Commands
 {
@@ -23,16 +24,10 @@ class Commands
 				__import.hide = false;
 			return __import;
 		}).filter((el) => el !== false);
-		this.#checkIfDuplication();
-	}
-
-	#checkIfDuplication()
-	{
-		const count = (arr, find) => arr.filter((cur) => cur.name === find).length;
-
+		// Check if duplication
 		this.list.forEach((el) =>
 		{
-			if (count(this.list, el.name) > 1)
+			if (this.list.filter((cur) => cur.name === el.name).length > 1)
 			{
 				let err = `The '${el.name}' command has duplicates. Here is the list of commands present to help you debug:\n\n`;
 				this.list.forEach((_el, _index) =>
@@ -42,6 +37,8 @@ class Commands
 				throw new Error(err);
 			}
 		});
+
+		this.autocomplete = this.list.map((el) => ((!el.hide) ? el.name : undefined)).filter((el) => el !== undefined);
 	}
 
 	#fuzzySearch(commandName)
@@ -58,7 +55,12 @@ class Commands
 			else
 			{
 				for (let i = 0; i < compare.length; i++)
-					(str.indexOf(compare[i]) > -1) ? ++matches : --matches;
+
+					if (str.indexOf(compare[i]) > -1)
+						++matches;
+					else
+						--matches;
+
 				this.list[id].ratio = matches / str.length;
 				this.list[id].check = matches / str.length >= ratio || str === '';
 			}
@@ -80,22 +82,51 @@ class Commands
 
 	get(name)
 	{
-		const i = this.list.findIndex((el) => el.name === name.toLowerCase());
+		const tempName = name.toLowerCase();
+		const i = this.list.findIndex((el) => el.name === tempName);
 		if (i !== -1)
 			return this.list[i];
 		return {};
 	}
 
-	execute(data, JSON, LANG, TIMER, GRADEME)
+	async execute(data, JSON, LANG, TIMER, GRADEME)
 	{
-		const commands = data.split(' ').map((el) => el.toLowerCase());
+		const commands = data.split(' ').map((el) => el.toLowerCase().replace(/\s+/g, '')).filter((el) => el.length > 0);
+
+		if (!commands.length)
+			return;
+		this.#fuzzySearch(commands[0]);
 		const occ = this.list.findIndex((el) => el.name === commands[0]);
 		if (occ !== -1)
 		{
-			this.list[occ].exec(commands, JSON, LANG, TIMER, GRADEME);
-			return [];
+			await this.list[occ].exec(commands, JSON, LANG, TIMER, GRADEME);
+			return;
 		}
-		return this.list;
+		if (!data.length)
+			return;
+
+		if (TIMER.finish && !TIMER.printPrompt)
+		{
+			TIMER.printPrompt = true; // eslint-disable-line no-param-reassign
+			process.stdout.clearLine();
+			process.stdout.write(`${formats.format.reset}${LANG.OutOfTime}\n`);
+		}
+		else
+		{
+			const print = [];
+			for (const el of this.list)
+				if (!el.hide && el.ratio >= 0.5)
+					print.push({
+						command: el.name,
+						description: el.description,
+					});
+			console.log(`${commands[0]} : ${formats.foreground.normal.red}${LANG.Errors.Command}${formats.format.reset}`);
+			if (Object.keys(print).length > 0)
+			{
+				console.log(LANG.Errors.Help);
+				console.table(print);
+			}
+		}
 	}
 }
 
