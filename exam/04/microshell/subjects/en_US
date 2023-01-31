@@ -26,7 +26,7 @@ $>./microshell /usr/bin/echo WOOT "; microshell ;" "; ;" ";" /usr/bin/echo "is h
 WOOT ; microshell ; ; ;
 is hell of fun
 $>./microshell /bin/ls ./file_who_doesnt_exist ";" ";" ";" ";" ";" /bin/ls "|" /usr/bin/grep microshell ";"
-error: cannot execute /bin/ls
+/bin/ls: cannot access './file_who_doesnt_exist': No such file or directory
 microshell
 $>
 
