@@ -1,6 +1,6 @@
-
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
+import { cwd } from 'process';
 import { examDefinition } from 'exams/interface';
 import error from './error';
 import { lang, langList } from 'langs/index';
@@ -50,9 +50,10 @@ export const getConfig = (): config => {
 	const is = (s: string, o: any) => Object.prototype.hasOwnProperty.call(o, s);
 	if (!__config__) {
 		let file: Record<string, any> = {};
-		if (existsSync(resolve(__dirname, 'exams', 'config.json'))) {
+
+		if (existsSync(resolve(cwd(), 'exams', 'config.json'))) {
 			file = JSON.parse(
-				readFileSync(resolve(__dirname, 'exams', 'config.json'), { encoding: 'utf-8' })
+				readFileSync(resolve(cwd(), 'exams', 'config.json'), { encoding: 'utf-8' })
 			);
 		}
 		__config__ = {
@@ -73,14 +74,14 @@ export const getConfig = (): config => {
 				__config__.checkLib = file.checkLib;
 			if (is('signature', file))
 				__config__.signature = file.signature;
-			if (is('exam', file))
+			if (is('exam', file) && file.exam)
 				__config__.exam = file.exam;
 			if (is('options', file)) {
 				if (is('doom', file.options))
 					__config__.options.doom = file.options.doom;
 				if (is('infinite', file.options))
 					__config__.options.infinite = file.options.infinite;
-				if (is('lang', file.options)) {
+				if (is('lang', file.options)  && file.options.lang) {
 					if (!is(file.options.lang, langList)) {
 						error(11, { exit: true, data: `defined lang ${file.lang} not exist`});
 						throw new Error('config_error');
@@ -97,10 +98,10 @@ export const getConfig = (): config => {
  * Import custom exam
  */
 export default (): examDefinition[] => {
-	if (!__exams__.length && existsSync(resolve(__dirname, 'exams'))) {
-		const dirs = readdirSync(resolve(__dirname, 'exams'), { encoding: 'utf-8', withFileTypes: true });
+	if (!__exams__.length && existsSync(resolve(cwd(), 'exams'))) {
+		const dirs = readdirSync(resolve(cwd(), 'exams'), { encoding: 'utf-8', withFileTypes: true });
 		for (const dir of dirs) {
-			const __path = resolve(__dirname, 'exams', dir.name, 'definition.json');
+			const __path = resolve(cwd(), 'exams', dir.name, 'definition.json');
 			if (dir.isDirectory() && existsSync(__path)) {
 				const __json = JSON.parse(readFileSync(__path) as any);
 				const errors = checkObj(__json);

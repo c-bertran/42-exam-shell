@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'fs/promises';
-import { execPath } from 'process';
-import { dirname, resolve } from 'path';
+import { cwd } from 'process';
+import { resolve } from 'path';
 
 interface optionInterface {
 	flags: string[],
@@ -13,10 +13,10 @@ const options = [
 		flags: ['--custom', '-C'],
 		nArguments: 0,
 		exec: async () => {
-			await mkdir(resolve(dirname(execPath), 'exams'), { recursive: true });
 			try {
+				await mkdir(resolve(cwd(), 'exams'), { recursive: true });
 				await writeFile(
-					resolve(dirname(execPath), 'exams', 'config.json'),
+					resolve(cwd(), 'exams', 'config.json'),
 					JSON.stringify({
 						checkUpdate: true,
 						checkLib: true,
