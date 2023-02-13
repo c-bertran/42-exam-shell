@@ -1,0 +1,17 @@
+Assignment name  : ft_range
+Expected files   : ft_range.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Écrivez la fonction suivante :
+
+int *ft_range(int start, int end) ;
+
+Elle doit allouer (avec malloc()) un tableau d'entiers, le remplir de valeurs consécutives qui commencent à start et finissent à end (Incluant start et end !), puis retourner un pointeur vers la première valeur du tableau.
+
+Exemples :
+
+- Avec (1, 3), vous retournerez un tableau contenant 1, 2 et 3.
+- Avec (-1, 2), vous retournerez un tableau contenant -1, 0, 1 et 2.
+- Avec (0, 0), vous retournerez un tableau contenant 0.
+- Avec (0, -3), vous retournerez un tableau contenant 0, -1, -2 et -3.

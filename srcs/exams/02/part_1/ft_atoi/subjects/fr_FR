@@ -1,0 +1,12 @@
+Assignment name  : ft_atoi
+Expected files   : ft_atoi.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Ecrivez une fonction qui convertit l'argument chaîne str en un entier (type int) et le renvoie.
+
+Elle fonctionne comme la fonction standard atoi(const char *str), voir le manuel.
+
+Votre fonction doit être déclarée comme suit :
+
+int	ft_atoi(const char *str);

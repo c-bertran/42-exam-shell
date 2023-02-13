@@ -1,0 +1,38 @@
+Assignment name  : fizzbuzz
+Expected files   : fizzbuzz.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui imprime les nombres de 1 à 100, chacun étant séparé par une nouvelle ligne.
+saut de ligne.
+
+Si le nombre est un multiple de 3, il imprime "fizz" à la place.
+
+Si le nombre est un multiple de 5, il imprime "buzz" à la place.
+
+Si le nombre est à la fois un multiple de 3 et un multiple de 5, il imprime 'fizzbuzz' à la place.
+
+Exemple :
+
+$>./fizzbuzz
+1
+2
+fizz
+4
+buzz
+fizz
+7
+8
+fizz
+buzz
+11
+fizz
+13
+14
+fizzbuzz
+[...]
+97
+98
+fizz
+buzz
+$> 

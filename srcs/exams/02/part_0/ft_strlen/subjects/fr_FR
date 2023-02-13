@@ -1,0 +1,10 @@
+Assignment name  : ft_strlen
+Expected files   : ft_strlen.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Écrivez une fonction qui renvoie la longueur d'une chaîne de caractères.
+
+Votre fonction doit être déclarée comme suit :
+
+int	ft_strlen(char *str);

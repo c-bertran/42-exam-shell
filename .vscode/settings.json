@@ -1,0 +1,10 @@
+{
+	"editor.tabSize": 2,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"files.associations": {
+		"*.tp": "html",
+		"en_us": "c",
+		"fr_fr": "cpp"
+	}
+}

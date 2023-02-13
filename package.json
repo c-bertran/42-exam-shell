@@ -1,45 +1,60 @@
 {
   "name": "examshell",
-  "version": "0.2.9",
-  "license": "GPLv3",
-  "author": "cbertran",
-  "description": "Examshell",
-  "main": "srcs/index.js",
-  "scripts": {
-    "start": "node srcs/index.js",
-    "prune": "curl -sf https://gobinaries.com/tj/node-prune | sh; node-prune",
-    "build": "pkg --compress Brotli --output dist/examshell .",
-    "debug": "pkg --debug --output dist/examshell .",
-    "lint": "./node_modules/.bin/eslint .",
-    "lintFix": "./node_modules/.bin/eslint --fix ."
-  },
+  "private": "true",
+  "version": "0.3.0",
+	"license": "GPL-3.0",
+  "author": "Clément Bertrand (https://github.com/c-bertran)",
+  "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
   "repository": {
     "type": "git",
     "url": "https://github.com/c-bertran/examshell.git"
   },
+	"keywords": [
+    "examshell",
+    "42",
+    "examen",
+    "exam",
+		"examrank",
+		"42exam"
+  ],
+  "bin": "dist/index.cjs.js",
+  "scripts": {
+    "start": "node dist/index.cjs.js",
+    "build": "rollup --bundleConfigAsCjs --config rollup.config.js",
+    "watch": "rollup -w --bundleConfigAsCjs --config rollup.config.js",
+    "pkg:build": "pkg --compress Brotli --output build/examshell .",
+    "pkg:debug": "pkg --debug --output build/examshell .",
+    "lint": "./node_modules/.bin/eslint .",
+		"lint:fix": "./node_modules/.bin/eslint --fix ."
+  },
   "pkg": {
     "assets": [
       "package.json",
-      "exam/**/*",
-      "srcs/**/*"
+      "dist/**/*"
     ],
     "targets": [
-      "node16-macos-x64",
-      "node16-linux-x64"
+      "latest-macos-x64",
+      "latest-linux-x64"
     ]
   },
-  "bin": "srcs/index.js",
-  "engines": {
-    "node": ">=16.13"
-  },
   "dependencies": {
-    "glob": "^7.2.0",
+    "glob": "^8.1.0",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "eslint": "^8.8.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "pkg": "^5.5.2"
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-yaml": "^4.0.1",
+    "@types/node": "^18.11.18",
+    "@types/prompts": "^2.4.2",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "eslint": "^8.32.0",
+    "pkg": "^5.8.0",
+    "rollup": "^3.10.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "typescript": "^4.9.4"
   }
 }

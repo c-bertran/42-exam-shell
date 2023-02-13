@@ -1,0 +1,22 @@
+Assignment name  : str_capitalizer
+Expected files   : str_capitalizer.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui prend une ou plusieurs chaînes de caractères et, pour chaque argument, met en majuscule le premier caractère de chaque mot (s'il s'agit d'une lettre, évidemment), met le reste en minuscule, et affiche le résultat sur la sortie standard, suivi d'un \n.
+
+Un "mot" est défini comme une partie d'une chaîne de caractères délimitée soit par des espaces/tabulations, soit par le début/la fin de la chaîne. Si un mot n'a qu'une seule lettre, elle doit être en majuscule.
+
+S'il n'y a pas d'argument, le programme doit afficher \n.
+
+Exemple :
+
+$> ./str_capitalizer | cat -e
+$
+$> ./str_capitalizer "a FiRSt LiTTlE TESt" | cat -e
+A First Little Test$
+$> ./str_capitalizer "__SecONd teST A LITtle BiT   Moar comPLEX" "   But... This iS not THAT COMPLEX" "     Okay, this is the last 1239809147801 but not    the least    t" | cat -e
+__second Test A Little Bit   Moar Complex$
+   But... This Is Not That Complex$
+     Okay, This Is The Last 1239809147801 But Not    The Least    T$
+$>

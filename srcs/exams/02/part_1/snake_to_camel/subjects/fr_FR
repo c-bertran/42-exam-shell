@@ -1,0 +1,18 @@
+Assignment name  : snake_to_camel
+Expected files   : snake_to_camel.c
+Allowed functions: malloc, free, realloc, write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui prend une chaîne unique au format snake_case et la convertit en une chaîne au format lowerCamelCase.
+
+Une chaîne au format snake_case est une chaîne où chaque mot est en minuscule, séparé par un trait de soulignement "_".
+
+Une chaîne au format lowerCamelCase est une chaîne où chaque mot commence par une majuscule, sauf le premier.
+
+Exemples :
+$>./snake_to_camel "here_is_a_snake_case_word"
+hereIsASnakeCaseWord
+$>./snake_to_camel "hello_world" | cat -e
+helloWorld$
+$>./snake_to_camel | cat -e
+$
