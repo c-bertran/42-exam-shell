@@ -1,24 +1,15 @@
-import { access, createReadStream } from 'fs';
-import { createServer, Server } from 'http';
-import { extname, join, resolve } from 'path';
-import { command } from '../interface';
+const { access, createReadStream } = require('fs');
+const { createServer } = require('http');
+const { extname, join, resolve } = require('path');
 
 class iddqd {
-	public serve: undefined | Server;
-	private config: {
-		host: string,
-		port: number
-	};
-	private servePath: string;
-	private mimeType: Record<string, string>;
-
 	constructor() {
 		this.serve = undefined;
 		this.config = {
 			host: 'localhost',
 			port: 1332,
 		};
-		this.servePath = resolve(__dirname, 'data', 'iddqd');
+		this.servePath = resolve(__dirname);
 		this.mimeType = {
 			'.binary': 'binary/octet-stream',
 			'.css': 'text/css',
@@ -44,22 +35,22 @@ class iddqd {
 				const file = { URL: String, PATH: String, EXT: String };
 				file.URL = ((req.url === '/')
 					? '/index.html'
-					: req.url) as any;
-				file.PATH = resolve(join(this.servePath, file.URL as any)) as any;
-				file.EXT = extname(file.PATH as any) as any;
+					: req.url);
+				file.PATH = resolve(join(this.servePath, file.URL));
+				file.EXT = extname(file.PATH);
 
-				if (!Object.prototype.hasOwnProperty.call(this.mimeType, file.EXT as any))
-					file.EXT = '.binary' as any;
-				access(file.PATH as any, (err) => {
+				if (!Object.prototype.hasOwnProperty.call(this.mimeType, file.EXT))
+					file.EXT = '.binary';
+				access(file.PATH, (err) => {
 					if (err) {
 						res.setHeader('Content-Type', 'text/html');
 						res.writeHead(404);
 						res.end('<h2>404</h2>');
 						return;
 					}
-					res.setHeader('Content-Type', this.mimeType[file.EXT as any]);
+					res.setHeader('Content-Type', this.mimeType[file.EXT]);
 					res.writeHead(200);
-					createReadStream(file.PATH as any).pipe(res);
+					createReadStream(file.PATH).pipe(res);
 				});
 			} else {
 				res.setHeader('Content-Type', 'text/html');
@@ -97,19 +88,6 @@ class iddqd {
 	}
 }
 
-let childServe: iddqd | undefined = undefined;
-export default {
-	name: 'iddqd',
-	hide: true,
-	description: {
-		'en_US': 'A wonderful easter egg',
-		'fr_FR': 'Un superbe easter egg'
-	},
-	exec: async () => {
-		if (!childServe) {
-			childServe = new iddqd();
-			childServe.init();
-		}
-		childServe.print();
-	}
-} as command;
+let childServe = new iddqd();
+childServe.init();
+childServe.print();
