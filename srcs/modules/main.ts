@@ -44,8 +44,10 @@ export default class {
 
 	setLang(): Promise<void> {
 		return new Promise((res, rej) => {
-			if (getConfig().options.lang)
+			if (getConfig().options.lang) {
+				this.options.lang = getConfig().options.lang as lang;
 				return res();
+			}
 			const langArr: { title: string, value: string }[] = [];
 			for (const key in langList) {
 				if (Object.prototype.hasOwnProperty.call(langList, key))

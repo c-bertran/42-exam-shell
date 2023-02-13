@@ -8,7 +8,7 @@ clang -Wall -Werror -Wextra main.c -o revWstr || exit 100
 ./revWstr >> real
 ./revWstr one two >> real
 
-clang -Wall -Werror -Wextra $1/ft_split/rev_wstr.c -o revWstr2
+clang -Wall -Werror -Wextra $1/rev_wstr/rev_wstr.c -o revWstr2
 ./revWstr2 "paqe fwtdjetyi ytjn eytjoeyjne jeyj" > fake
 ./revWstr2 "cette phrase ne cache rien" >> fake
 ./revWstr2 "cette phrase! !ne! cac he rien" >> fake
