@@ -12,24 +12,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          cache: 'npm'
-
+          node-version: '18.x'
+          cache: 'yarn'
       - name: Install dependencies && build
         run: |
-          curl -sf https://gobinaries.com/tj/node-prune | sh
-          npm ci
-          npm run build
-
+          yarn
+          yarn build
+          yarn pkg:build
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            dist/examshell-linux
-            dist/examshell-macos
-
+            build/examshell-linux
+            build/examshell-macos

@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"composite": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"lib": ["ESNext", "DOM"],
+		"allowJs": true,
+		"moduleResolution": "Node",
+		"outDir": "dist",
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"sourceMap": false,
+		"target": "ESNext",
+		"types": ["node"],
+
+		"paths": {
+			"@/*": ["srcs/*"],
+			"checker/*": ["srcs/checker/*"],
+			"commands/*": ["srcs/commands/*"],
+			"exams/*": ["srcs/exams/*"],
+			"langs/*": ["srcs/langs/*"],
+			"modules/*": ["srcs/modules/*"],
+			"package": ["package.json"]
+		}
+	},
+	"exclude": ["node_modules/*"],
+	"include": ["package.json", "srcs/**/*", "srcs/**/*{.ts,.json,.yaml,.yml}"]
+}
