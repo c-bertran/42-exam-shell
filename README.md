@@ -60,11 +60,11 @@ chmod +x examshell
 
 | args | definition |
 | --- | --- |
-| -C or --custom | Create the folder that can contain the reviews created by other people, and also the configuration file |
+| -C or --custom | Create the folder that can contain the *exams* created by other people, and also the configuration file |
 
 
 ## Config examshell
-You can configure the behavior of examshell via the config.json file in the exams folder.
+You can configure the behavior of examshell via the `config.json` file in the *exams* folder.
 It has the following options:
 ```json
 {
