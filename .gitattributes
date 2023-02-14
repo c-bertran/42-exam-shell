@@ -182,5 +182,4 @@ Procfile          text
 
 # Wasm
 srcs/commands/iddqd/bundle.jsdos text eol=crlf
-srcs/commands/iddqd/js-dos/wdosbox.shared.wasm text eol=crlf
-srcs/commands/iddqd/js-dos/wdosbox.wasm text eol=crlf
+*.wasm text binary
