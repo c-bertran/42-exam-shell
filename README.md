@@ -72,10 +72,10 @@ It has the following options:
 	"checkLib": true,
 	"signature": true,
 	"exam": "exam_02",
+	"lang": "en_US",
 	"options": {
 		"doom": false,
 		"infinite": false,
-		"lang": "en_US"
 	}
 }
 ```
@@ -83,10 +83,10 @@ It has the following options:
 - checkUpdate `boolean` : Checks if a new version is available
 - checkLib `boolean` : Checks if the necessary libraries are installed
 - signature `boolean` : Print the application's logo and signature
-- exam `string` : Id of the exam 
+- exam `string` : Id of the exam
+- lang `string` : Selected lang ('en_US', 'fr_FR')
 - options.doom `boolean` : All work and git is reset if grademe failed
 - options.infinite `boolean` : There is no time limit anymore
-- options.lang `string` : Selected lang ('en_US', 'fr_FR')
 
 ## Create or install custom exam
 Starting with version `0.3.0` examshell allows you to create your own exams in a simple and concise way.
