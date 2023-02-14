@@ -31,7 +31,7 @@ export default async (): Promise<void> => {
 	spin.start('Checks if an update is available', 'bounce');
 	return new Promise((resolve) => {
 		get(
-			'https://api.github.com/repos/c-bertran/42-examshell/releases/latest',
+			'https://api.github.com/repos/c-bertran/42-exam-shell/releases/latest',
 			{
 				headers: { 'User-Agent': 'Mozilla/5.0' },
 			},
@@ -56,7 +56,7 @@ export default async (): Promise<void> => {
 						console.log(str);
 						console.log(`${format.foreground.normal.cyan}A new version is available for download${format.format.reset}`);
 						console.log(blob.body);
-						console.log(`${format.format.reset}» ${format.foreground.light.green}https://github.com/c-bertran/42-examshell/releases/latest${format.format.reset} «`);
+						console.log(`${format.format.reset}» ${format.foreground.light.green}https://github.com/c-bertran/42-exam-shell/releases/latest${format.format.reset} «`);
 						console.log(str2());
 					}
 					resolve();

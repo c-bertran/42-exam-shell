@@ -1,13 +1,13 @@
 {
   "name": "examshell",
   "private": "true",
-  "version": "0.3.2",
+  "version": "0.3.4",
 	"license": "GPL-3.0",
   "author": "Clément Bertrand (https://github.com/c-bertran)",
   "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
   "repository": {
     "type": "git",
-    "url": "https://github.com/c-bertran/examshell.git"
+    "url": "https://github.com/c-bertran/42-exam-shell.git"
   },
 	"keywords": [
     "examshell",
