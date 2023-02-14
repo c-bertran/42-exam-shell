@@ -31,8 +31,8 @@ export default class {
 			'Nightmare',
 		];
 		this.options = {
-			infinite: getConfig().options.infinite,
-			doom: getConfig().options.doom,
+			infinite: false,
+			doom: false,
 			lang: 'en_US'
 		};
 		this.examInstance = undefined;
@@ -44,8 +44,8 @@ export default class {
 
 	setLang(): Promise<void> {
 		return new Promise((res, rej) => {
-			if (getConfig().options.lang) {
-				this.options.lang = getConfig().options.lang as lang;
+			if (getConfig().lang) {
+				this.options.lang = getConfig().lang as lang;
 				return res();
 			}
 			const langArr: { title: string, value: string }[] = [];
@@ -61,27 +61,25 @@ export default class {
 				initial: 0
 			})
 				.then((d) => {
-					this.options.lang = d.lang as lang;
+					this.options.lang = d.lang as lang ?? 'en_US';
 					res();
 				})
-				.catch((e) => rej(e));
+				.catch((e) => {
+					if (e.isTtyError)
+						error(5, { exit: true });
+					else
+						console.error(e.message);
+					rej('prompt_error');
+				});
 		});
 	}
 
-	setOptionsAndExam(): Promise<void> {
+	setOptions(): Promise<void> {
 		return new Promise((res, rej) => {
-			const __exams = [...examList, ...customExamList()];
-			if (getConfig().exam) {
-				for (const exam of __exams) {
-					if (exam.id === getConfig().exam) {
-						this.examInstance = new exams(getConfig().exam as string, this.options);
-						this.clockInstance = new clock(exam.time, this.options.infinite);
-						this.examInstance.init();
-						return res();
-					}
-				}
-				error(30, { exit: true });
-				return rej();
+			if (getConfig().optionsIsSet) {
+				this.options.doom = getConfig().options.doom ?? false;
+				this.options.infinite = getConfig().options.infinite ?? false;
+				return res();
 			}
 			prompts([
 				{
@@ -99,6 +97,45 @@ export default class {
 						},
 					]
 				},
+			], {
+				onCancel: () => {
+					error(20, { data: i18n('select.error', this.options.lang) as string });
+					rej('prompt_stop');
+				}
+			})
+				.then((answer) => {
+					if (answer.options.length && answer.options.indexOf('--infinite') !== -1)
+						this.options.infinite = true;
+					if (answer.options.length &&  answer.options.indexOf('--doom') !== -1)
+						this.options.doom = true;
+					res();
+				})
+				.catch((e) => {
+					if (e.isTtyError)
+						error(5, { exit: true });
+					else
+						console.error(e.message);
+					rej('prompt_error');
+				});
+		});
+	}
+
+	setExam(): Promise<void> {
+		return new Promise((res, rej) => {
+			const __exams = [...examList, ...customExamList()];
+			if (getConfig().exam) {
+				for (const exam of __exams) {
+					if (exam.id === getConfig().exam) {
+						this.examInstance = new exams(getConfig().exam as string, this.options);
+						this.clockInstance = new clock(exam.time, this.options.infinite);
+						this.examInstance.init();
+						return res();
+					}
+				}
+				error(30, { exit: true });
+				return rej();
+			}
+			prompts([
 				{
 					type: 'autocomplete',
 					name: 'exam',
@@ -112,10 +149,6 @@ export default class {
 				}
 			})
 				.then((answer) => {
-					if (answer.options.length && answer.options.indexOf('--infinite') !== -1)
-						this.options.infinite = true;
-					if (answer.options.length &&  answer.options.indexOf('--doom') !== -1)
-						this.options.doom = true;
 					for (const exam of __exams) {
 						if (exam.id === answer.exam) {
 							this.examInstance = new exams(answer.exam, this.options);
