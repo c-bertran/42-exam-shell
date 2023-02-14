@@ -3,7 +3,7 @@
 	Practice like a boss
 </h1>
 
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/examshell/.github/workflows/release.yml?branch=main&style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![GitHub repo size](https://img.shields.io/github/repo-size/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/examshell/.github/workflows/release.yml?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![GitHub repo size](https://img.shields.io/github/repo-size/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
 
 <img src="md/main.gif"></img>
 
