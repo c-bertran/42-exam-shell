@@ -7,7 +7,7 @@ import format from './format';
 export default (err: Error): void => {
 	const currentDate = (new Date()).toUTCString();
 
-	console.error(`An error at ${currentDate} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/examshell/issues) with the error code below :`);
+	console.error(`An error at ${currentDate} has occurred.\nDon't hesitate to open an issue on GitHub (https://github.com/c-bertran/42-examshell/issues) with the error below :`);
 
 	console.error(`${format.foreground.normal.red}═══════════════ ${format.foreground.normal.yellow}⚠${format.format.reset}  Error ${format.foreground.normal.yellow}⚠${format.format.reset}  ${format.foreground.normal.red}══════════════${format.format.reset}`);
 
