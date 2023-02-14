@@ -9,7 +9,7 @@ export default {
 	},
 	goal: 100,
 	time: '3h',
-	exercices: [
+	exercises: [
 		[
 			{
 				id: 'union',

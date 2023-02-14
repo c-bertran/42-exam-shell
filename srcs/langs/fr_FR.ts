@@ -41,7 +41,7 @@ export default {
 	grademe : {
 		correction: 'Votre exercice est en cours de correction',
 		finish: 'L\'examen est terminé, vous pouvez maintenant fermer examshell',
-		time: 'Vous pourez `grademe` votre exercice dans',
+		time: 'Vous pourez `grademe` votre exercise dans',
 		failed: 'Échoué',
 		success: 'Réussi',
 		trace: 'Trace',
@@ -53,7 +53,7 @@ export default {
 		grademe: 'Valider votre projet',
 		status: 'Récupérer les informations sur la session en cours'
 	},
-	exercice: {
+	exercise: {
 		start: 'Le sujet sélectionné est',
 		dir: 'Vous devez soumettre le projet dans le dossier :',
 		goal: 'La validation de celui-ci vous donnera',

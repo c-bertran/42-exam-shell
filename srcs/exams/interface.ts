@@ -1,6 +1,6 @@
 import { lang } from 'langs/index';
 
-interface exercice {
+interface exercise {
 	id: string;
 	dir?: string;
 	name: Record<lang, string>,
@@ -24,5 +24,5 @@ export interface examDefinition {
 	name: Record<lang, string>;
 	goal: number;
 	time: string;
-	exercices: exercice[][]
+	exercises: exercise[][]
 }

@@ -33,7 +33,7 @@ export default class {
 		id: number;
 		step: number;
 		currentStep: number;
-		exerciceSelected: number;
+		exerciseSelected: number;
 		retry: number;
 		goal: {
 			current: number;
@@ -41,7 +41,7 @@ export default class {
 			add: number;
 		}
 		path: {
-			exercice: string;
+			exercise: string;
 			subject: string;
 			correction: string;
 		}
@@ -63,15 +63,15 @@ export default class {
 		this.randId = () => randomBytes(Math.ceil(16 / 2)).toString('hex').slice(0, 16);
 		this.timer = { interval: undefined, retry: 0, old: 0 };
 		this.exam = {
-			id: idSelected, step: 0, currentStep: 0, exerciceSelected: 0, retry: 0,
+			id: idSelected, step: 0, currentStep: 0, exerciseSelected: 0, retry: 0,
 			goal: {
 				current: 0,
 				max: this.exams[idSelected].goal,
-				add: Math.ceil(this.exams[idSelected].goal / this.exams[idSelected].exercices.length)
+				add: Math.ceil(this.exams[idSelected].goal / this.exams[idSelected].exercises.length)
 			},
-			path: { exercice: '', subject: '', correction: '' }
+			path: { exercise: '', subject: '', correction: '' }
 		};
-		this.exam.step = this.exams[this.exam.id].exercices.length;
+		this.exam.step = this.exams[this.exam.id].exercises.length;
 		this.options = options;
 		this.generateId = this.randId();
 
@@ -147,33 +147,33 @@ export default class {
 	}
 
 	info(): void {
-		const exercice = this.exams[this.exam.id].exercices[this.exam.currentStep][this.exam.exerciceSelected];
+		const exercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
 		console.log('┌────╮');
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercice.start', this.options.lang)} ${format.foreground.light.red}${exercice.name[this.options.lang]}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercice.dir', this.options.lang)} ${format.foreground.light.green}~/${i18n('git.render', this.options.lang)}/${exercice.name[this.options.lang]}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercice.goal', this.options.lang)} ${format.foreground.light.magenta}${this.exam.goal.add} ${format.format.reset}${i18n('exercice.points', this.options.lang)}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercice.level', this.options.lang)} ${format.foreground.normal.yellow}${this.exam.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.exam.goal.max}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercice.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.exam.retry}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.start', this.options.lang)} ${format.foreground.light.red}${exercise.name[this.options.lang]}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.dir', this.options.lang)} ${format.foreground.light.green}~/${i18n('git.render', this.options.lang)}/${exercise.name[this.options.lang]}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${this.exam.goal.add} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.level', this.options.lang)} ${format.foreground.normal.yellow}${this.exam.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.exam.goal.max}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.exam.retry}${format.format.reset}`);
 		console.log('└────╯\n');
 	}
 
-	nextExercice(): Promise<void> {
-		this.exam.exerciceSelected = Math.floor(
-			Math.random() * this.exams[this.exam.id].exercices[this.exam.currentStep].length
+	nextExercise(): Promise<void> {
+		this.exam.exerciseSelected = Math.floor(
+			Math.random() * this.exams[this.exam.id].exercises[this.exam.currentStep].length
 		);
-		const selectExercice = this.exams[this.exam.id].exercices[this.exam.currentStep][this.exam.exerciceSelected];
+		const selectexercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
 		this.exam.path = {
-			exercice: resolve(
+			exercise: resolve(
 				__dirname,
 				(!this.exams[this.exam.id].custom)
 					? 'data'
 					: '',
 				'exams',
 				this.exams[this.exam.id].dirName,
-				selectExercice.dir ?? '',
-				selectExercice.id
+				selectexercise.dir ?? '',
+				selectexercise.id
 			),
-			subject: resolve(this.git.subject, selectExercice.id),
+			subject: resolve(this.git.subject, selectexercise.id),
 			correction: resolve(this.git.temp, this.generateId)
 		};
 		
@@ -183,12 +183,12 @@ export default class {
 				mkdirSync(this.exam.path.subject);
 				mkdirSync(this.exam.path.correction);
 				copyFile(
-					resolve(this.exam.path.exercice, 'subjects', this.options.lang as string),
+					resolve(this.exam.path.exercise, 'subjects', this.options.lang as string),
 					resolve(this.exam.path.subject, 'subject.txt')
 				);
-				if (selectExercice.copy && selectExercice.copy.user) {
-					for (const el of selectExercice.copy.user) {
-						glob.sync(resolve(this.exam.path.exercice, el)).forEach((file) => {
+				if (selectexercise.copy && selectexercise.copy.user) {
+					for (const el of selectexercise.copy.user) {
+						glob.sync(resolve(this.exam.path.exercise, el)).forEach((file) => {
 							copyDirSync(file, resolve(this.exam.path.subject, basename(file)));
 						});
 					}
@@ -244,7 +244,7 @@ export default class {
 						? stderr
 						: `errno: ${err?.code}`, true).then(() => res()).catch(() => res());
 				} else {
-					this.testExercice()
+					this.testexercise()
 						.then(() => {
 							this.success(spin)
 								.then(() => res())
@@ -260,15 +260,15 @@ export default class {
 		});
 	}
 
-	private async testExercice(): Promise<void> {
+	private async testexercise(): Promise<void> {
 		return new Promise((res: () => void, rej: (e: { data: any, force?: boolean }) => void) => {
-			const exercice = this.exams[this.exam.id].exercices[this.exam.currentStep][this.exam.exerciceSelected];
+			const exercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
 			try {
 				copyFileSync(resolve(__dirname, 'data', 'shell', 'leaks.bash'), resolve(this.exam.path.correction, 'leaks.bash'));
-				copyFileSync(resolve(this.exam.path.exercice, 'make.bash'), resolve(this.exam.path.correction, 'make.bash'));
-				if (exercice.copy?.check) {
-					for (const el of exercice.copy.check) {
-						glob.sync(resolve(this.exam.path.exercice, el)).forEach((file) => {
+				copyFileSync(resolve(this.exam.path.exercise, 'make.bash'), resolve(this.exam.path.correction, 'make.bash'));
+				if (exercise.copy?.check) {
+					for (const el of exercise.copy.check) {
+						glob.sync(resolve(this.exam.path.exercise, el)).forEach((file) => {
 							copyDirSync(file, resolve(this.exam.path.correction, basename(file)));
 						});
 					}
@@ -295,18 +295,18 @@ export default class {
 					const diff = readFileSync(resolve(this.exam.path.correction, '__diff'), { encoding: 'utf-8' });
 					if (diff.length > 0)
 						return rej({ data: diff });
-					if (exercice.moulinette || Array.isArray(exercice.moulinette)) {
+					if (exercise.moulinette || Array.isArray(exercise.moulinette)) {
 						const elements = {
-							functs: (Object.prototype.hasOwnProperty.call(exercice, 'allowed_functions'))
-								? exercice.allowed_functions
+							functs: (Object.prototype.hasOwnProperty.call(exercise, 'allowed_functions'))
+								? exercise.allowed_functions
 								: [],
-							keys: (Object.prototype.hasOwnProperty.call(exercice, 'forbidden_keywords'))
-								? exercice.forbidden_keywords
+							keys: (Object.prototype.hasOwnProperty.call(exercise, 'forbidden_keywords'))
+								? exercise.forbidden_keywords
 								: [],
 						};
 						const check = new checker(
-							resolve(this.exam.path.correction, i18n('git.render', this.options.lang) as string, exercice.id),
-							exercice.moulinette,
+							resolve(this.exam.path.correction, i18n('git.render', this.options.lang) as string, exercise.id),
+							exercise.moulinette,
 							elements.functs,
 							elements.keys
 						);
@@ -314,7 +314,7 @@ export default class {
 						if (errors.length)
 							return rej({ data: JSON.stringify(errors, null, 2) });
 					}
-					if (exercice.leaks) {
+					if (exercise.leaks) {
 						const ret = {
 							leaks: [] as any[],
 							fds: [] as any[],
@@ -344,11 +344,11 @@ export default class {
 		spin.stop();
 		stdout.clearLine(0);
 		++this.exam.retry;
-		this.timer.old += this.timer.old * this.exams[this.exam.id].exercices[this.exam.currentStep][this.exam.exerciceSelected].exponent;
+		this.timer.old += this.timer.old * this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent;
 		this.timer.retry = this.timer.old;
 		console.log(`${format.foreground.light.red}>>> ${(i18n('grademe.failed', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
 
-		if (this.exams[this.exam.id].exercices[this.exam.currentStep][this.exam.exerciceSelected].trace || forceTrace) {
+		if (this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].trace || forceTrace) {
 			console.log(`\n${format.foreground.normal.magenta}══ ${(i18n((forceTrace
 				? 'grademe.error'
 				: 'grademe.trace'), this.options.lang) as string).toUpperCase()} ═════════════════════════════${format.format.reset}`);
@@ -385,7 +385,7 @@ export default class {
 			this.exam.goal.current = this.exam.goal.max;
 			console.log(`${format.foreground.light.blue}${i18n('grademe.finish', this.options.lang) as string}${format.format.reset}`);
 		} else
-			await this.nextExercice();
+			await this.nextExercise();
 		return;
 	}
 }

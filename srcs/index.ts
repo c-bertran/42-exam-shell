@@ -26,7 +26,7 @@ import uncaughtException from 'modules/uncaughtException';
 (async () => {
 	let instance: main;
 	try {
-		args(argv);
+		await args(argv);
 		customExamList();
 		getConfig();
 		if (getConfig().checkUpdate)

@@ -38,9 +38,9 @@ const checkObj = (obj: any): string[] => {
 	}
 	is('goal');
 	is('time');
-	is('exercices');
-	if (!obj.exercices.length)
-		errors.push('no exercices');
+	is('exercises');
+	if (!obj.exercises.length)
+		errors.push('no exercises');
 	return errors;
 };
 
