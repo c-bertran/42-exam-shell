@@ -22,10 +22,10 @@ const options = [
 						checkLib: true,
 						signature: true,
 						exam: null,
+						lang: null,
 						options: {
-							doom: false,
-							infinite: false,
-							lang: null
+							doom: null,
+							infinite: null
 						}
 					}, null, 2),
 					{ encoding: 'utf-8', flag: 'wx' }

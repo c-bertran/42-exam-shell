@@ -36,7 +36,8 @@ import uncaughtException from 'modules/uncaughtException';
 
 		instance = new main();
 		await instance.setLang();
-		await instance.setOptionsAndExam();
+		await instance.setOptions();
+		await instance.setExam();
 		await instance.startExamen();
 		instance.manageClock();
 		instance.startPrompt();

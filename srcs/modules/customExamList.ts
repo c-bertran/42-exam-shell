@@ -10,10 +10,11 @@ interface config {
 	checkLib: boolean;
 	signature: boolean;
 	exam?: string;
+	lang?: lang;
+	optionsIsSet: boolean;
 	options: {
-		doom: boolean,
-		infinite: boolean,
-		lang: lang | undefined
+		doom: boolean;
+		infinite: boolean;
 	}
 }
 
@@ -56,17 +57,20 @@ export const getConfig = (): config => {
 				readFileSync(resolve(cwd(), 'exams', 'config.json'), { encoding: 'utf-8' })
 			);
 		}
+
 		__config__ = {
 			checkUpdate: true,
 			checkLib: true,
 			signature: true,
 			exam: undefined,
+			lang: undefined,
+			optionsIsSet: false,
 			options: {
 				doom: false,
-				infinite: false,
-				lang: undefined
+				infinite: false
 			}
 		};
+
 		if (Object.keys(file).length) {
 			if (is('checkUpdate', file))
 				__config__.checkUpdate = file.checkUpdate;
@@ -76,17 +80,23 @@ export const getConfig = (): config => {
 				__config__.signature = file.signature;
 			if (is('exam', file) && file.exam)
 				__config__.exam = file.exam;
+			
+			if (is('lang', file) && file.lang) {
+				if (!is(file.lang, langList)) {
+					error(11, { exit: true, data: `defined lang ${file.lang} not exist`});
+					throw new Error('config_error');
+				} else
+					__config__.lang = file.lang;
+			}
+
 			if (is('options', file)) {
-				if (is('doom', file.options))
+				if (is('doom', file.options) && file.options.doom) {
+					__config__.optionsIsSet = true;
 					__config__.options.doom = file.options.doom;
-				if (is('infinite', file.options))
+				}
+				if (is('infinite', file.options) && file.options.infinite) {
+					__config__.optionsIsSet = true;
 					__config__.options.infinite = file.options.infinite;
-				if (is('lang', file.options)  && file.options.lang) {
-					if (!is(file.options.lang, langList)) {
-						error(11, { exit: true, data: `defined lang ${file.lang} not exist`});
-						throw new Error('config_error');
-					} else
-						__config__.options.lang = file.options.lang;
 				}
 			}
 		}
