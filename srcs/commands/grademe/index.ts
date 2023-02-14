@@ -4,7 +4,7 @@ import { command } from '../interface';
 export default {
 	name: 'grademe',
 	description: {
-		'en_US': 'Grade current exercice',
+		'en_US': 'Grade current exercise',
 		'fr_FR': 'Noter l\'exercice en cours'
 	},
 	exec: async (_command, _lang, exams: exams) => {

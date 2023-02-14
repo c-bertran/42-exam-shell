@@ -53,7 +53,7 @@ export default {
 		grademe: 'Validate your projet',
 		status : 'Recover informations about the current session'
 	},
-	exercice: {
+	exercise: {
 		start: 'The selected subject is',
 		dir: 'You must submit the project in the folder :',
 		goal: 'The validation of this one will give you',

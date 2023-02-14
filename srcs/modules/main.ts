@@ -174,7 +174,7 @@ export default class {
 			.then(() => {
 				console.log(`\n${format.foreground.light.blue}${i18n('info.dir', this.options.lang)} '${format.foreground.normal.green}${this.examInstance?.git.main}${format.format.reset}'`);
 				console.log(`${format.foreground.light.blue}${i18n('info.git', this.options.lang)}${format.format.reset}\n`);
-				this.examInstance?.nextExercice();
+				this.examInstance?.nextExercise();
 			})
 			.catch((e) => {
 				console.error(e);
