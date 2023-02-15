@@ -5,7 +5,7 @@
 
 <h1 align="center">Examshell will allow you to practice to be perfectly ready for the 42 exams</h1>
 
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/examshell/.github/workflows/release.yml?style=flat-square"/> <img alt="GitHub" src="https://img.shields.io/github/license/c-bertran/examshell?style=flat-square"> ![GitHub repo size](https://img.shields.io/github/repo-size/c-bertran/examshell?style=flat-square) <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/c-bertran/examshell?style=flat-square">
+<img alt="Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/42-exam-shell/.github/workflows/release.yml?style=flat-square"/> <img alt="License" src="https://img.shields.io/github/license/c-bertran/42-exam-shell?style=flat-square"> <img alt="Repo size" src="https://img.shields.io/github/repo-size/c-bertran/42-exam-shell?style=flat-square" /> <img alt="Language count" src="https://img.shields.io/github/languages/count/c-bertran/42-exam-shell?style=flat-square">
 
 <img src="md/main.gif"></img>
 
@@ -47,7 +47,7 @@ The following exams are available natively:
 - Old exam 03
 
 ## Setup
-Download the ![latest version](https://github.com/c-bertran/examshell/releases/latest) of the software. This one is available for MacOS and Linux
+Download the <a href="https://github.com/c-bertran/42-exam-shell/releases/latest">latest version</a> of the software. This one is available for MacOS and Linux
 
 ## How to use
 Launch your favorite command prompt, and simply run the program:
@@ -103,7 +103,7 @@ If you want to share your exam, don't hesitate to open a issue with the exam lab
 3. Start application, if exam is correct, it will appear in the selection list
 
 ### Create a custom exam
-You can create custom exam by adding new exercises: [Contribution](CONTRIBUTING.md)
+You can create custom exam by adding new exercises: [Contributing](CONTRIBUTING.md)
 
 ## Disclaimer
 The exams available are based as closely as possible on the official exams at 42, however there may be some differences.
