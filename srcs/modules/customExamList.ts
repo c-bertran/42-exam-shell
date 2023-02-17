@@ -89,15 +89,12 @@ export const getConfig = (): config => {
 					__config__.lang = file.lang;
 			}
 
-			if (is('options', file)) {
-				if (is('doom', file.options) && file.options.doom) {
-					__config__.optionsIsSet = true;
+			if (is('options', file) && Object.keys(file.options).length) {
+				__config__.optionsIsSet = true;
+				if (is('doom', file.options) && file.options.doom)
 					__config__.options.doom = file.options.doom;
-				}
-				if (is('infinite', file.options) && file.options.infinite) {
-					__config__.optionsIsSet = true;
+				if (is('infinite', file.options) && file.options.infinite)
 					__config__.options.infinite = file.options.infinite;
-				}
 			}
 		}
 	}
