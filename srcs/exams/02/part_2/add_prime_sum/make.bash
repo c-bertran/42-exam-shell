@@ -12,7 +12,7 @@ clang -Wall -Werror -Wextra main.c -o addPrimeSub || exit 100
 clang -Wall -Werror -Wextra $1/add_prime_sub/add_prime_sub.c -o addPrimeSub2
 ./addPrimeSub2 > fake
 ./addPrimeSub2 one two >> fake
-./addPrimeSub2 -10 >> real
+./addPrimeSub2 -10 >> fake
 ./addPrimeSub2 1 >> fake
 ./addPrimeSub2 24 >> fake
 ./addPrimeSub2 78 >> fake

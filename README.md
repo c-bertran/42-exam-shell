@@ -17,6 +17,7 @@
 - [Create or install custom exam](#create-or-install-custom-exam)
 	- [Install a custom exam](#install-a-custom-exam)
 	- [Create a custom exam](#create-a-custom-exam)
+- [Contributor](#contributor)
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
@@ -104,6 +105,14 @@ If you want to share your exam, don't hesitate to open a issue with the exam lab
 
 ### Create a custom exam
 You can create custom exam by adding new exercises: [Contributing](CONTRIBUTING.md)
+
+## Contributor
+Thanks to you and your help, examshell is getting better every day. I would like to thank those people who gave their time 🧡
+
+<div align="center">
+	<img alt="lwh2101" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/69378597?s=200&v=4" />
+	<img alt="lwh2101" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/87602480?s=200&v=4" />
+</div>
 
 ## Disclaimer
 The exams available are based as closely as possible on the official exams at 42, however there may be some differences.

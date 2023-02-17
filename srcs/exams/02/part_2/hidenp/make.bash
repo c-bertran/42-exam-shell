@@ -11,7 +11,7 @@ clang -Wall -Werror -Wextra main.c -o hidenp || exit 100
 clang -Wall -Werror -Wextra $1/hidenp/hidenp.c -o hidenp2
 ./hidenp2 > fake
 ./hidenp2 one >> fake
-./hidenp2 one two three >> real
+./hidenp2 one two three >> fake
 ./hidenp2 "fgex.;" "tyf34gdgf;'ektufjhgdgex.;.;rtjynur6" >> fake
 ./hidenp2 "paqe fwtdjetyi   ytjn    eytjoeyjne  jeyj" "etyi" >> fake
 ./hidenp2 "               cette phrase ne cache rien" "   ce"  >> fake
