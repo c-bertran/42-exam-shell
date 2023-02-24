@@ -16,7 +16,8 @@ export default {
 	input: 'srcs/index.ts',
 	watch: {
 		clearScreen: false,
-		buildDelay: 100
+		buildDelay: 100,
+		includes: 'srcs/**/*'
 	},
 	output: [
 		{

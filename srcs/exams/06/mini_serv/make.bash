@@ -79,7 +79,7 @@ first_check () {
 	echo "$?" >> fake
 	pkill -9 _serv > /dev/null 2>&1
 
-	diff -y --suppress-common-lines real fake > __diff_$I
+	diff -y --suppress-common-lines real fake > __diff
 	if [ ! $? -eq 0 ]
 	then
 		echo "Diff failed at error, stop testing"

@@ -289,7 +289,7 @@ export default class {
 					if (err?.code && err.code >= 100)
 						return rej({ data: err });
 					if (stderr.length) {
-						const lines = stderr.split(/\n|\r\n/);
+						const lines = stderr.split(/\n|\r\n/).filter((l) => l.length);
 						while (lines.length) {
 							if (!handleKillCommand.test(lines[0]))
 								break;
@@ -300,9 +300,19 @@ export default class {
 					} else
 						return rej({ data: `errno: ${err?.code ?? 100}`, force: true });
 				}
-				const diff = readFileSync(resolve(this.exam.path.correction, '__diff'), { encoding: 'utf-8' });
-				if (diff.length > 0)
-					return rej({ data: diff });
+				readdirSync(
+					resolve(this.exam.path.correction),
+					{ encoding: 'utf-8', withFileTypes: true })
+					.reduce((acc, curr) => {
+						if (curr.isFile() && /^_{2}diff(?:_\d+)?$/.test(curr.name))
+							return [...acc, resolve(this.exam.path.correction, curr.name)];
+						return acc;
+					}, [] as string[])
+					.forEach((diffPath) => {
+						const raw = readFileSync(diffPath, { encoding: 'utf-8', flag: 'r' });
+						if (raw.length)
+							return rej({ data: raw });
+					});
 				if (exercise.moulinette || Array.isArray(exercise.moulinette)) {
 					const elements = {
 						functs: (Object.prototype.hasOwnProperty.call(exercise, 'allowed_functions'))
@@ -356,15 +366,22 @@ export default class {
 		console.log(`${format.foreground.light.red}>>> ${(i18n('grademe.failed', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
 
 		if (this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].trace || forceTrace) {
-			console.log(`\n${format.foreground.normal.magenta}══ ${(i18n((forceTrace
+			const topString = `\n${format.foreground.normal.magenta}══ ${(i18n((forceTrace
 				? 'grademe.error'
-				: 'grademe.trace'), this.options.lang) as string).toUpperCase()} ═════════════════════════════${format.format.reset}`);
+				: 'grademe.trace'), this.options.lang) as string).toUpperCase()} ═════════════════════════════${format.format.reset}`;
+			const bottomString = () => {
+				let ret = '';
+				for (let i = 0; i < (topString.length - 10); i++)
+					ret += '═';
+				return ret;
+			};
+			console.log(topString);
 			if (Array.isArray(data) && !forceTrace) {
 				for (const el of data)
 					console.log(basename(el.file), el.found);
 			} else
 				console.log(`${format.format.reset}${data}${format.format.reset}`);
-			console.log(`\n${format.foreground.normal.magenta}═══════════════════════════════${format.format.reset}`);
+			console.log(`\n${format.foreground.normal.magenta}${bottomString()}${format.format.reset}`);
 		}
 
 		if (this.options.doom) {

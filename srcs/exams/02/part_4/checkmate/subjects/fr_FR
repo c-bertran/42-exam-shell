@@ -19,7 +19,7 @@ Fail$
 $> ./checkmate 'R...' '..P.' '.K..' '....' | cat -e
 Success$
 $> ./checkmate 'R...' 'iheK' '....' 'jei.' | cat -e
-Success$
+Fail$
 $> ./checkmate | cat -e
 $
 $>
