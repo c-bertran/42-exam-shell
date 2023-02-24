@@ -8,7 +8,7 @@ declare -i RETRY=0
 
 build () {
 	# C
-	clang -Wall -Werror -Wextra $1/mini_serv/mini_serv.c -o fake_serv > /dev/null 2>&1
+	clang -Wall -Werror -Wextra $1/mini_serv/mini_serv.c -o fake_serv || exit 101
 	clang -Wall -Werror -Wextra tests/serv.c -o real_serv > /dev/null 2>&1 || exit 100
 	# C++
 	clang++ -Wall -Werror -Wextra -std=c++11 tests/port_checker.cpp -o port_checker > /dev/null 2>&1 || exit 100
@@ -44,9 +44,9 @@ start_serv () {
 }
 
 stop_serv () {
-	pkill -INT client > /dev/null 2>&1
-	pkill -INT leaks.bash > /dev/null 2>&1
-	pkill -9 _serv > /dev/null 2>&1
+	pkill -INT client > /dev/null 2>&1 || true
+	pkill -INT leaks.bash > /dev/null 2>&1 || true
+	pkill -9 _serv > /dev/null 2>&1 || true
 }
 
 first_check () {
@@ -54,11 +54,11 @@ first_check () {
 
 	touch fake real
 
-	./fake_serv &>> fake; echo "$?" >> fake
-	./real_serv &>> real; echo "$?" >> real
+	./fake_serv >> fake 2>&1; echo "$?" >> fake
+	./real_serv >> real 2>&1; echo "$?" >> real
 
-	./fake_serv 45 54 &>> fake; echo "$?" >> fake
-	./real_serv 45 54 &>> real; echo "$?" >> real
+	./fake_serv 45 54 >> fake 2>&1; echo "$?" >> fake
+	./real_serv 45 54 >> real 2>&1; echo "$?" >> real
 
 	TEMP_PORT=$( ./port_checker )
 	if [ $TEMP_PORT -eq -1 ]
@@ -67,15 +67,15 @@ first_check () {
 		exit -1
 	fi
 
-	./real_serv $TEMP_PORT &>> real &
+	./real_serv $TEMP_PORT >> real 2>&1 &
 	sleep 2
-	./real_serv $TEMP_PORT &>> real
+	./real_serv $TEMP_PORT >> real 2>&1
 	echo "$?" >> real
 	pkill -9 _serv > /dev/null 2>&1
 
-	./fake_serv $TEMP_PORT &>> fake &
+	./fake_serv $TEMP_PORT >> fake 2>&1 &
 	sleep 2
-	./fake_serv $TEMP_PORT &>> fake
+	./fake_serv $TEMP_PORT >> fake 2>&1
 	echo "$?" >> fake
 	pkill -9 _serv > /dev/null 2>&1
 
@@ -168,7 +168,7 @@ execute () {
 }
 
 rm -f fake* real* main_client client messages port_checker *.out __diff* temp* *.log
-build
+build $1
 first_check
 check_leak
 until [ $I -gt 5 ]

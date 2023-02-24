@@ -263,6 +263,8 @@ export default class {
 	private async testexercise(): Promise<void> {
 		return new Promise((res: () => void, rej: (e: { data: any, force?: boolean }) => void) => {
 			const exercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
+			const handleKillCommand = /^make.bash: +line +\d+: +\d+ Killed +.*$/m;
+
 			try {
 				copyFileSync(resolve(__dirname, 'data', 'shell', 'leaks.bash'), resolve(this.exam.path.correction, 'leaks.bash'));
 				copyFileSync(resolve(this.exam.path.exercise, 'make.bash'), resolve(this.exam.path.correction, 'make.bash'));
@@ -281,61 +283,66 @@ export default class {
 				cwd: this.exam.path.correction,
 				shell: '/bin/bash',
 				windowsHide: true,
-				timeout: 120000 // 2min
+				timeout: 240000 // 4min
 			}, (err, _stdout, stderr) => {
 				if (err || stderr.length) {
-					if (err && err.code === 100)
-						rej({ data: err });
-					else {
-						rej({ data: (stderr.length)
-							? stderr
-							: `errno: ${err?.code}`, force: true });
-					}
-				} else {
-					const diff = readFileSync(resolve(this.exam.path.correction, '__diff'), { encoding: 'utf-8' });
-					if (diff.length > 0)
-						return rej({ data: diff });
-					if (exercise.moulinette || Array.isArray(exercise.moulinette)) {
-						const elements = {
-							functs: (Object.prototype.hasOwnProperty.call(exercise, 'allowed_functions'))
-								? exercise.allowed_functions
-								: [],
-							keys: (Object.prototype.hasOwnProperty.call(exercise, 'forbidden_keywords'))
-								? exercise.forbidden_keywords
-								: [],
-						};
-						const check = new checker(
-							resolve(this.exam.path.correction, i18n('git.render', this.options.lang) as string, exercise.id),
-							exercise.moulinette,
-							elements.functs,
-							elements.keys
-						);
-						const errors = check.check();
-						if (errors.length)
-							return rej({ data: JSON.stringify(errors, null, 2) });
-					}
-					if (exercise.leaks) {
-						const ret = {
-							leaks: [] as any[],
-							fds: [] as any[],
-						};
-						const dirList = readdirSync(this.exam.path.correction, { encoding: 'utf-8', withFileTypes: false });
-						dirList.forEach((file) => {
-							if (/^valgrind_\d+.log/.test(file)) {
-								const leaks = new valgrind(resolve(this.exam.path.correction, file));
-								if (leaks.isLeaks())
-									ret.leaks.push(leaks.leaks);
-								if (leaks.isOpenFds())
-									ret.fds.push(leaks.fds);
-							}
-						});
-						if (ret.leaks.length > 0)
-							return rej({ data: JSON.stringify(ret.leaks, null, 2) });
-						if (ret.fds.length > 0)
-							return rej({ data: JSON.stringify(ret.fds, null, 2) });
-					}
-					res();
+					if (err?.code && err.code >= 100)
+						return rej({ data: err });
+					if (stderr.length) {
+						const lines = stderr.split(/\n|\r\n/);
+						while (lines.length) {
+							if (!handleKillCommand.test(lines[0]))
+								break;
+							lines.shift();
+						}
+						if (lines.length)
+							return rej({ data: stderr, force: true });
+					} else
+						return rej({ data: `errno: ${err?.code ?? 100}`, force: true });
 				}
+				const diff = readFileSync(resolve(this.exam.path.correction, '__diff'), { encoding: 'utf-8' });
+				if (diff.length > 0)
+					return rej({ data: diff });
+				if (exercise.moulinette || Array.isArray(exercise.moulinette)) {
+					const elements = {
+						functs: (Object.prototype.hasOwnProperty.call(exercise, 'allowed_functions'))
+							? exercise.allowed_functions
+							: [],
+						keys: (Object.prototype.hasOwnProperty.call(exercise, 'forbidden_keywords'))
+							? exercise.forbidden_keywords
+							: [],
+					};
+					const check = new checker(
+						resolve(this.exam.path.correction, i18n('git.render', this.options.lang) as string, exercise.id),
+						exercise.moulinette,
+						elements.functs,
+						elements.keys
+					);
+					const errors = check.check();
+					if (errors.length)
+						return rej({ data: JSON.stringify(errors, null, 2) });
+				}
+				if (exercise.leaks) {
+					const ret = {
+						leaks: [] as any[],
+						fds: [] as any[],
+					};
+					const dirList = readdirSync(this.exam.path.correction, { encoding: 'utf-8', withFileTypes: false });
+					dirList.forEach((file) => {
+						if (/^valgrind_\d+.log/.test(file)) {
+							const leaks = new valgrind(resolve(this.exam.path.correction, file));
+							if (leaks.isLeaks())
+								ret.leaks.push(leaks.leaks);
+							if (leaks.isOpenFds())
+								ret.fds.push(leaks.fds);
+						}
+					});
+					if (ret.leaks.length > 0)
+						return rej({ data: JSON.stringify(ret.leaks, null, 2) });
+					if (ret.fds.length > 0)
+						return rej({ data: JSON.stringify(ret.fds, null, 2) });
+				}
+				res();
 			});
 		});
 	}
