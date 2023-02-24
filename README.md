@@ -13,6 +13,7 @@
 - [Setup](#setup)
 - [How to use](#how-to-use)
 	- [Arguments](#arguments)
+	- [Dependencies](#dependencies)
 - [Config examshell](#config-examshell)
 - [Create or install custom exam](#create-or-install-custom-exam)
 	- [Install a custom exam](#install-a-custom-exam)
@@ -62,12 +63,19 @@ chmod +x examshell && ./examshell
 ```
 
 ### Arguments
-
 | Args | Definition |
 | --- | --- |
 | -C or --custom | Create the folder that can contain the *exams* created by other people, and also the configuration file |
 | -N or --new | Launch the cli to create the boilerplate for a new exam |
 
+### Dependencies
+Examshell is dependent on several external software. Under Linux, the installation can be done by the software itself at startup. However under MacOS you will have to install them yourself. Here is the list with their versions to help you
+| Software | Version |
+| --- | --- |
+| bash | `>= 3.2` |
+| clang | `>= 10.0` |
+| git | `>= 2.10` |
+| valgrind | `>= 3.10` |
 
 ## Config examshell
 You can configure the behavior of examshell via the `config.json` file in the *exams* folder.
@@ -110,8 +118,15 @@ You can create custom exam by adding new exercises: [Contributing](CONTRIBUTING.
 Thanks to you and your help, examshell is getting better every day. I would like to thank those people who gave their time 🧡
 
 <div align="center">
-	<img alt="lwh2101" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/69378597?s=200&v=4" />
-	<img alt="lwh2101" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/87602480?s=200&v=4" />
+	<a href="https://github.com/Filoji">
+		<img alt="Filoji" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/67588131?v=4" />
+	</a>
+	<a href="https://github.com/B-ki">
+		<img alt="B-ki" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/87602480?s=200&v=4" />
+	</a>
+	<a href="https://github.com/pulgamecanica">
+		<img alt="pulgamecanica" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/28810331?v=4" />
+	</a>
 </div>
 
 ## Disclaimer

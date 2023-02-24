@@ -33,7 +33,7 @@ const install = async (resolve: (value: unknown) => void) => {
 		onCancel: () => error(3, { exit: true }),
 	})
 		.then((answer: { password: string }) => {
-			child(`echo "${answer.password}" | sudo -k -S apt-get install -y valgrind git clang`, true)
+			child(`echo "${answer.password}" | sudo -k -S apt-get install -y bash clang git valgrind`, true)
 				.then(() => {
 					console.log('Installation success, start program');
 					resolve(true);
@@ -60,9 +60,10 @@ export default (): Promise<unknown> => {
 		error(1);
 	return new Promise((res) => {
 		Promise.all([
-			child('valgrind --version'),
+			child('bash --version'),
 			child('clang --version'),
 			child('git --version'),
+			child('valgrind --version'),
 		])
 			.then(() => res(true))
 			.catch(() => {
