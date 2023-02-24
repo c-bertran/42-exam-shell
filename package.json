@@ -1,7 +1,7 @@
 {
   "name": "examshell",
   "private": "true",
-  "version": "0.3.4",
+  "version": "0.3.7",
 	"license": "GPL-3.0",
   "author": "Clément Bertrand (https://github.com/c-bertran)",
   "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
