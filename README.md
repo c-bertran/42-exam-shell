@@ -22,7 +22,7 @@
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
-### *⚠️ Pool exams are being added ⚠️*
+### *⚠️ Pool exams and new exams are being added, as well as the possibility of practicing Javascript and Typescript. ⚠️*
 
 This one will have the same behaviors as the real examshell:
 - Updated with the new version of the exam in April 2022
