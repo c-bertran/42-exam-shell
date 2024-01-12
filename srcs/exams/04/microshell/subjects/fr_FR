@@ -23,6 +23,8 @@ $>./microshell /bin/ls "|" /usr/bin/grep microshell ";" /bin/echo i love my micr
 microshell
 i love my microshell
 $>./microshell /usr/bin/echo WOOT "; microshell ;" "; ;" ";" /usr/bin/echo "is hell of fun"
+WOOT ; microshell ; ; ; ; /usr/bin/echo is hell of fun
+$>./microshell /usr/bin/echo WOOT "; microshell ;" "; ;" ; /usr/bin/echo "is hell of fun"
 WOOT ; microshell ; ; ;
 is hell of fun
 $>./microshell /bin/ls ./file_who_doesnt_exist ";" ";" ";" ";" ";" /bin/ls "|" /usr/bin/grep microshell ";"
