@@ -1,21 +1,21 @@
 {
   "name": "examshell",
   "private": "true",
-  "version": "0.3.7",
-	"license": "GPL-3.0",
+  "version": "0.3.8",
+  "license": "GPL-3.0",
   "author": "Clément Bertrand (https://github.com/c-bertran)",
   "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
   "repository": {
     "type": "git",
     "url": "https://github.com/c-bertran/42-exam-shell.git"
   },
-	"keywords": [
+  "keywords": [
     "examshell",
     "42",
     "examen",
     "exam",
-		"examrank",
-		"42exam"
+    "examrank",
+    "42exam"
   ],
   "bin": "dist/index.cjs.js",
   "scripts": {
@@ -24,8 +24,8 @@
     "watch": "rollup -w --bundleConfigAsCjs --config rollup.config.js",
     "pkg:build": "pkg --compress Brotli --output build/examshell .",
     "pkg:debug": "pkg --debug --output build/examshell .",
-    "lint": "./node_modules/.bin/eslint .",
-		"lint:fix": "./node_modules/.bin/eslint --fix ."
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "pkg": {
     "assets": [
@@ -56,5 +56,6 @@
     "rollup": "^3.10.1",
     "rollup-plugin-copy": "^3.4.0",
     "typescript": "^4.9.4"
-  }
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }
