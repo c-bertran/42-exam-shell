@@ -9,7 +9,7 @@ clang -Wall -Werror -Wextra main.c -o printHex || exit 100
 
 clang -Wall -Werror -Wextra $1/print_hex/print_hex.c -o printHex2
 ./printHex2 > fake
-./printHex2 1 2 > fake
+./printHex2 1 2 >> fake
 ./printHex2 12 >> fake
 ./printHex2 745 >> fake
 ./printHex2 54245 >> fake
