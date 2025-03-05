@@ -23,7 +23,7 @@ export default {
 			console.log(`${format.foreground.light.blue}status${format.format.reset} - ${i18n('help.status', lang)}`);
 			break;
 		default:
-			console.log(`${format.foreground.light.blue}help${format.format.reset} - ${format.foreground.light.red}${command[1]}${format.format.reset} ${i18n('error.command', lang)}`);
+			console.log(`${format.foreground.light.blue}help${format.format.reset} - [finish, grademe, help, status]`);
 		}
 	}
 } as command;

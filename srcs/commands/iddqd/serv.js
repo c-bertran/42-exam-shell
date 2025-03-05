@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const { access, createReadStream } = require('fs');
 const { createServer } = require('http');
 const { extname, join, resolve } = require('path');

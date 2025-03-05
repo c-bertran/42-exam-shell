@@ -87,7 +87,7 @@ export default class extends EventEmitter {
 	stop(): void {
 		if (!this.interval)
 			return;
-		clearInterval(this.interval);
+		clearInterval(this.interval as NodeJS.Timeout);
 		this.emit('stop');
 	}
 
