@@ -51,7 +51,13 @@ export default class extends EventEmitter {
 		this.time.total += this.time.seconds;
 	}
 
-	start(): void {
+	private __formatTime(n: number): string {
+		return (n < 9)
+			? `0${n}`
+			: String(n);
+	}
+
+	public start(): void {
 		if (this.interval)
 			return;
 		this.interval = setInterval(() => {
@@ -84,14 +90,14 @@ export default class extends EventEmitter {
 		this.emit('start');
 	}
 
-	stop(): void {
+	public stop(): void {
 		if (!this.interval)
 			return;
 		clearInterval(this.interval as NodeJS.Timeout);
 		this.emit('stop');
 	}
 
-	isFinish(): boolean {
+	public isFinish(): boolean {
 		return (this.time.days === 0
 			&& this.time.hours === 0
 			&& this.time.minutes === 0
@@ -100,9 +106,6 @@ export default class extends EventEmitter {
 	}
 
 	clock(): string {
-		const __n = (n: number): string => (n < 9)
-			? `0${n}`
-			: String(n);
-		return `${__n(this.time.hours)}:${__n(this.time.minutes)}:${__n(this.time.seconds)}`;
+		return `${this.__formatTime(this.time.hours)}:${this.__formatTime(this.time.minutes)}:${this.__formatTime(this.time.seconds)}`;
 	}
 }
