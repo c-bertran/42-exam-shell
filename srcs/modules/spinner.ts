@@ -109,7 +109,7 @@ export default class {
 	}
 
 	stop(): void {
-		clearInterval(this.saveInterval);
+		clearInterval(this.saveInterval as NodeJS.Timeout);
 		stdout.write('\x1B[?25h');
 	}
 }

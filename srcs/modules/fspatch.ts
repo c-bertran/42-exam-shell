@@ -6,6 +6,7 @@
  * Overriding copyFileSync with primitive alternative
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const fs = require('fs');
 import { resolve } from 'path';
 import { promisify } from 'util';

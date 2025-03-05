@@ -1,7 +1,7 @@
 {
   "name": "examshell",
   "private": "true",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "license": "GPL-3.0",
   "author": "Clément Bertrand (https://github.com/c-bertran)",
   "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
@@ -42,20 +42,20 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@rollup/plugin-yaml": "^4.0.1",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.19.79",
     "@types/prompts": "^2.4.2",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "eslint": "^8.32.0",
+    "eslint": "^8.57.1",
+    "globals": "^16.0.0",
     "pkg": "^5.8.0",
     "rollup": "^3.10.1",
     "rollup-plugin-copy": "^3.4.0",
-    "typescript": "^4.9.4"
-  },
-  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
+    "typescript": "^4.9.4",
+    "typescript-eslint": "^8.26.0"
+  }
 }

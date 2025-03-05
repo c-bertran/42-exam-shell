@@ -19,7 +19,6 @@ import examList from './exams';
 import { examDefinition } from './interface';
 
 export default class {
-	private randId: () => string;
 	private exams: examDefinition[];
 	public options: { infinite: boolean; doom: boolean; lang: lang };
 	private timer: {
@@ -60,7 +59,6 @@ export default class {
 		if (idSelected === -1)
 			error(30, { data: id, exit: true });
 
-		this.randId = () => randomBytes(Math.ceil(16 / 2)).toString('hex').slice(0, 16);
 		this.timer = { interval: undefined, retry: 0, old: 0 };
 		this.exam = {
 			id: idSelected, step: 0, currentStep: 0, exerciseSelected: 0, retry: 0,
@@ -73,7 +71,7 @@ export default class {
 		};
 		this.exam.step = this.exams[this.exam.id].exercises.length;
 		this.options = options;
-		this.generateId = this.randId();
+		this.generateId = randomBytes(Math.ceil(16 / 2)).toString('hex').slice(0, 16);
 
 		const temp = resolve(homedir(), 'examshell', this.generateId);
 		this.git = {
@@ -84,7 +82,7 @@ export default class {
 		};
 		try {
 			rmSync(this.git.temp, { recursive: true, force: true });
-		} catch (e: any) {
+		} catch {
 			error(31, { exit: true });
 		}
 	}
@@ -99,7 +97,7 @@ export default class {
 				resolve(__dirname, 'data', 'shell', 'init.bash'),
 				resolve(this.git.render, 'init.bash')
 			);
-		} catch (e) {
+		} catch {
 			error(32, { exit: true });
 		}
 	}
@@ -139,7 +137,7 @@ export default class {
 	stop(): Promise<void> {
 		return new Promise((res) => {
 			if (this.timer.interval)
-				clearInterval(this.timer.interval);
+				clearInterval(this.timer.interval as NodeJS.Timeout);
 			rm(this.git.temp, { recursive: true, force: true })
 				.then(() => res())
 				.catch(() => res());
