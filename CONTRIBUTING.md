@@ -14,6 +14,8 @@
 ## Development
 To download this git repository and start a development environment, follow these steps:
 
+**Mandatory**: Git, Clang & GCC, Make, Valgrind
+
 1. **Clone the repository**:
 	```shell
 	git clone https://github.com/yourusername/42-exam-shell.git
