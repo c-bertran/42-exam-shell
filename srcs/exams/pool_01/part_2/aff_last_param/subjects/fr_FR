@@ -1,0 +1,18 @@
+Assignment name  : aff_last_param
+Expected files   : aff_last_param.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui prend des chaînes de caractères comme arguments et affiche son dernier
+argument suivi d'une nouvelle ligne.
+
+Si le nombre d'arguments est inférieur à 1, le programme affiche une nouvelle ligne.
+
+Exemples:
+
+$> ./aff_last_param "zaz" "mange" "des" "chats" | cat -e
+chats$
+$> ./aff_last_param "j'aime le savon" | cat -e
+j'aime le savon$
+$> ./aff_last_param
+$

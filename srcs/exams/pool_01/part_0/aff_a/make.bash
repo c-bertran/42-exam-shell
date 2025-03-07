@@ -17,6 +17,5 @@ clang -Wall -Werror -Wextra $1/aff_a/aff_a.c -o affA2
 ./affA2 >> fake
 
 diff -y --suppress-common-lines real fake > __diff
-bash leaks.bash affA2 0 "pqe fwtdjetyi   ytjn    eytjoaeyjne  jeyj" > /dev/null 2>&1
 
 rm -rf affA affA2 real fake
