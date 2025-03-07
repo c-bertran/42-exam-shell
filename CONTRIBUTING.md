@@ -1,5 +1,6 @@
 <h1 align="center">🚀 Create a custom exam 🚀</h1>
 
+- [Development](#development)
 - [Cli](#cli)
 - [Manual](#manual)
 	- [Main structure](#main-structure)
@@ -9,6 +10,40 @@
 - [More info](#more-info)
 
 ---
+
+## Development
+To download this git repository and start a development environment, follow these steps:
+
+1. **Clone the repository**:
+	```shell
+	git clone https://github.com/yourusername/42-exam-shell.git
+	cd 42-exam-shell
+	```
+
+2. **Install dependencies**:
+	Ensure you have all necessary dependencies installed.:
+	```shell
+	npm install
+	```
+
+4. **Run the development server**:
+	Start the development to begin working on the project.
+	```shell
+	npm run dev
+	```
+
+5. **Open the project in your code editor**:
+	Open the project directory in your preferred code editor to start making changes.
+
+6. **Build**:
+	Ensure everything is working correctly by running the tests. For example, if you are using a testing framework like Jest, run:
+	```shell
+	npm run build // Create a bundle version
+	npm run pkg:debug // Build a debug executable
+	npm run pkg::build // Build the final executable
+	```
+
+You are now ready to start developing!
 
 ## Cli
 Starting with version *0.3.1*, a cli for creating an exam boilerplate is available. Simply run examshell with the `--new` or `-N` :
