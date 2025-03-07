@@ -359,7 +359,7 @@ export default class {
 		spin.stop();
 		stdout.clearLine(0);
 		++this.exam.retry;
-		this.timer.old += this.timer.old * this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent;
+		this.timer.old += this.timer.old * (this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent ?? this.exams[this.exam.id].exercises[this.exam.currentStep].length);
 		this.timer.retry = this.timer.old;
 		console.log(`${format.foreground.light.red}>>> ${(i18n('grademe.failed', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
 
