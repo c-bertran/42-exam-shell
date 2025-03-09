@@ -1,0 +1,18 @@
+Assignment name  : ft_list_size
+Expected files   : ft_list_size.c
+Allowed functions: 
+--------------------------------------------------------------------------------
+
+Écrivez une fonction qui renvoie le nombre d'éléments de la liste liée qui lui est transmise.
+
+Elle doit être déclarée comme suit :
+
+int ft_list_size(t_list *begin_list) ;
+
+Vous devez utiliser la structure suivante dans votre programme ft_list_size.c :
+
+typedef struct    s_list
+{
+    struct s_list *next;
+    void          *data;
+}                 t_list;

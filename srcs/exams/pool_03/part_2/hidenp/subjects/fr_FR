@@ -1,0 +1,22 @@
+Assignment name  : hidenp
+Expected files   : hidenp.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme nommé hidenp qui prend deux chaînes de caractères et affiche 1 suivi d'une nouvelle ligne si la première chaîne est cachée dans la seconde, sinon affiche 0 suivi d'une nouvelle ligne.
+
+Soit s1 et s2 des chaînes de caractères. On dit que s1 est cachée dans s2 s'il est possible de trouver chaque caractère de s1 dans s2, dans le même ordre qu'ils apparaissent dans s1. De même, la chaîne vide est cachée dans n'importe quelle chaîne.
+
+Si le nombre de paramètres est inférieur à 2, le programme affiche une nouvelle ligne.
+
+Exemples :
+
+$>./hidenp "fgex.;" "tyf34gdgf;'ektufjhgdgex.;.;rtjynur6" | cat -e
+1$
+$>./hidenp "abc" "2altrb53c.sse" | cat -e
+1$
+$>./hidenp "abc" "btarc" | cat -e
+0$
+$>./hidenp | cat -e
+$
+$>

@@ -1,0 +1,23 @@
+Assignment name  : do_op
+Expected files   : do_op.c
+Allowed functions: atoi, printf, write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui prend trois chaînes de caractères :
+- La première et la troisième sont des représentations d'entiers signés en base 10 qui tiennent dans un int.
+- La deuxième est un opérateur arithmétique choisi parmi : + - * / %.
+
+Le programme doit afficher le résultat de l'opération arithmétique demandée, suivi d'une nouvelle ligne. Si le nombre de paramètres est inférieur à 3, le programme affiche simplement une nouvelle ligne.
+
+Vous pouvez supposer que la chaîne de caractères ne comporte pas d'erreurs ou de caractères étrangers. Les nombres négatifs, en entrée ou en sortie, auront un et un seul '-' en tête. Le résultat de l'opération tient dans un int.
+
+Exemples :
+
+$> ./do_op "123" "*" 456 | cat -e
+56088$
+$> ./do_op "9828" "/" 234 | cat -e
+42$
+$> ./do_op "1" "+" "-43" | cat -e
+-42$
+$> ./do_op | cat -e
+$

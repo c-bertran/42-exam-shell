@@ -1,0 +1,19 @@
+Assignment name  : reverse_bits
+Expected files   : reverse_bits.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Ecrivez une fonction qui prend un octet, l'inverse, bit par bit (comme dans l'exemple) et renvoie le résultat.
+
+Votre fonction doit être déclarée comme suit :
+
+unsigned char	reverse_bits(unsigned char octet);
+
+Example:
+
+  1 byte
+_____________
+ 0010  0110
+	 ||
+	 \/
+ 0110  0100
