@@ -1,0 +1,25 @@
+Assignment name  : checkmate 
+Expected files   : *.c, *.h
+Allowed functions: write, malloc, free
+--------------------------------------------------------------------------------
+
+Écrivez un programme dans lequel les arguments sont pris comme des lignes d'échiquier et qui vérifie si votre roi est en position d'échec.
+Les échecs se jouent sur un échiquier, un plateau carré de 8 cases de long avec certaines pièces dessus : roi, reine, fou, cavalier, tour et des pions.
+Dans cet exercice, vous jouerez uniquement avec des pions, des fous, des tours, la reine et évidemment le roi.
+Chaque pièce possède une méthode de mouvement spécifique et tous les modèles de capture sont décrites en détail dans le fichier examples.txt.
+Une pièce ne peut capturer que la première pièce ennemie qu'elle trouve  sur ses modes de capture.
+La planche a une taille variable, mais reste carrée. Il n'y a qu'un seul roi et toutes les autres pièces sont opposées. Tous les autres caractères, à l'exception de celle utilisés pour les pièces, sont considérés comme des cases vides.
+On considère qu'un roi est en position de contrôle lorsqu'un autre roi est en position de contrôle. 
+Une pièce ennemie peut la capturer. Dans ce cas, vous imprimerez  "Success" sur la sortie standard, suivi d'un retour à la ligne. Dans le cas contraire, vous imprimerez "Fail", suivi d'un retour à la ligne.
+S'il n'y a pas d'arguments, le programme imprimera seulement une nouvelle ligne.
+
+Exemple :
+$> ./checkmate '..' '.K' | cat -e
+Fail$
+$> ./checkmate 'R...' '..P.' '.K..' '....' | cat -e
+Success$
+$> ./checkmate 'R...' 'iheK' '....' 'jei.' | cat -e
+Fail$
+$> ./checkmate | cat -e
+$
+$>
