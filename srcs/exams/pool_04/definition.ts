@@ -328,6 +328,36 @@ export default {
 				}
 			},
 			{
+				id: 'ft_list_foreach',
+				dir: 'part_2',
+				name: {
+					'en_US': 'ft_list_foreach',
+					'fr_FR': 'ft_list_foreach'
+				},
+				trace: false,
+				moulinette: true,
+				copy: {
+					user: ['list.h'],
+					check: ['ft_list_foreach.c', 'ft_list.h', 'main.c']
+				}
+			},
+			{
+				id: 'ft_list_remove_if',
+				dir: 'part_2',
+				name: {
+					'en_US': 'ft_list_remove_if',
+					'fr_FR': 'ft_list_remove_if'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: true,
+				allowed_functions: ['free'],
+				copy: {
+					user: ['list.h'],
+					check: ['ft_list_remove_if.c', 'ft_list.h', 'main.c']
+				}
+			},
+			{
 				id: 'ft_split',
 				dir: 'part_2',
 				name: {
@@ -370,6 +400,20 @@ export default {
 				allowed_functions: ['write', 'malloc', 'free'],
 				copy: {
 					check: ['main.c']
+				}
+			},
+			{
+				id: 'sort_int_tab',
+				dir: 'part_2',
+				name: {
+					'en_US': 'sort_int_tab',
+					'fr_FR': 'sort_int_tab'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: false,
+				copy: {
+					check: ['sort_int_tab.c', 'main.c']
 				}
 			},
 			{

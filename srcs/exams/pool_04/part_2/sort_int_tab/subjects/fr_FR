@@ -1,0 +1,15 @@
+Nom de l'exercice : sort_int_tab
+Fichiers attendus : sort_int_tab.c
+Fonctions autorisées :
+--------------------------------------------------------------------------------
+
+Écrivez la fonction suivante :
+
+void sort_int_tab(int *tab, unsigned int size);
+
+Elle doit trier (en place) le tableau d'entiers 'tab', qui contient exactement 'size'
+éléments, par ordre croissant.
+
+Les doublons doivent être conservés.
+
+L'entrée est toujours cohérente.
