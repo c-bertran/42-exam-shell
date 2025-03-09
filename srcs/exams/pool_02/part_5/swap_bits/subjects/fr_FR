@@ -1,0 +1,19 @@
+Assignment name  : swap_bits
+Expected files   : swap_bits.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Écrivez une fonction qui prend un octet, échange ses moitiés (comme dans l'exemple) et renvoie le résultat.
+
+Votre fonction doit être déclarée comme suit :
+
+unsigned char	swap_bits(unsigned char octet);
+
+Example:
+
+  1 byte
+_____________
+ 0100 | 0001
+     \ /
+     / \
+ 0001 | 0100

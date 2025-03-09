@@ -1,0 +1,12 @@
+Assignment name  : is_power_of_2
+Expected files   : is_power_of_2.c
+Allowed functions:
+--------------------------------------------------------------------------------
+
+Écrivez une fonction qui détermine si un nombre donné est une puissance de 2.
+
+Cette fonction renvoie 1 si le nombre donné est une puissance de 2, sinon elle renvoie 0.
+
+Votre fonction doit être déclarée comme suit :
+
+int	    is_power_of_2(unsigned int n);

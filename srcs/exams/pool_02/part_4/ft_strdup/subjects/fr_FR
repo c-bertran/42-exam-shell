@@ -1,0 +1,10 @@
+Assignment name  : ft_strdup
+Expected files   : ft_strdup.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Reproduisez le comportement de la fonction strdup (man strdup).
+
+Votre fonction doit être déclarée comme suit :
+
+char    *ft_strdup(char *src);

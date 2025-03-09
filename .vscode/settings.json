@@ -6,5 +6,6 @@
 		"*.tp": "html",
 		"en_US": "text",
 		"fr_FR": "text",
+		"unistd.h": "c"
 	}
 }
