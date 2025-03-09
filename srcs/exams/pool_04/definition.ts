@@ -432,6 +432,37 @@ export default {
 				}
 			}
 		],
-		[],
+		[
+			{
+				id: 'brackets',
+				dir: 'part_3',
+				name: {
+					'en_US': 'brackets',
+					'fr_FR': 'brackets'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: true,
+				allowed_functions: ['write'],
+				copy: {
+					check: ['main.c']
+				}
+			},
+			{
+				id: 'print_memory',
+				dir: 'part_3',
+				name: {
+					'en_US': 'print_memory',
+					'fr_FR': 'print_memory'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: true,
+				allowed_functions: ['write'],
+				copy: {
+					check: ['print_memory.c', 'main.c']
+				}
+			},
+		],
 	],
 } as examDefinition;
