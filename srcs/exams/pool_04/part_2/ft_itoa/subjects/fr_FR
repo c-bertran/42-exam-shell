@@ -1,0 +1,11 @@
+Assignment name  : ft_itoa
+Expected files   : ft_itoa.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Écrivez une fonction qui prend un int et le convertit en une chaîne de caractères à terminaison nulle.
+La fonction renvoie le résultat dans un tableau de caractères que vous devez allouer.
+
+Votre fonction doit être déclarée comme suit :
+
+char	*ft_itoa(int nbr);

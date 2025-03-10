@@ -1,0 +1,12 @@
+Assignment name  : maff_revalpha
+Expected files   : maff_revalpha.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui affiche l'alphabet à l'envers, avec les lettres paires en
+majuscules et les lettres impaires en minuscules, suivi d'une nouvelle ligne.
+
+Exemple:
+
+$> ./maff_revalpha | cat -e
+zYxWvUtSrQpOnMlKjIhGfEdCbA$

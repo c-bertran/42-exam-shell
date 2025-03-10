@@ -1,0 +1,11 @@
+Assignment name  : maff_alpha
+Expected files   : maff_alpha.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrire un programme qui affiche l'alphabet, avec les lettres paires en majuscules et les lettres impaires en minuscules, suivi d'une nouvelle ligne.
+
+Exemple:
+
+$> ./maff_alpha | cat -e
+aBcDeFgHiJkLmNoPqRsTuVwXyZ$

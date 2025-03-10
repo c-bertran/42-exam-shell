@@ -21,7 +21,7 @@ export default {
 				trace: true,
 				moulinette: true,
 				leaks: true,
-				allowed_functions: ['malloc', 'free', 'write', 'close', 'fork', 'waitpid', 'signal', 'kill', 'exit', 'chdir', 'execve', 'dup', 'dup2', 'pipe', 'strcmp', 'strncmp'],
+				allowed_functions: ['chdir', 'close', 'dup', 'dup2', 'execve', 'exit', 'fork', 'free', 'kill', 'malloc', 'pipe', 'signal', 'strcmp', 'strncmp', 'waitpid', 'write'],
 				copy: {
 					check: ['microshell.c', 'random.txt']
 				}

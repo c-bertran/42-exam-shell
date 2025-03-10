@@ -1,0 +1,25 @@
+Assignment name  : cycle_detector
+Expected files   : cycle_detector.c
+Allowed functions: malloc, free
+--------------------------------------------------------------------------------
+
+Créez une fonction nommée cycle_detector qui prend un const t_list *list
+comme argument, et vérifie si la liste chaînée donnée ne contient pas de cycles.
+
+Un cycle est défini lorsque vous passez au moins deux fois par le même lien,
+lorsque vous parcourez une liste chaînée.
+
+Cette fonction doit retourner 1 si elle détecte un cycle dans la liste chaînée
+donnée, sinon elle retourne 0.
+
+Cette fonction doit être prototypée comme ceci:
+
+int        cycle_detector(const t_list *list)
+
+The type t_list is:
+
+typedef struct     s_list
+{
+    int            data;
+    struct s_list  *next;
+}                  t_list;

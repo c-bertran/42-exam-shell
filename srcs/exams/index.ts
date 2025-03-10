@@ -146,10 +146,14 @@ export default class {
 
 	info(): void {
 		const exercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
+		const correctGoal = ((this.exam.goal.current + this.exam.goal.add) > this.exam.goal.max)
+			? this.exam.goal.max - this.exam.goal.current
+			: this.exam.goal.add;
+
 		console.log('┌────╮');
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.start', this.options.lang)} ${format.foreground.light.red}${exercise.name[this.options.lang]}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.dir', this.options.lang)} ${format.foreground.light.green}~/${i18n('git.render', this.options.lang)}/${exercise.name[this.options.lang]}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${this.exam.goal.add} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${correctGoal} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.level', this.options.lang)} ${format.foreground.normal.yellow}${this.exam.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.exam.goal.max}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.exam.retry}${format.format.reset}`);
 		console.log('└────╯\n');
@@ -359,7 +363,7 @@ export default class {
 		spin.stop();
 		stdout.clearLine(0);
 		++this.exam.retry;
-		this.timer.old += this.timer.old * this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent;
+		this.timer.old += this.timer.old * (this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent ?? this.exams[this.exam.id].exercises[this.exam.currentStep].length);
 		this.timer.retry = this.timer.old;
 		console.log(`${format.foreground.light.red}>>> ${(i18n('grademe.failed', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
 

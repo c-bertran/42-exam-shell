@@ -1,0 +1,35 @@
+Pawn / Pion (P):
+	. . . . . . .
+	. . . . . . .
+	. . X . X . .
+	. . . P . . .
+	. . . . . . .
+	. . . . . . .
+	. . . . . . .
+
+Bishop / Fou (B):
+	X . . . . . X
+	. X . . . X .
+	. . X . X . .
+	. . . B . . .
+	. . X . X . .
+	. X . . . X .
+	X . . . . . X
+
+Rook / Tour (R):
+	. . . X . . .
+	. . . X . . .
+	. . . X . . .
+	X X X R X X X
+	. . . X . . .
+	. . . X . . .
+	. . . X . . .
+
+Queen / Reine  (Q)
+	X . . X . . X
+	. X . X . X .
+	. . X X X . .
+	X X X Q X X X
+	. . X X X . .
+	. X . X . X .
+	X . . X . . X 

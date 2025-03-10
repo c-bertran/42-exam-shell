@@ -1,0 +1,25 @@
+Assignment name  : wdmatch
+Expected files   : wdmatch.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrire un programme qui prend deux chaînes de caractères et vérifie s'il est possible
+d'écrire la première chaîne avec des caractères de la deuxième chaîne, tout en
+respectant l'ordre dans lequel ces caractères apparaissent dans la deuxième chaîne.
+
+Si c'est possible, le programme affiche la chaîne, suivie d'un \n, sinon il affiche simplement un \n.
+
+Si le nombre d'arguments n'est pas de 2, le programme affiche un \n.
+
+Exemples :
+
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbreda" | cat -e
+faya$
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbred" | cat -e
+$
+$>./wdmatch "quarante deux" "qfqfsudf arzgsayns tsregfdgs sjytdekuoixq " | cat -e
+quarante deux$
+$>./wdmatch "error" rrerrrfiiljdfxjyuifrrvcoojh | cat -e
+$
+$>./wdmatch | cat -e
+$

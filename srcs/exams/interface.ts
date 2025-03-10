@@ -4,7 +4,7 @@ interface exercise {
 	id: string;
 	dir?: string;
 	name: Record<lang, string>,
-	exponent: number;
+	exponent?: number;
 	trace: boolean;
 	allowed_functions?: string[];
 	forbidden_keywords?: string[];

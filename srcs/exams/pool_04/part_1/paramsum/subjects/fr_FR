@@ -1,0 +1,19 @@
+Assignment name  : paramsum
+Expected files   : paramsum.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Écrivez un programme qui affiche le nombre d'arguments qui lui sont passés, suivi par
+d'une nouvelle ligne.
+
+S'il n'y a pas d'arguments, affichez simplement un 0 suivi d'une nouvelle ligne.
+
+Exemple :
+
+$>./paramsum 1 2 3 5 7 24
+6
+$>./paramsum 6 12 24 | cat -e
+3$
+$>./paramsum | cat -e
+0$
+$>
