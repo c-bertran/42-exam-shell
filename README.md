@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img height="100" src="md/logo.svg" alt=""><br>
+  <img height="100" src="md/logo.svg" alt="logo"><br>
 	Practice like a boss
 </h1>
 
@@ -21,8 +21,6 @@
 - [Contributor](#contributor)
 - [Disclaimer](#disclaimer)
 - [License](#license)
-
-### *⚠️ Pool exams and new exams are being added, as well as the possibility of practicing Javascript and Typescript. ⚠️*
 
 This one will have the same behaviors as the real examshell:
 - Updated with the new version of the exam in April 2022
@@ -47,6 +45,10 @@ The following exams are available natively:
 - Exam 05
 - Exam 06
 - Old exam 03
+- Pool exam 01
+- Pool exam 02
+- Pool exam 03
+- Pool exam 04
 
 ## Setup
 Download the <a href="https://github.com/c-bertran/42-exam-shell/releases/latest">latest version</a> of the software. This one is available for MacOS and Linux
