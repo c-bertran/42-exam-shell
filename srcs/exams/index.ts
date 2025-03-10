@@ -146,10 +146,14 @@ export default class {
 
 	info(): void {
 		const exercise = this.exams[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
+		const correctGoal = ((this.exam.goal.current + this.exam.goal.add) > this.exam.goal.max)
+			? this.exam.goal.max - this.exam.goal.current
+			: this.exam.goal.add;
+
 		console.log('┌────╮');
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.start', this.options.lang)} ${format.foreground.light.red}${exercise.name[this.options.lang]}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.dir', this.options.lang)} ${format.foreground.light.green}~/${i18n('git.render', this.options.lang)}/${exercise.name[this.options.lang]}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${this.exam.goal.add} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${correctGoal} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.level', this.options.lang)} ${format.foreground.normal.yellow}${this.exam.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.exam.goal.max}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.exam.retry}${format.format.reset}`);
 		console.log('└────╯\n');
