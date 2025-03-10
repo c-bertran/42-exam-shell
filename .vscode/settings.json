@@ -4,7 +4,7 @@
 	"editor.detectIndentation": false,
 	"files.associations": {
 		"*.tp": "html",
-		"en_us": "c",
-		"fr_fr": "cpp"
+		"en_US": "text",
+		"fr_FR": "text",
 	}
 }

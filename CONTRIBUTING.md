@@ -122,7 +122,7 @@ Let's go into more detail on the definition of an exercise:
 - `id` : the id of your exercise, also represents the name of the folder in which it is located
 - `dir` *optional*: the name of the folder in which your exercise is located
 - `name` : the different names of this one in the different languages
-- `exponent` : represents the number of points you want to give to the exercise. For example if your goal is 100 and you want two exercises, the exponent will be 2
+- `exponent` : represents the number of points you want to give to the exercise. For example if your goal is 100 and you want two exercises, the exponent will be 2. If you not defined it, is calculed automatically (number of exercise passes throughout the exam)
 - `trace` : the trace will be displayed in case of an error
 - `allowed_functions` : a list of strings representing the names of the functions you want to allow in the code
 - `moulinette` : pass the moulinette on the code
