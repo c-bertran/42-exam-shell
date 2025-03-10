@@ -1,0 +1,50 @@
+Assignment name  : rpn_calc
+Expected files   : *.c, *.h 
+Allowed functions: atoi, printf, write, malloc, free
+--------------------------------------------------------------------------------
+
+Écrire un programme qui prend une chaîne contenant une équation écrite en
+notation polonaise inversée (RPN) comme premier argument, évalue l'équation et
+affiche le résultat sur la sortie standard suivi d'une nouvelle ligne.
+
+La notation polonaise inversée est une notation mathématique dans laquelle chaque
+opérateur suit tous ses opérandes. En RPN, chaque opérateur rencontré évalue les
+2 opérandes précédents, et le résultat de cette opération devient alors le premier
+des deux opérandes pour l'opérateur suivant. Les opérandes et les opérateurs doivent
+être séparés par au moins un espace.
+
+Vous devez implémenter les opérateurs suivants : "+", "-", "*", "/", et "%".
+
+Si la chaîne n'est pas valide ou s'il n'y a pas exactement un argument, vous devez
+afficher "Error" sur la sortie standard suivi d'une nouvelle ligne.
+
+Tous les opérandes donnés doivent tenir dans un "int".
+
+Exemples de formules converties en RPN :
+
+3 + 4                   >>    3 4 +
+((1 * 2) * 3) - 4       >>    1 2 * 3 * 4 -  ou  3 1 2 * * 4 -
+50 * (5 - (10 / 9))     >>    5 10 9 / - 50 *
+
+Voici comment évaluer une formule en RPN :
+
+1 2 * 3 * 4 -
+2 3 * 4 -
+6 4 -
+2
+
+Ou :
+
+3 1 2 * * 4 -
+3 2 * 4 -
+6 4 -
+2
+
+Exemples :
+
+$> ./rpn_calc "1 2 * 3 * 4 +" | cat -e
+10$
+$> ./rpn_calc "1 2 3 4 +" | cat -e
+Error$
+$> ./rpn_calc |cat -e
+Error$

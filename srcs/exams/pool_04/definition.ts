@@ -434,6 +434,20 @@ export default {
 		],
 		[
 			{
+				id: 'biggest_pal',
+				dir: 'part_3',
+				name: {
+					'en_US': 'biggest_pal',
+					'fr_FR': 'biggest_pal'
+				},
+				trace: false,
+				moulinette: true,
+				allowed_functions: ['write'],
+				copy: {
+					check: ['biggest_pal.c']
+				}
+			},
+			{
 				id: 'brackets',
 				dir: 'part_3',
 				name: {
@@ -449,6 +463,37 @@ export default {
 				}
 			},
 			{
+				id: 'cycle_detector',
+				dir: 'part_3',
+				name: {
+					'en_US': 'cycle_detector',
+					'fr_FR': 'cycle_detector'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: true,
+				allowed_functions: ['malloc', 'free'],
+				copy: {
+					user: ['ft_list.h'],
+					check: ['cycle_detector.c', 'ft_list.h', 'main.c']
+				}
+			},
+			{
+				id: 'options',
+				dir: 'part_3',
+				name: {
+					'en_US': 'options',
+					'fr_FR': 'options'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: false,
+				allowed_functions: ['write'],
+				copy: {
+					check: ['options.c']
+				}
+			},
+			{
 				id: 'print_memory',
 				dir: 'part_3',
 				name: {
@@ -461,6 +506,21 @@ export default {
 				allowed_functions: ['write'],
 				copy: {
 					check: ['print_memory.c', 'main.c']
+				}
+			},
+			{
+				id: 'rpn_calc',
+				dir: 'part_3',
+				name: {
+					'en_US': 'rpn_calc',
+					'fr_FR': 'rpn_calc'
+				},
+				trace: false,
+				moulinette: true,
+				leaks: true,
+				allowed_functions: ['atoi', 'printf', 'write', 'malloc', 'free'],
+				copy: {
+					check: ['rpn_calc.c']
 				}
 			},
 		],
