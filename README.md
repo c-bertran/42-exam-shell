@@ -87,7 +87,7 @@ It has the following options:
 	"checkUpdate": true,
 	"checkLib": true,
 	"signature": true,
-	"exam": "exam_02",
+	"exam": "exam_03",
 	"lang": "en_US",
 	"options": {
 		"doom": false,
