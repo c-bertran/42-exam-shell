@@ -74,9 +74,9 @@ chmod +x examshell && ./examshell
 Examshell is dependent on several external software. Under Linux, the installation can be done by the software itself at startup. However under MacOS you will have to install them yourself. Here is the list with their versions to help you
 | Software | Version |
 | --- | --- |
-| bash | `>= 3.2` |
-| clang | `>= 10.0` |
-| git | `>= 2.10` |
+| bash | `>= 4.0` |
+| clang | `>= 13.0` |
+| git | `>= 2.20` |
 | valgrind | `>= 3.10` |
 
 ## Config examshell
