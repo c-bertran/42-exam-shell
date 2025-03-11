@@ -129,6 +129,9 @@ Thanks to you and your help, examshell is getting better every day. I would like
 	<a href="https://github.com/pulgamecanica">
 		<img alt="pulgamecanica" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/28810331?v=4" />
 	</a>
+	<a href="https://github.com/ThatsLucas">
+		<img alt="pulgamecanica" width="70" style="border-radius: 50%" src="https://avatars.githubusercontent.com/u/89994389?v=4" />
+	</a>
 </div>
 
 ## Disclaimer
