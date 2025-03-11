@@ -23,13 +23,13 @@ To download this git repository and start a development environment, follow thes
 	```
 
 2. **Install dependencies**:
-	Ensure you have all necessary dependencies installed.:
+	Ensure you have all necessary dependencies installed.
 	```shell
 	npm install
 	```
 
 4. **Run the development server**:
-	Start the development to begin working on the project.
+	Start the development to begin working on the project, auto rebuild if source code change
 	```shell
 	npm run dev
 	```
