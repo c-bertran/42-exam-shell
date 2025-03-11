@@ -9,8 +9,20 @@
 
 <img src="md/main.gif"></img>
 
+## Direct downloads
+
+<div align="center">
+	<a href="https://github.com/c-bertran/42-exam-shell/releases/latest/download/examshell-linux" style="margin-right: 1em">
+		<img alt="Download latest Linux version" width=250 src="md/download_linux.jpg" />
+	</a>
+	<a href="https://github.com/c-bertran/42-exam-shell/releases/latest/download/examshell-macos" style="margin-left: 1em">
+		<img alt="Download latest MacOS version" width=250 src="md/download_macos.jpg" />
+	</a>
+</div>
+
+---
+
 - [Exams](#exams)
-- [Setup](#setup)
 - [How to use](#how-to-use)
 	- [Arguments](#arguments)
 	- [Dependencies](#dependencies)
@@ -49,9 +61,6 @@ The following exams are available natively:
 - Pool exam 02
 - Pool exam 03
 - Pool exam 04
-
-## Setup
-Download the <a href="https://github.com/c-bertran/42-exam-shell/releases/latest">latest version</a> of the software. This one is available for MacOS and Linux
 
 ## How to use
 Launch your favorite command prompt, and simply run the program:
