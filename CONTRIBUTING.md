@@ -31,7 +31,7 @@ To download this git repository and start a development environment, follow thes
 4. **Run the development server**:
 	Start the development to begin working on the project, auto rebuild if source code change
 	```shell
-	npm run dev
+	npm run watch
 	```
 
 5. **Open the project in your code editor**:
