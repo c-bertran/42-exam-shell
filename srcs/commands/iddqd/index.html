@@ -2,15 +2,26 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>iddqd - Doom</title>
-		<link href="css/style.css" rel="stylesheet">
+		<title>Examshell - iddqd</title>
+		<link rel="icon" href="favicon.png" type="image/png">
+		<link rel="shortcut icon" href="favicon.png" type="image/png">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/jsDos.css">
+		<script src="js/jsDos.js"></script>
 	</head>
 	<body>
-		<iframe
-			frameborder="0"
-			src="https://dos.zone/player/?bundleUrl=https%3A%2F%2Fcdn.dos.zone%2Fcustom%2Fdos%2Fultimate-doom.jsdos?anonymous=1"
-			allowfullscreen
-		>
-		</iframe>
+		<h1 id="warn">Please note that this game has sound, so be sure to mute computer sound before launching it.</h1>
+		<div id="dos"></div>
+		<script>
+			const props = Dos(document.getElementById("dos"), {
+				url: "https://cdn.dos.zone/custom/dos/doom.jsdos",
+				theme: 'dark',
+				autoStart: false,
+				lang: 'en',
+			});
+			props.setImageRendering('smooth');
+			props.setNoNetworking(true);
+			props.setVolume(1);
+	</script>
 	</body>
 </html>

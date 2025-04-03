@@ -23,7 +23,7 @@ const list: Record<number, string> = {
 export let lastErrorCode: number;
 export default (code: number, options?: { exit?: boolean, data?: string }): void => {
 	lastErrorCode = code;
-	console.error(`[Error ${code}] ${list[code] ?? undefined} ${options?.data}`);
+	console.error(`[Error ${code}] ${list[code] ?? undefined} ${options?.data ?? ''}`);
 	if (options?.exit)
 		exit(code);
 };

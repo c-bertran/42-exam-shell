@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-const { access, createReadStream } = require('fs');
+const { access, createReadStream, constants } = require('fs');
 const { createServer } = require('http');
 const { extname, join, resolve } = require('path');
 
@@ -31,6 +31,12 @@ class iddqd {
 		};
 	}
 
+	error(res, code) {
+			res.setHeader('Content-Type', 'text/html');
+			res.writeHead(code);
+			res.end(`<h2>${code}</h2>`);
+		}
+
 	init() {
 		this.serve = createServer((req, res) => {
 			if (req.method === 'GET') {
@@ -38,27 +44,27 @@ class iddqd {
 				file.URL = ((req.url === '/')
 					? '/index.html'
 					: req.url);
+				if (![
+					'/index.html',
+					'/css/jsDos.css',
+					'/css/style.css',
+					'/js/jsDos.js',
+					'/favicon.png',
+				].includes(file.URL))
+					return this.error(res, 403);
 				file.PATH = resolve(join(this.servePath, file.URL));
 				file.EXT = extname(file.PATH);
-
 				if (!Object.prototype.hasOwnProperty.call(this.mimeType, file.EXT))
 					file.EXT = '.binary';
-				access(file.PATH, (err) => {
-					if (err) {
-						res.setHeader('Content-Type', 'text/html');
-						res.writeHead(404);
-						res.end('<h2>404</h2>');
-						return;
-					}
+				access(file.PATH, constants.F_OK, (err) => {
+					if (err)
+						return this.error(res, 404);
 					res.setHeader('Content-Type', this.mimeType[file.EXT]);
 					res.writeHead(200);
 					createReadStream(file.PATH).pipe(res);
 				});
-			} else {
-				res.setHeader('Content-Type', 'text/html');
-				res.writeHead(404);
-				res.end('<h2>404</h2>');
-			}
+			} else
+				return this.error(res, 403);
 		});
 		this.serve.listen(this.config.port, this.config.host);
 	}

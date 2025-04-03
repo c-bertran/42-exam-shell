@@ -1,5 +1,5 @@
-import { access, createReadStream } from 'fs';
-import { createServer, Server } from 'http';
+import { access, constants, createReadStream } from 'fs';
+import { createServer, Server, ServerResponse } from 'http';
 import { extname, join, resolve } from 'path';
 import { command } from '../interface';
 
@@ -38,34 +38,44 @@ class iddqd {
 		};
 	}
 
+	error(res: ServerResponse, code: number) {
+		res.setHeader('Content-Type', 'text/html');
+		res.writeHead(code);
+		res.end(`<h2>${code}</h2>`);
+	}
+
 	init() {
 		this.serve = createServer((req, res) => {
 			if (req.method === 'GET') {
-				const file = { URL: String, PATH: String, EXT: String };
+				const file: {
+					URL: string,
+					PATH: string,
+					EXT: string,
+				} = { URL: '', PATH: '', EXT: '' };
 				file.URL = ((req.url === '/')
 					? '/index.html'
-					: req.url) as any;
-				file.PATH = resolve(join(this.servePath, file.URL as any)) as any;
-				file.EXT = extname(file.PATH as any) as any;
-
-				if (!Object.prototype.hasOwnProperty.call(this.mimeType, file.EXT as any))
-					file.EXT = '.binary' as any;
-				access(file.PATH as any, (err) => {
-					if (err) {
-						res.setHeader('Content-Type', 'text/html');
-						res.writeHead(404);
-						res.end('<h2>404</h2>');
-						return;
-					}
-					res.setHeader('Content-Type', this.mimeType[file.EXT as any]);
+					: req.url?.toString() ?? '/index.html');
+				if (![
+					'/index.html',
+					'/favicon.png',
+					'/css/jsDos.css',
+					'/css/style.css',
+					'/js/jsDos.js',
+				].includes(file.URL))
+					return this.error(res, 403);
+				file.PATH = resolve(join(this.servePath, file.URL));
+				file.EXT = extname(file.PATH);
+				if (!Object.prototype.hasOwnProperty.call(this.mimeType, file.EXT))
+					file.EXT = '.binary';
+				access(file.PATH, constants.F_OK, (err) => {
+					if (err)
+						return this.error(res, 404);
+					res.setHeader('Content-Type', this.mimeType[file.EXT]);
 					res.writeHead(200);
-					createReadStream(file.PATH as any).pipe(res);
+					createReadStream(file.PATH).pipe(res);
 				});
-			} else {
-				res.setHeader('Content-Type', 'text/html');
-				res.writeHead(404);
-				res.end('<h2>404</h2>');
-			}
+			} else
+				return this.error(res, 403);
 		});
 		this.serve.listen(this.config.port, this.config.host);
 	}
@@ -92,7 +102,7 @@ class iddqd {
    ███████                                                         ███████   
    █████                                                             █████   
    ██                                                                   ██
-                    is running on http://${this.config.host}:${this.config.port}
+        is running on http://${this.config.host}:${this.config.port}
 		`);
 	}
 }

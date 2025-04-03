@@ -9,7 +9,12 @@ html, body {
 	background-color: #000;
 }
 
-iframe {
-	height: inherit;
-	width: inherit;
+#warn {
+	height: 3vh;
+	text-align: center;
+}
+
+#dos {
+	width: 100vw;
+	height: 97vh;
 }

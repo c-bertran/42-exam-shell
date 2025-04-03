@@ -56,8 +56,9 @@ const install = async (resolve: (value: unknown) => void) => {
  * Check if mandatory lib is installed
  */
 export default (): Promise<unknown> => {
-	if (platform() !== 'linux' && platform() !== 'darwin')
-		error(1);
+	const currentPlatform = platform();
+	if (currentPlatform !== 'linux' && currentPlatform !== 'darwin')
+		error(1, { exit: true, data: `(current is ${currentPlatform})` });
 	return new Promise((res) => {
 		Promise.all([
 			child('bash --version'),
