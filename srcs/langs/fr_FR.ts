@@ -12,6 +12,9 @@ export default {
 		error: 'Pour que le programme fonctionne correctement, vous devez au moins sélectionner un examen. Pour ce faire, redémarrez l\'application',
 		prompt: 'L\'invité de commande n\'a pas pu être rendue dans l\'environnement actuel'
 	},
+	restart: {
+		question: 'Voulez-vous redémarrer Examshell ?',
+	},
 	git: {
 		render: 'rendu',
 		subject: 'sujet'
@@ -49,7 +52,7 @@ export default {
 	},
 	help: {
 		help: 'Imprimer l\'explication de la commande',
-		finish: 'Close examshell, votre session actuelle est définitivement fermée',
+		finish: 'Ferme examshell, votre session actuelle est définitivement fermée',
 		grademe: 'Valider votre projet',
 		status: 'Récupérer les informations sur la session en cours'
 	},

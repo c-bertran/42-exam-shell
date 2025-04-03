@@ -12,6 +12,9 @@ export default {
 		error: 'For the program to work properly, you must at least select an exam. To do this, restart the application',
 		prompt: 'Prompt couldn\'t be rendered in the current environment'
 	},
+	restart: {
+		question: 'Do you want to restart Examshell ?',
+	},
 	git: {
 		render: 'render',
 		subject: 'subject'

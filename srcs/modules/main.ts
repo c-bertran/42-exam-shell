@@ -12,7 +12,6 @@ import customExamList, { getConfig } from './customExamList';
 import error from './error';
 
 export default class {
-	private punchline: string[];
 	public options: {
 		infinite: boolean,
 		doom: boolean,
@@ -23,13 +22,6 @@ export default class {
 	public prompt: undefined | Interface;
 
 	constructor() {
-		this.punchline = [
-			'I\'m too young to die',
-			'Hey, not too rough',
-			'Hurt me plenty',
-			'Ultra-violence',
-			'Nightmare',
-		];
 		this.options = {
 			infinite: false,
 			doom: false,
@@ -120,6 +112,21 @@ export default class {
 		});
 	}
 
+	async restart(): Promise<void> {
+		this.clockInstance?.stop();
+		this.prompt?.close();
+		stdout.write('\n');
+
+		this.examInstance = undefined;
+		this.clockInstance = undefined;
+		this.prompt = undefined;
+
+		await this.setExam();
+		await this.startExamen();
+		this.manageClock();
+		this.startPrompt();
+	}
+
 	setExam(): Promise<void> {
 		return new Promise((res, rej) => {
 			const __exams = [...examList, ...customExamList()];
@@ -129,6 +136,7 @@ export default class {
 						this.examInstance = new exams(getConfig().exam as string, this.options);
 						this.clockInstance = new clock(exam.time, this.options.infinite);
 						this.examInstance.init();
+						this.examInstance.prependOnceListener('restart', () => this.restart());
 						return res();
 					}
 				}
@@ -154,6 +162,7 @@ export default class {
 							this.examInstance = new exams(answer.exam, this.options);
 							this.clockInstance = new clock(exam.time, this.options.infinite);
 							this.examInstance.init();
+							this.examInstance.prependOnceListener('restart', () => this.restart());
 							break;
 						}
 					}
@@ -188,7 +197,6 @@ export default class {
 		this.clockInstance?.start();
 		this.clockInstance?.on('stop', () => {
 			this.prompt?.write(null, { ctrl: true, name: 'u' });
-			this.prompt?.write(this.punchline[Math.floor(Math.random() * this.punchline.length)]);
 			this.prompt?.write(null, { name: 'enter' });
 		});
 	}

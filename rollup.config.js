@@ -10,7 +10,7 @@ const banner = `/**\n* @license\n* examshell\n* Copyright (C) 2022 - ${new Date(
 
 export default {
 	external: [
-		'child_process', 'crypto', 'events', 'fs', 'fs/promises', 'http', 'https', 'os', 'path', 'process', 'readline', 'util',
+		'child_process', 'crypto', 'events', 'fs', 'fs/promises', 'http', 'https', 'os', 'path', 'process', 'readline', 'stream', 'util',
 		'glob', 'prompts'
 	],
 	input: 'srcs/index.ts',

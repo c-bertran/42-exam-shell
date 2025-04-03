@@ -25,6 +25,7 @@ import uncaughtException from 'modules/uncaughtException';
 
 (async () => {
 	let instance: main;
+
 	try {
 		await args(argv);
 		customExamList();
