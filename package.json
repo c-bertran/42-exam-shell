@@ -53,7 +53,7 @@
     "@rollup/plugin-yaml": "^4.0.1",
     "@types/node": "^18.19.79",
     "@types/prompts": "^2.4.2",
-    "@yao-pkg/pkg": "^6.3.2",
+    "@yao-pkg/pkg": "^6.5.1",
     "eslint": "^8.57.1",
     "globals": "^16.0.0",
     "rollup": "^3.10.1",
