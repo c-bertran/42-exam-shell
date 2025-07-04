@@ -181,6 +181,9 @@ Thanks to you and your help, codeshell is getting better every day. I would like
 CodeShell is an independent coding practice tool. All challenges and exercises are community-created and original content.
 If you find any issues or have suggestions for improvements, don't hesitate to open an issue.
 
+This project has been completely rebranded and cleaned of any proprietary content.
+Any forks created before 07/04/2025 may contain outdated content that is not endorsed or maintained by this project.
+
 ## License
 ```text
 CodeShell Copyright (C) 2022 - ...  Clément Bertrand
