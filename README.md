@@ -47,8 +47,6 @@ If you have any questions or suggestions, please leave a message. Enjoy your use
 
 <img alt="Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/codeshell/.github/workflows/release.yml?style=flat-square"/> <img alt="License" src="https://img.shields.io/github/license/c-bertran/codeshell?style=flat-square"> <img alt="Repo size" src="https://img.shields.io/github/repo-size/c-bertran/codeshell?style=flat-square" /> <img alt="Language count" src="https://img.shields.io/github/languages/count/c-bertran/codeshell?style=flat-square">
 
-<img src="md/main.gif"></img>
-
 ## Direct downloads
 
 <div align="center">
