@@ -1,32 +1,32 @@
 {
-  "name": "examshell",
+  "name": "codeshell",
   "private": "true",
   "version": "0.6.0",
   "license": "GPL-3.0",
   "author": "Clément Bertrand (https://github.com/c-bertran)",
-  "description": "Examshell will allow you to practice to be perfectly ready for the 42 exams",
+  "description": "CodeShell will allow you to practice coding challenges and improve your programming skills",
   "repository": {
     "type": "git",
-    "url": "https://github.com/c-bertran/42-exam-shell.git"
+    "url": "https://github.com/c-bertran/codeshell.git"
   },
   "keywords": [
-    "examshell",
-    "42",
-    "examen",
+    "codeshell",
+    "coding",
+    "practice",
+    "programming",
+    "challenges",
     "exam",
-    "examrank",
-    "42exam",
-    "pool",
-    "42pool",
-    "42examshell"
+    "training",
+    "developer",
+    "shell"
   ],
   "bin": "dist/index.cjs.js",
   "scripts": {
     "start": "node dist/index.cjs.js",
     "build": "rollup --bundleConfigAsCjs --config rollup.config.js",
     "watch": "rollup -w --bundleConfigAsCjs --config rollup.config.js",
-    "pkg:build": "pkg --compress Brotli --output build/examshell .",
-    "pkg:debug": "pkg --debug --output build/examshell .",
+    "pkg:build": "pkg --compress Brotli --output build/codeshell .",
+    "pkg:debug": "pkg --debug --output build/codeshell .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },

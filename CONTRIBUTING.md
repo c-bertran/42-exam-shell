@@ -1,4 +1,4 @@
-<h1 align="center">🚀 Create a custom exam 🚀</h1>
+<h1 align="center">🚀 Create a custom challenge 🚀</h1>
 
 - [Development](#development)
 - [Cli](#cli)
@@ -18,8 +18,8 @@ To download this git repository and start a development environment, follow thes
 
 1. **Clone the repository**:
 	```shell
-	git clone https://github.com/yourusername/42-exam-shell.git
-	cd 42-exam-shell
+	git clone https://github.com/c-bertran/codeshell.git
+	cd codeshell
 	```
 
 2. **Install dependencies**:
@@ -42,33 +42,33 @@ To download this git repository and start a development environment, follow thes
 	```shell
 	npm run build // Create a bundle version
 	npm run pkg:debug // Build a debug executable
-	npm run pkg::build // Build the final executable
+	npm run pkg:build // Build the final executable
 	```
 
 You are now ready to start developing!
 
 ## Cli
-Starting with version *0.3.1*, a cli for creating an exam boilerplate is available. Simply run examshell with the `--new` or `-N` :
+Starting with version *0.3.1*, a cli for creating a challenge boilerplate is available. Simply run codeshell with the `--new` or `-N` :
 ```shell
-./examshell --new
+./codeshell --new
 ```
 
 ## Manual
 
-1. Create a `exams` directory in the root of the application, or launch `./examshell -C`
-2. Create a folder that will contain your exam, for example `hello`
+1. Create a `challenges` directory in the root of the application, or launch `./codeshell -C`
+2. Create a folder that will contain your challenge, for example `hello`
 3. In this folder, create a file named `definition.json`.
-   This file will contain all the information necessary for Examshell to know how it works.
+   This file will contain all the information necessary for CodeShell to know how it works.
 
 ### Main structure
 Its structure is based on a precise interface, for example:
 ```javascript
 {
-	"id": "my_custom_exam",
+	"id": "my_custom_challenge",
 	"dirName": "hello",
 	"name": {
-		"en_US": "My exam",
-		"fr_FR": "Mon examen"
+		"en_US": "My challenge",
+		"fr_FR": "Mon challenge"
 	},
 	"goal": 100,
 	"time": "3h",
@@ -81,13 +81,13 @@ Its structure is based on a precise interface, for example:
 }
 ```
 Let's go into more detail:
-- `id` : the id of your exam
-- `dirName` : the name of the folder in which your exam is located
+- `id` : the id of your challenge
+- `dirName` : the name of the folder in which your challenge is located
 - `name` : the different names of this one in the different languages
-- `goal` : the number of points needed by the user to complete your exam
-- `time` : the time you want to give the user to complete your exam. Accept days `d`, hours `h`, minutes `m`, seconds `s` (`3d 14h 41m 17s`)
+- `goal` : the number of points needed by the user to complete your challenge
+- `time` : the time you want to give the user to complete your challenge. Accept days `d`, hours `h`, minutes `m`, seconds `s` (`3d 14h 41m 17s`)
 - `exercises` : the list containing your exercises.
-  This list contains sub-lists containing your exams. Each sub-list represents a step in your exam. For example two sub-lists represent two steps. In each sub-list, one exam is randomly selected
+  This list contains sub-lists containing your exercises. Each sub-list represents a step in your challenge. For example two sub-lists represent two steps. In each sub-list, one exercise is randomly selected
 
 ### Exercise structure
 Let's go into more detail on the definition of an exercise:
@@ -122,7 +122,7 @@ Let's go into more detail on the definition of an exercise:
 - `id` : the id of your exercise, also represents the name of the folder in which it is located
 - `dir` *optional*: the name of the folder in which your exercise is located
 - `name` : the different names of this one in the different languages
-- `exponent` : represents the number of points you want to give to the exercise. For example if your goal is 100 and you want two exercises, the exponent will be 2. If you not defined it, is calculed automatically (number of exercise passes throughout the exam)
+- `exponent` : represents the number of points you want to give to the exercise. For example if your goal is 100 and you want two exercises, the exponent will be 2. If you not defined it, is calculed automatically (number of exercise passes throughout the challenge)
 - `trace` : the trace will be displayed in case of an error
 - `allowed_functions` : a list of strings representing the names of the functions you want to allow in the code
 - `moulinette` : pass the moulinette on the code
@@ -140,7 +140,7 @@ one
 ├─ make.bash
 ```
 	
-An exercise has at least a `subjects` folder containing the subjects in several languages, and a file named `make.bash`, which will be executed by examshell to check the exercise. You can add all the files and folders you want. These are the files and folders that are accessible via the copy option in the exercise definition.
+An exercise has at least a `subjects` folder containing the subjects in several languages, and a file named `make.bash`, which will be executed by codeshell to check the exercise. You can add all the files and folders you want. These are the files and folders that are accessible via the copy option in the exercise definition.
 The first argument (*$1*) sent to `make.bash` is the path to the user's rendering folder, so you can compile his program :
 ```bash
 clang -Wall -Werror -Wextra $1/hello/hello.c -o my_exec
@@ -157,6 +157,6 @@ bash leaks.bash my_exec $ID ...
 ---
 
 ## More info
-1. To test your exam, simply launch examshell and select your exam from the list. To save time, configure the `config.json` file by specifying your exam ID.
-2. Your exam looks great and you want to add it to examshell ? Open an issue with the exam flag, and you will be in the list of contributors.
+1. To test your challenge, simply launch codeshell and select your challenge from the list. To save time, configure the `config.json` file by specifying your challenge ID.
+2. Your challenge looks great and you want to add it to codeshell ? Open an issue with the challenge flag, and you will be in the list of contributors.
 3. Any questions ? Do not hesitate to ask your questions, I will answer them as soon as possible.

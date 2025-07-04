@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import { cwd } from 'process';
-import { examDefinition } from 'exams/interface';
+import type { challengeDefinition } from 'challenges/interface';
 import error from './error';
 import { lang, langList } from 'langs/index';
 
@@ -9,7 +9,7 @@ interface config {
 	checkUpdate: boolean;
 	checkLib: boolean;
 	signature: boolean;
-	exam?: string;
+	challenge?: string;
 	lang?: lang;
 	optionsIsSet: boolean;
 	options: {
@@ -18,7 +18,7 @@ interface config {
 	}
 }
 
-const __exams__: examDefinition[] = [];
+const __challenges__: challengeDefinition[] = [];
 let __config__: config | undefined = undefined;
 
 const checkObj = (obj: any): string[] => {
@@ -52,9 +52,9 @@ export const getConfig = (): config => {
 	if (!__config__) {
 		let file: Record<string, any> = {};
 
-		if (existsSync(resolve(cwd(), 'exams', 'config.json'))) {
+		if (existsSync(resolve(cwd(), 'challenges', 'config.json'))) {
 			file = JSON.parse(
-				readFileSync(resolve(cwd(), 'exams', 'config.json'), { encoding: 'utf-8' })
+				readFileSync(resolve(cwd(), 'challenges', 'config.json'), { encoding: 'utf-8' })
 			);
 		}
 
@@ -62,7 +62,7 @@ export const getConfig = (): config => {
 			checkUpdate: true,
 			checkLib: true,
 			signature: true,
-			exam: undefined,
+			challenge: undefined,
 			lang: undefined,
 			optionsIsSet: false,
 			options: {
@@ -78,8 +78,8 @@ export const getConfig = (): config => {
 				__config__.checkLib = file.checkLib;
 			if (is('signature', file))
 				__config__.signature = file.signature;
-			if (is('exam', file) && file.exam)
-				__config__.exam = file.exam;
+			if (is('challenge', file) && file.challenge)
+				__config__.challenge = file.challenge;
 			
 			if (is('lang', file) && file.lang) {
 				if (!is(file.lang, langList)) {
@@ -102,24 +102,24 @@ export const getConfig = (): config => {
 };
 
 /**
- * Import custom exam
+ * Import custom challenges
  */
 export default (): examDefinition[] => {
-	if (!__exams__.length && existsSync(resolve(cwd(), 'exams'))) {
-		const dirs = readdirSync(resolve(cwd(), 'exams'), { encoding: 'utf-8', withFileTypes: true });
+	if (!__challenges__.length && existsSync(resolve(cwd(), 'challenges'))) {
+		const dirs = readdirSync(resolve(cwd(), 'challenges'), { encoding: 'utf-8', withFileTypes: true });
 		for (const dir of dirs) {
-			const __path = resolve(cwd(), 'exams', dir.name, 'definition.json');
+			const __path = resolve(cwd(), 'challenges', dir.name, 'definition.json');
 			if (dir.isDirectory() && existsSync(__path)) {
 				const __json = JSON.parse(readFileSync(__path) as any);
 				const errors = checkObj(__json);
 				if (errors.length) {
 					error(10, { exit: true, data: errors.join('\n')});
-					throw new Error('exam_error');
+					throw new Error('challenge_error');
 				}
 				__json.custom = true;
-				__exams__.push(__json);
+				__challenges__.push(__json);
 			} 
 		}
 	}
-	return __exams__;
+	return __challenges__;
 };

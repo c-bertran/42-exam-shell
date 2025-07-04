@@ -8,7 +8,7 @@ import i18n, { lang, langList } from 'langs/index';
 import clock from 'modules/clock';
 import format from 'modules/format';
 import type { Interface } from 'readline';
-import customExamList, { getConfig } from './customExamList';
+import customChallengeList, { getConfig } from './customChallengeList';
 import error from './error';
 
 export default class {
@@ -31,7 +31,7 @@ export default class {
 		this.clockInstance = undefined;
 
 		if (getConfig().signature)
-			console.log('\n███████╗██╗  ██╗ █████╗ ███╗   ███╗███████╗██╗  ██╗███████╗██╗     ██╗\n██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║██╔════╝██║  ██║██╔════╝██║     ██║\n█████╗   ╚███╔╝ ███████║██╔████╔██║███████╗███████║█████╗  ██║     ██║\n██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║╚════██║██╔══██║██╔══╝  ██║     ██║\n███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║███████║██║  ██║███████╗███████╗███████╗\n╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\nby cbertran (cbertran@student.42.fr)\n');
+			console.log('\n ██████╗ ██████╗ ██████╗ ███████╗███████╗██╗  ██╗███████╗██╗     ██╗\n██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝██║  ██║██╔════╝██║     ██║\n██║     ██║   ██║██║  ██║█████╗  ███████╗███████║█████╗  ██║     ██║\n██║     ██║   ██║██║  ██║██╔══╝  ╚════██║██╔══██║██╔══╝  ██║     ██║\n╚██████╗╚██████╔╝██████╔╝███████╗███████║██║  ██║███████╗███████╗███████╗\n ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\nby cbertran (https://github.com/c-bertran/codeshell)\n');
 	}
 
 	setLang(): Promise<void> {
@@ -129,11 +129,11 @@ export default class {
 
 	setExam(): Promise<void> {
 		return new Promise((res, rej) => {
-			const __exams = [...examList, ...customExamList()];
-			if (getConfig().exam) {
+			const __exams = [...examList, ...customChallengeList()];
+			if (getConfig().challenge) {
 				for (const exam of __exams) {
-					if (exam.id === getConfig().exam) {
-						this.examInstance = new exams(getConfig().exam as string, this.options);
+					if (exam.id === getConfig().challenge) {
+						this.examInstance = new exams(getConfig().challenge as string, this.options);
 						this.clockInstance = new clock(exam.time, this.options.infinite);
 						this.examInstance.init();
 						this.examInstance.prependOnceListener('restart', () => this.restart());
@@ -211,7 +211,7 @@ export default class {
 		this.prompt = createInterface({
 			input: stdin,
 			output: stdout,
-			prompt: `${format.format.bold}${format.foreground.light.green}examshell ${format.foreground.light.magenta}>${format.format.reset} `,
+			prompt: `${format.format.bold}${format.foreground.light.green}codeshell ${format.foreground.light.magenta}>${format.format.reset} `,
 			terminal: true,
 			tabSize: 2,
 			completer: (line: string) => {

@@ -21,7 +21,7 @@
 			"@/*": ["srcs/*"],
 			"checker/*": ["srcs/checker/*"],
 			"commands/*": ["srcs/commands/*"],
-			"exams/*": ["srcs/exams/*"],
+			"challenges/*": ["srcs/challenges/*"],
 			"langs/*": ["srcs/langs/*"],
 			"modules/*": ["srcs/modules/*"],
 			"package": ["package.json"]

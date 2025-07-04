@@ -1,5 +1,5 @@
 export default {
-	hello: 'Bienvenue dans Examshell',
+	hello: 'Bienvenue dans CodeShell',
 	difficulty: {
 		question: 'Sélectionnez votre difficulté',
 		list: [
@@ -8,12 +8,12 @@ export default {
 		]
 	},
 	select: {
-		question: 'Sélectionnez votre examen (vous pouvez écrire votre recherche)',
-		error: 'Pour que le programme fonctionne correctement, vous devez au moins sélectionner un examen. Pour ce faire, redémarrez l\'application',
+		question: 'Sélectionnez votre challenge (vous pouvez écrire votre recherche)',
+		error: 'Pour que le programme fonctionne correctement, vous devez au moins sélectionner un challenge. Pour ce faire, redémarrez l\'application',
 		prompt: 'L\'invité de commande n\'a pas pu être rendue dans l\'environnement actuel'
 	},
 	restart: {
-		question: 'Voulez-vous redémarrer Examshell ?',
+		question: 'Voulez-vous redémarrer CodeShell ?',
 	},
 	git: {
 		render: 'rendu',
@@ -43,7 +43,7 @@ export default {
 	},
 	grademe : {
 		correction: 'Votre exercice est en cours de correction',
-		finish: 'L\'examen est terminé, vous pouvez maintenant fermer examshell',
+		finish: 'Le challenge est terminé, vous pouvez maintenant fermer codeshell',
 		time: 'Vous pourez `grademe` votre exercise dans',
 		failed: 'Échoué',
 		success: 'Réussi',
@@ -52,7 +52,7 @@ export default {
 	},
 	help: {
 		help: 'Imprimer l\'explication de la commande',
-		finish: 'Ferme examshell, votre session actuelle est définitivement fermée',
+		finish: 'Ferme codeshell, votre session actuelle est définitivement fermée',
 		grademe: 'Valider votre projet',
 		status: 'Récupérer les informations sur la session en cours'
 	},

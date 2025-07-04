@@ -29,12 +29,12 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-             build/examshell-linux
-             build/examshell-macos
+             build/codeshell-linux
+             build/codeshell-macos
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            build/examshell-linux
-            build/examshell-macos
+            build/codeshell-linux
+            build/codeshell-macos

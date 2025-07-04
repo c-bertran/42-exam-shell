@@ -16,14 +16,14 @@ const options = [
 		nArguments: 0,
 		exec: async () => {
 			try {
-				await mkdir(resolve(cwd(), 'exams'), { recursive: true });
+				await mkdir(resolve(cwd(), 'challenges'), { recursive: true });
 				await writeFile(
-					resolve(cwd(), 'exams', 'config.json'),
+					resolve(cwd(), 'challenges', 'config.json'),
 					JSON.stringify({
 						checkUpdate: true,
 						checkLib: true,
 						signature: true,
-						exam: null,
+						challenge: null,
 						lang: null,
 						options: {
 							doom: null,
@@ -56,31 +56,31 @@ const options = [
 				{
 					type: 'text',
 					name: 'id',
-					message: 'Enter id of exam',
+					message: 'Enter id of challenge',
 					validate: isAlphaNumUnder
 				},
 				{
 					type: 'text',
 					name: 'dirName',
-					message: 'Name of the folder containing your exam',
+					message: 'Name of the folder containing your challenge',
 					validate: isAlphaNumUnder
 				},
 				{
 					type: 'text',
 					name: 'name',
-					message: 'Name of your exam'
+					message: 'Name of your challenge'
 				},
 				{
 					type: 'number',
 					name: 'goal',
-					message: 'Number of points the user must reach to pass the exam',
+					message: 'Number of points the user must reach to pass the challenge',
 					initial: 100,
 					min: 0
 				},
 				{
 					type: 'text',
 					name: 'time',
-					message: 'time you want to give the user to complete your exam. Accept days `d`, hours `h`, minutes `m`, seconds `s` (3d 14h 41m 17s)',
+					message: 'time you want to give the user to complete your challenge. Accept days `d`, hours `h`, minutes `m`, seconds `s` (3d 14h 41m 17s)',
 					initial: '3h',
 					validate: isTime
 				},
@@ -117,8 +117,8 @@ const options = [
 						return ret;
 					};
 
-					await mkdir(resolve(cwd(), 'exams', answer.dirName), { recursive: true });
-					await writeFile(resolve(cwd(), 'exams', answer.dirName, 'definition.json'), JSON.stringify({
+					await mkdir(resolve(cwd(), 'challenges', answer.dirName), { recursive: true });
+					await writeFile(resolve(cwd(), 'challenges', answer.dirName, 'definition.json'), JSON.stringify({
 						id: answer.id,
 						dirName: answer.dirName,
 						name: {
@@ -129,12 +129,12 @@ const options = [
 						time: answer.time,
 						exercises: arr(answer.exercises)
 					}, null, 2), { flag: 'w' });
-					await mkdir(resolve(cwd(), 'exams', answer.dirName, 'hello'));
-					await mkdir(resolve(cwd(), 'exams', answer.dirName, 'hello', 'subjects'));
-					await writeFile(resolve(cwd(), 'exams', answer.dirName, 'hello', 'subjects', 'en_US'), '', { encoding: 'utf-8' });
-					await writeFile(resolve(cwd(), 'exams', answer.dirName, 'hello', 'make.bash'), '#!/bin/bash\n\nclang -Wall -Werror -Wextra hello.c -o hello\n', { encoding: 'utf-8' });
-					await writeFile(resolve(cwd(), 'exams', answer.dirName, 'hello', 'hello.c'), '#include <stdio.h>\n\nint main(void) {\n\tprintf("hello world\\n");\n\treturn 0;\n}\n', { encoding: 'utf-8' });
-					console.log(`🚀 Your exam is located at ${resolve(cwd(), 'exams', answer.dirName)} 🚀`);
+					await mkdir(resolve(cwd(), 'challenges', answer.dirName, 'hello'));
+					await mkdir(resolve(cwd(), 'challenges', answer.dirName, 'hello', 'subjects'));
+					await writeFile(resolve(cwd(), 'challenges', answer.dirName, 'hello', 'subjects', 'en_US'), '', { encoding: 'utf-8' });
+					await writeFile(resolve(cwd(), 'challenges', answer.dirName, 'hello', 'make.bash'), '#!/bin/bash\n\nclang -Wall -Werror -Wextra hello.c -o hello\n', { encoding: 'utf-8' });
+					await writeFile(resolve(cwd(), 'challenges', answer.dirName, 'hello', 'hello.c'), '#include <stdio.h>\n\nint main(void) {\n\tprintf("hello world\\n");\n\treturn 0;\n}\n', { encoding: 'utf-8' });
+					console.log(`🚀 Your challenge is located at ${resolve(cwd(), 'challenges', answer.dirName)} 🚀`);
 					exit(0);
 				})
 				.catch((e) => {

@@ -1,86 +1,122 @@
 <h1 align="center">
-  <img height="100" src="md/logo.svg" alt="logo"><br>
+  <img src="md/logo.svg" alt="logo"><br>
 	Practice like a boss
 </h1>
 
-<h1 align="center">Examshell will allow you to practice to be perfectly ready for the 42 exams</h1>
+## 🚧 Release note and project reset
 
-<img alt="Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/42-exam-shell/.github/workflows/release.yml?style=flat-square"/> <img alt="License" src="https://img.shields.io/github/license/c-bertran/42-exam-shell?style=flat-square"> <img alt="Repo size" src="https://img.shields.io/github/repo-size/c-bertran/42-exam-shell?style=flat-square" /> <img alt="Language count" src="https://img.shields.io/github/languages/count/c-bertran/42-exam-shell?style=flat-square">
+### Important
+This repository has been completely reset for legal reasons:
+- All commits have been cleaned up and rewritten.
+- There is no trace of old exam records left in the history.
+
+### What has changed
+- History rewritten to zero
+  - Each commit has been purged of all references to old exams.
+  - The history now contains only authorised code.
+- Branches and tags
+  - Only the main branch remains
+  - All other branches have been deleted.
+
+### And now?
+The heart of the project was not the exams but the software itself. You have to see it as a real return to the source, and a chance to do something great.
+
+### How do you create challenges?
+
+The general operation remains unchanged:
+- Clone the repository:
+```shell
+git clone https://github.com/c-bertran/codeshell.git
+cd codeshell
+```
+- Follow [the detailed tutorial](#create-or-install-custom-challenge) to generate new challenges from scratch.
+- Make a pull request to offer it to everyone! Please note that we will not accept any challenges that are similar to those in 42.
+
+### Why a fresh start is a good thing
+- Lightweight history focused on current content
+- No dependency on old exams; you start from a fully mastered base
+- Simplified governance: one main branch, easier to maintain
+- Clear foundations for developing new features
+
+### Thank you for your understanding and support!
+If you have any questions or suggestions, please leave a message. Enjoy your use and development!
+
+---
+
+<h1 align="center">CodeShell will allow you to practice coding challenges and improve your programming skills</h1>
+
+<img alt="Workflow Status" src="https://img.shields.io/github/actions/workflow/status/c-bertran/codeshell/.github/workflows/release.yml?style=flat-square"/> <img alt="License" src="https://img.shields.io/github/license/c-bertran/codeshell?style=flat-square"> <img alt="Repo size" src="https://img.shields.io/github/repo-size/c-bertran/codeshell?style=flat-square" /> <img alt="Language count" src="https://img.shields.io/github/languages/count/c-bertran/codeshell?style=flat-square">
 
 <img src="md/main.gif"></img>
 
 ## Direct downloads
 
 <div align="center">
-	<a href="https://github.com/c-bertran/42-exam-shell/releases/latest/download/examshell-linux" style="margin-right: 1em">
+	<a href="https://github.com/c-bertran/codeshell/releases/latest/download/codeshell-linux" style="margin-right: 1em">
 		<img alt="Download latest Linux version" width=250 src="md/download_linux.jpg" />
 	</a>
-	<a href="https://github.com/c-bertran/42-exam-shell/releases/latest/download/examshell-macos" style="margin-left: 1em">
+	<a href="https://github.com/c-bertran/codeshell/releases/latest/download/codeshell-macos" style="margin-left: 1em">
 		<img alt="Download latest MacOS version" width=250 src="md/download_macos.jpg" />
 	</a>
 </div>
 
 ---
 
-- [Exams](#exams)
+- [Challenges](#challenges)
 - [How to use](#how-to-use)
 	- [Arguments](#arguments)
 	- [Dependencies](#dependencies)
-- [Config examshell](#config-examshell)
-- [Create or install custom exam](#create-or-install-custom-exam)
-	- [Install a custom exam](#install-a-custom-exam)
-	- [Create a custom exam](#create-a-custom-exam)
+- [Config codeshell](#config-codeshell)
+- [Create or install custom challenge](#create-or-install-custom-challenge)
+	- [Install a custom challenge](#install-a-custom-challenge)
+	- [Create a custom challenge](#create-a-custom-challenge)
 - [Contributor](#contributor)
 - [Disclaimer](#disclaimer)
 - [License](#license)
 
-This one will have the same behaviors as the real examshell:
-- Updated with the new version of the exam in April 2022
-- Several exercises can be available per level, chosen randomly
-- Waiting times for correction are exponential
-- Your rendering must be committed via git
-- A moulinette will go over your code to check for forbidden functions, and possible leaks
-- A trace is available when the exercise allows it
-- Then your program will be compared with the _real_ program
+CodeShell provides a comprehensive practice environment for coding challenges:
+- Multiple exercises available per level, chosen randomly
+- Exponential waiting times for correction simulation
+- Git-based submission system for your solutions
+- Automated code review checking for forbidden functions and memory leaks
+- Trace functionality when exercises allow it
+- Program comparison with expected outputs
 
-Some options have been added:
+Some enhanced features have been added:
 - Multilingual interface (currently available in `French` and `English`)
-- Two options:
-  - `Infinite`: Disables the timer, so the time is unlimited
-  - `Doom`: To make your practice harder, if you fail the whole rendering folder is reset, as well as the associated git
+- Two special modes:
+  - `Infinite`: Disables the timer for unlimited practice time
+  - `Doom`: Advanced difficulty mode - if you fail, the entire workspace is reset along with git history
 
-## Exams
-The following exams are available natively:
-- Exam 02
-- Exam 03
-- Exam 04
-- Exam 05
-- Exam 06
-- Old exam 03
-- Pool exam 01
-- Pool exam 02
-- Pool exam 03
-- Pool exam 04
+## Challenges
+CodeShell is designed to work with custom challenges. After the project reset, no specific challenges are included by default.
+
+You can:
+- Create your own challenges using the built-in tools
+- Install community-created challenges
+- Contribute new challenges to the community
+
+Visit the [Create or install custom challenge](#create-or-install-custom-challenge) section to get started!
 
 ## How to use
 Launch your favorite command prompt, and simply run the program:
 ```sh
-./examshell
+./codeshell
 ```
 
 If a rights problem occurs during the execution, make the following command:
 ```sh
-chmod +x examshell && ./examshell
+chmod +x codeshell && ./codeshell
 ```
 
 ### Arguments
 | Args | Definition |
 | --- | --- |
-| -C or --custom | Create the folder that can contain the *exams* created by other people, and also the configuration file |
-| -N or --new | Launch the cli to create the boilerplate for a new exam |
+| -C or --custom | Create the folder that can contain the *challenges* created by other people, and also the configuration file |
+| -N or --new | Launch the cli to create the boilerplate for a new challenge |
 
 ### Dependencies
-Examshell is dependent on several external software. Under Linux, the installation can be done by the software itself at startup. However under MacOS you will have to install them yourself. Here is the list with their versions to help you
+CodeShell is dependent on several external software. Under Linux, the installation can be done by the software itself at startup. However under MacOS you will have to install them yourself. Here is the list with their versions to help you
 | Software | Version |
 | --- | --- |
 | bash | `>= 4.0` |
@@ -88,15 +124,15 @@ Examshell is dependent on several external software. Under Linux, the installati
 | git | `>= 2.20` |
 | valgrind | `>= 3.10` |
 
-## Config examshell
-You can configure the behavior of examshell via the `config.json` file in the *exams* folder.
+## Config codeshell
+You can configure the behavior of codeshell via the `config.json` file in the *challenges* folder.
 It has the following options:
 ```json
 {
 	"checkUpdate": true,
 	"checkLib": true,
 	"signature": true,
-	"exam": "exam_02",
+	"challenge": "my_challenge",
 	"lang": "en_US",
 	"options": {
 		"doom": false,
@@ -108,25 +144,25 @@ It has the following options:
 - checkUpdate `boolean` : Checks if a new version is available
 - checkLib `boolean` : Checks if the necessary libraries are installed
 - signature `boolean` : Print the application's logo and signature
-- exam `string` : Id of the exam
+- challenge `string` : Id of the challenge
 - lang `string` : Selected lang ('en_US', 'fr_FR')
 - options.doom `boolean` : All work and git is reset if grademe failed
 - options.infinite `boolean` : There is no time limit anymore
 
-## Create or install custom exam
-Starting with version `0.3.0` examshell allows you to create your own exams in a simple and concise way.
-If you want to share your exam, don't hesitate to open a issue with the exam label so that it can be added to a list.
+## Create or install custom challenge
+Starting with version `0.3.0` codeshell allows you to create your own challenges in a simple and concise way.
+If you want to share your challenge, don't hesitate to open a issue with the challenge label so that it can be added to a list.
 
-### Install a custom exam
-1. Create a `exams` directory in the root of the application, or launch `./examshell -C`
-2. Paste custom exam in this directory
-3. Start application, if exam is correct, it will appear in the selection list
+### Install a custom challenge
+1. Create a `challenges` directory in the root of the application, or launch `./codeshell -C`
+2. Paste custom challenge in this directory
+3. Start application, if challenge is correct, it will appear in the selection list
 
-### Create a custom exam
-You can create custom exam by adding new exercises: [Contributing](CONTRIBUTING.md)
+### Create a custom challenge
+You can create custom challenges by adding new exercises: [Contributing](CONTRIBUTING.md)
 
 ## Contributor
-Thanks to you and your help, examshell is getting better every day. I would like to thank those people who gave their time 🧡
+Thanks to you and your help, codeshell is getting better every day. I would like to thank those people who gave their time 🧡
 
 <div align="center">
 	<a href="https://github.com/Filoji">
@@ -144,12 +180,12 @@ Thanks to you and your help, examshell is getting better every day. I would like
 </div>
 
 ## Disclaimer
-The exams available are based as closely as possible on the official exams at 42, however there may be some differences.
-If you find a significant difference, don't hesitate to open an issue.
+CodeShell is an independent coding practice tool. All challenges and exercises are community-created and original content.
+If you find any issues or have suggestions for improvements, don't hesitate to open an issue.
 
 ## License
 ```text
-Examshell Copyright (C) 2022 - ...  Clément Bertrand
+CodeShell Copyright (C) 2022 - ...  Clément Bertrand
     
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

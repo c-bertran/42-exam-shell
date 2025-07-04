@@ -1,6 +1,6 @@
 /**
- * examshell
- * Copyright (C) 2022 - 2025 Clément Bertrand (https://github.com/c-bertran/42-exam-shell)
+ * codeshell
+ * Copyright (C) 2022 - 2025 Clément Bertrand (https://github.com/c-bertran/codeshell)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import { lastErrorCode } from 'modules/error';
 import main from 'modules/main';
 import checklib from 'modules/checklib';
 import checkUpdate from 'modules/checkUpdate';
-import customExamList, { getConfig } from 'modules/customExamList';
+import customChallengeList, { getConfig } from 'modules/customChallengeList';
 import uncaughtException from 'modules/uncaughtException';
 
 (async () => {
@@ -28,7 +28,7 @@ import uncaughtException from 'modules/uncaughtException';
 
 	try {
 		await args(argv);
-		customExamList();
+		customChallengeList();
 		getConfig();
 		if (getConfig().checkUpdate)
 			await checkUpdate();

@@ -1,5 +1,5 @@
 export default {
-	hello: 'Welcome to examshell',
+	hello: 'Welcome to CodeShell',
 	difficulty: {
 		question: 'Select your difficulty',
 		list: [
@@ -8,12 +8,12 @@ export default {
 		]
 	},
 	select: {
-		question: 'Select your exam (you can write your search)',
-		error: 'For the program to work properly, you must at least select an exam. To do this, restart the application',
+		question: 'Select your challenge (you can write your search)',
+		error: 'For the program to work properly, you must at least select a challenge. To do this, restart the application',
 		prompt: 'Prompt couldn\'t be rendered in the current environment'
 	},
 	restart: {
-		question: 'Do you want to restart Examshell ?',
+		question: 'Do you want to restart CodeShell ?',
 	},
 	git: {
 		render: 'render',
@@ -43,7 +43,7 @@ export default {
 	},
 	grademe : {
 		correction: 'Your exercise is being corrected',
-		finish: 'Exam is finished, you can now close examshell',
+		finish: 'Challenge is finished, you can now close codeshell',
 		time: 'You can `grademe` your exercise in',
 		failed: 'Failed',
 		success: 'Success',
@@ -52,7 +52,7 @@ export default {
 	},
 	help: {
 		help: 'Print explanation about command',
-		finish : 'Close examshell, your current session is definitely closed',
+		finish : 'Close codeshell, your current session is definitely closed',
 		grademe: 'Validate your projet',
 		status : 'Recover informations about the current session'
 	},
