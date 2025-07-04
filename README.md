@@ -8,18 +8,18 @@
 ### Important
 This repository has been completely reset for legal reasons:
 - All commits have been cleaned up and rewritten.
-- There is no trace of old exam records left in the history.
+- There is no trace of old challenge records left in the history.
 
 ### What has changed
 - History rewritten to zero
-  - Each commit has been purged of all references to old exams.
+  - Each commit has been purged of all references to old challenges.
   - The history now contains only authorised code.
 - Branches and tags
   - Only the main branch remains
   - All other branches have been deleted.
 
-### And now?
-The heart of the project was not the exams but the software itself. You have to see it as a real return to the source, and a chance to do something great.
+### What's next?
+The heart of the project was not the challenges but the software itself. You have to see it as a real return to the source, and a chance to do something great.
 
 ### How do you create challenges?
 
@@ -30,11 +30,11 @@ git clone https://github.com/c-bertran/codeshell.git
 cd codeshell
 ```
 - Follow [the detailed tutorial](#create-or-install-custom-challenge) to generate new challenges from scratch.
-- Make a pull request to offer it to everyone! Please note that we will not accept any challenges that are similar to those in 42.
+- Make a pull request to offer it to everyone!
 
 ### Why a fresh start is a good thing
 - Lightweight history focused on current content
-- No dependency on old exams; you start from a fully mastered base
+- No dependency on old content; you start from a fully mastered base
 - Simplified governance: one main branch, easier to maintain
 - Clear foundations for developing new features
 

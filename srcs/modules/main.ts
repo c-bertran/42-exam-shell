@@ -2,8 +2,8 @@ import { exit, stdin, stdout } from 'process';
 import { createInterface } from 'readline';
 import prompts from 'prompts';
 import commands, { initCommands, getCommandsList } from 'commands/index';
-import exams from 'exams/index';
-import examList from 'exams/exams';
+import challenges from 'challenges/index';
+import challengeList from 'challenges/challenges';
 import i18n, { lang, langList } from 'langs/index';
 import clock from 'modules/clock';
 import format from 'modules/format';
@@ -17,7 +17,7 @@ export default class {
 		doom: boolean,
 		lang: lang
 	};
-	public examInstance: undefined | exams;
+	public challengeInstance: undefined | challenges;
 	public clockInstance: undefined | clock;
 	public prompt: undefined | Interface;
 
@@ -27,11 +27,11 @@ export default class {
 			doom: false,
 			lang: 'en_US'
 		};
-		this.examInstance = undefined;
+		this.challengeInstance = undefined;
 		this.clockInstance = undefined;
 
 		if (getConfig().signature)
-			console.log('\n ██████╗ ██████╗ ██████╗ ███████╗███████╗██╗  ██╗███████╗██╗     ██╗\n██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝██║  ██║██╔════╝██║     ██║\n██║     ██║   ██║██║  ██║█████╗  ███████╗███████║█████╗  ██║     ██║\n██║     ██║   ██║██║  ██║██╔══╝  ╚════██║██╔══██║██╔══╝  ██║     ██║\n╚██████╗╚██████╔╝██████╔╝███████╗███████║██║  ██║███████╗███████╗███████╗\n ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\nby cbertran (https://github.com/c-bertran/codeshell)\n');
+			console.log('\n CodeShell\nby cbertran (https://github.com/c-bertran/codeshell)\n');
 	}
 
 	setLang(): Promise<void> {
@@ -117,26 +117,26 @@ export default class {
 		this.prompt?.close();
 		stdout.write('\n');
 
-		this.examInstance = undefined;
+		this.challengeInstance = undefined;
 		this.clockInstance = undefined;
 		this.prompt = undefined;
 
-		await this.setExam();
-		await this.startExamen();
+		await this.setChallenge();
+		await this.startChallenge();
 		this.manageClock();
 		this.startPrompt();
 	}
 
-	setExam(): Promise<void> {
+	setChallenge(): Promise<void> {
 		return new Promise((res, rej) => {
-			const __exams = [...examList, ...customChallengeList()];
+			const __challenges = [...challengeList, ...customChallengeList()];
 			if (getConfig().challenge) {
-				for (const exam of __exams) {
-					if (exam.id === getConfig().challenge) {
-						this.examInstance = new exams(getConfig().challenge as string, this.options);
-						this.clockInstance = new clock(exam.time, this.options.infinite);
-						this.examInstance.init();
-						this.examInstance.prependOnceListener('restart', () => this.restart());
+				for (const challenge of __challenges) {
+					if (challenge.id === getConfig().challenge) {
+						this.challengeInstance = new challenges(getConfig().challenge as string, this.options);
+						this.clockInstance = new clock(challenge.time, this.options.infinite);
+						this.challengeInstance.init();
+						this.challengeInstance.prependOnceListener('restart', () => this.restart());
 						return res();
 					}
 				}
@@ -146,9 +146,9 @@ export default class {
 			prompts([
 				{
 					type: 'autocomplete',
-					name: 'exam',
+					name: 'challenge',
 					message: i18n('select.question', this.options.lang) as string,
-					choices: __exams.map((e) => ({ title: e.name[this.options.lang], value: e.id }))
+					choices: __challenges.map((e) => ({ title: e.name[this.options.lang], value: e.id }))
 				}
 			], {
 				onCancel: () => {
@@ -157,12 +157,12 @@ export default class {
 				}
 			})
 				.then((answer) => {
-					for (const exam of __exams) {
-						if (exam.id === answer.exam) {
-							this.examInstance = new exams(answer.exam, this.options);
-							this.clockInstance = new clock(exam.time, this.options.infinite);
-							this.examInstance.init();
-							this.examInstance.prependOnceListener('restart', () => this.restart());
+					for (const challenge of __challenges) {
+						if (challenge.id === answer.challenge) {
+							this.challengeInstance = new challenges(answer.challenge, this.options);
+							this.clockInstance = new clock(challenge.time, this.options.infinite);
+							this.challengeInstance.init();
+							this.challengeInstance.prependOnceListener('restart', () => this.restart());
 							break;
 						}
 					}
@@ -178,12 +178,12 @@ export default class {
 		});
 	}
 
-	async startExamen(): Promise<void> {
-		return this.examInstance?.start()
+	async startChallenge(): Promise<void> {
+		return this.challengeInstance?.start()
 			.then(() => {
-				console.log(`\n${format.foreground.light.blue}${i18n('info.dir', this.options.lang)} '${format.foreground.normal.green}${this.examInstance?.git.main}${format.format.reset}'`);
+				console.log(`\n${format.foreground.light.blue}${i18n('info.dir', this.options.lang)} '${format.foreground.normal.green}${this.challengeInstance?.git.main}${format.format.reset}'`);
 				console.log(`${format.foreground.light.blue}${i18n('info.git', this.options.lang)}${format.format.reset}\n`);
-				this.examInstance?.nextExercise();
+				this.challengeInstance?.nextExercise();
 			})
 			.catch((e) => {
 				console.error(e);
@@ -226,7 +226,7 @@ export default class {
 				await commands(
 					line,
 					this.options.lang,
-					this.examInstance as exams,
+					this.challengeInstance as challenges,
 					this.clockInstance as clock
 				);
 				this.prompt?.resume();

@@ -1,4 +1,4 @@
-import exams from 'exams/index';
+import challenges from 'challenges/index';
 import i18n, { lang } from 'langs/index';
 import clock from 'modules/clock';
 import format from 'modules/format';
@@ -105,21 +105,21 @@ export const getCommandsList = (): string[] => {
 	return instance.commandsList;
 };
 
-export default async (line: string, lang: lang, exams: exams, clock: clock): Promise<void> => {
+export default async (line: string, lang: lang, challenges: challenges, clock: clock): Promise<void> => {
 	if (!instance)
 		instance = new parse();
 	const commands = instance.parse(line);
 	if (!commands.length)
 		return;
 	instance.fuzzySearch(commands[0]);
-	if (!exams.options.infinite && clock.isFinish() && commands[0] === 'grademe') {
+	if (!challenges.options.infinite && clock.isFinish() && commands[0] === 'grademe') {
 		stdout.clearLine(0);
 		stdout.write(`${format.format.reset}${i18n('outOfTime', lang)}\n`);
 		return;
 	}
 	const command = instance.getCommand(commands[0]);
 	if (command)
-		await command.exec(commands, lang, exams, clock);
+		await command.exec(commands, lang, challenges, clock);
 	else {
 		const print = [];
 		for (const key in instance.commands) {

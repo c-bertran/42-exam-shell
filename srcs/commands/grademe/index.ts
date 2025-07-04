@@ -1,4 +1,4 @@
-import exams from 'exams/index';
+import challenges from 'challenges/index';
 import { command } from '../interface';
 
 export default {
@@ -7,9 +7,9 @@ export default {
 		'en_US': 'Grade current exercise',
 		'fr_FR': 'Noter l\'exercice en cours'
 	},
-	exec: async (_command, _lang, exams: exams) => {
+	exec: async (_command, _lang, challenges: challenges) => {
 		return new Promise((res) => {
-			exams.grade()
+			challenges.grade()
 				.then(() => res())
 				.catch(() => res());
 		});

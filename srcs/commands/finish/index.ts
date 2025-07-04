@@ -1,18 +1,18 @@
 import { exit } from 'process';
-import exams from '@/exams';
+import challenges from '@/challenges';
 import { command } from '../interface';
 
 export default {
 	name: 'finish',
 	description: {
-		'en_US': 'Terminate exam, pass -f to force program exit',
-		'fr_FR': 'Termine l\'examen, passez -f pour forcer la sortie du programme',
+		'en_US': 'Terminate challenge, pass -f to force program exit',
+		'fr_FR': 'Termine le challenge, passez -f pour forcer la sortie du programme',
 	},
-	exec: async (command, _lang, exam: exams) => {
+	exec: async (command, _lang, challenge: challenges) => {
 		if (command.length > 1 && ['--force', '-f'].includes(command[1]))
 			exit(0);
-		if ((await exam.stop()) === 'restart')
-			exam.emit('restart');
+		if ((await challenge.stop()) === 'restart')
+			challenge.emit('restart');
 		else
 			exit(0);
 	}

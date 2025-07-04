@@ -8,12 +8,12 @@ const list: Record<number, string> = {
 	5: 'Prompt couldn\'t be rendered in the current environment',
 	6: 'An error has occurred, the update search is skipped',
 
-	10: 'Custom exam error',
-	11: 'Config exam error',
+	10: 'Custom challenge error',
+	11: 'Config challenge error',
 
 	20: 'Prompt error',
 
-	30: 'Exam with this identifier does not exist',
+	30: 'Challenge with this identifier does not exist',
 	31: 'Deletion of the folder has failed',
 	32: 'mkdirSync or copyFileSync failed',
 

@@ -38,8 +38,8 @@ import uncaughtException from 'modules/uncaughtException';
 		instance = new main();
 		await instance.setLang();
 		await instance.setOptions();
-		await instance.setExam();
-		await instance.startExamen();
+		await instance.setChallenge();
+		await instance.startChallenge();
 		instance.manageClock();
 		instance.startPrompt();
 	} catch {

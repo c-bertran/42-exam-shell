@@ -17,7 +17,7 @@ import error from 'modules/error';
 import customChallengeList from 'modules/customChallengeList';
 import spinner from 'modules/spinner';
 import i18n, { lang } from 'langs/index';
-import examList from './challenges';
+import challengeList from './challenges';
 import { challengeDefinition } from './interface';
 
 export default class extends EventEmitter {
@@ -30,7 +30,7 @@ export default class extends EventEmitter {
 	};
 
 	public generateId: string;
-	public exam: {
+	public challenge: {
 		id: number;
 		step: number;
 		currentStep: number;
@@ -56,14 +56,14 @@ export default class extends EventEmitter {
 
 	constructor(id: string, options: { infinite: boolean; doom: boolean; lang: lang }) {
 		super();
-		this.challenges = [ ...examList, ...customChallengeList() ];
+		this.challenges = [ ...challengeList, ...customChallengeList() ];
 	
 		const idSelected = this.challenges.findIndex((e) => e.id === id);
 		if (idSelected === -1)
 			error(30, { data: id, exit: true });
 
 		this.timer = { interval: undefined, retry: 0, old: 0 };
-		this.exam = {
+		this.challenge = {
 			id: idSelected, step: 0, currentStep: 0, exerciseSelected: 0, retry: 0,
 			goal: {
 				current: 0,
@@ -72,7 +72,7 @@ export default class extends EventEmitter {
 			},
 			path: { exercise: '', subject: '', correction: '' }
 		};
-		this.exam.step = this.challenges[this.exam.id].exercises.length;
+		this.challenge.step = this.challenges[this.challenge.id].exercises.length;
 		this.options = options;
 		this.generateId = randomBytes(Math.ceil(16 / 2)).toString('hex').slice(0, 16);
 
@@ -167,33 +167,33 @@ export default class extends EventEmitter {
 	}
 
 	info(): void {
-		const exercise = this.challenges[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
-		const correctGoal = ((this.exam.goal.current + this.exam.goal.add) > this.exam.goal.max)
-			? this.exam.goal.max - this.exam.goal.current
-			: this.exam.goal.add;
+		const exercise = this.challenges[this.challenge.id].exercises[this.challenge.currentStep][this.challenge.exerciseSelected];
+		const correctGoal = ((this.challenge.goal.current + this.challenge.goal.add) > this.challenge.goal.max)
+			? this.challenge.goal.max - this.challenge.goal.current
+			: this.challenge.goal.add;
 
 		console.log('┌────╮');
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.start', this.options.lang)} ${format.foreground.light.red}${exercise.name[this.options.lang]}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.dir', this.options.lang)} ${format.foreground.light.green}~/${i18n('git.render', this.options.lang)}/${exercise.name[this.options.lang]}${format.format.reset}`);
 		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.goal', this.options.lang)} ${format.foreground.light.magenta}${correctGoal} ${format.format.reset}${i18n('exercise.points', this.options.lang)}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.level', this.options.lang)} ${format.foreground.normal.yellow}${this.exam.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.exam.goal.max}${format.format.reset}`);
-		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.exam.retry}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.level', this.options.lang)} ${format.foreground.normal.yellow}${this.challenge.goal.current}${format.format.reset}/${format.foreground.light.blue}${this.challenge.goal.max}${format.format.reset}`);
+		console.log(`│ ${format.foreground.light.blue}>> ${format.format.reset}${i18n('exercise.retry', this.options.lang)}: ${format.foreground.normal.yellow}${this.challenge.retry}${format.format.reset}`);
 		console.log('└────╯\n');
 	}
 
 	nextExercise(): Promise<void> {
-		this.exam.exerciseSelected = Math.floor(
-			Math.random() * this.challenges[this.exam.id].exercises[this.exam.currentStep].length
+		this.challenge.exerciseSelected = Math.floor(
+			Math.random() * this.challenges[this.challenge.id].exercises[this.challenge.currentStep].length
 		);
-		const selectexercise = this.challenges[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
-		this.exam.path = {
+		const selectexercise = this.challenges[this.challenge.id].exercises[this.challenge.currentStep][this.challenge.exerciseSelected];
+		this.challenge.path = {
 			exercise: resolve(
 				__dirname,
-				(!this.challenges[this.exam.id].custom)
+				(!this.challenges[this.challenge.id].custom)
 					? 'data'
 					: '',
 				'challenges',
-				this.challenges[this.exam.id].dirName,
+				this.challenges[this.challenge.id].dirName,
 				selectexercise.dir ?? '',
 				selectexercise.id
 			),
@@ -203,17 +203,17 @@ export default class extends EventEmitter {
 		
 		return new Promise((res, rej) => {
 			try {
-				rmSync(this.exam.path.correction, { recursive: true, force: true });
-				mkdirSync(this.exam.path.subject);
-				mkdirSync(this.exam.path.correction);
+				rmSync(this.challenge.path.correction, { recursive: true, force: true });
+				mkdirSync(this.challenge.path.subject);
+				mkdirSync(this.challenge.path.correction);
 				copyFile(
-					resolve(this.exam.path.exercise, 'subjects', this.options.lang as string),
-					resolve(this.exam.path.subject, 'subject.txt')
+					resolve(this.challenge.path.exercise, 'subjects', this.options.lang as string),
+					resolve(this.challenge.path.subject, 'subject.txt')
 				);
 				if (selectexercise.copy && selectexercise.copy.user) {
 					for (const el of selectexercise.copy.user) {
-						glob.sync(resolve(this.exam.path.exercise, el)).forEach((file) => {
-							copyDirSync(file, resolve(this.exam.path.subject, basename(file)));
+						glob.sync(resolve(this.challenge.path.exercise, el)).forEach((file) => {
+							copyDirSync(file, resolve(this.challenge.path.subject, basename(file)));
 						});
 					}
 				}
@@ -240,7 +240,7 @@ export default class extends EventEmitter {
 
 	grade(): Promise<void> {
 		return new Promise((res) => {
-			if (this.exam.goal.current >= this.exam.goal.max)
+			if (this.challenge.goal.current >= this.challenge.goal.max)
 				return res();
 			if (this.timer.retry > 0) {
 				console.log(`${format.foreground.light.red}${i18n('grademe.time', this.options.lang)} ${format.foreground.light.blue}${this.convertTime(this.timer.retry)} ${format.format.reset}`);
@@ -251,14 +251,14 @@ export default class extends EventEmitter {
 			spin.start(i18n('grademe.correction', this.options.lang) as string, 'bar');
 
 			try {
-				rmSync(this.exam.path.correction, { recursive: true, force: true });
-				mkdirSync(this.exam.path.correction);
+				rmSync(this.challenge.path.correction, { recursive: true, force: true });
+				mkdirSync(this.challenge.path.correction);
 			} catch (e) {
 				this.failed(spin, e).then(() => res()).catch(() => res());
 			}
 
 			exec(`git clone ${this.git.render}`, {
-				cwd: this.exam.path.correction,
+				cwd: this.challenge.path.correction,
 				shell: '/bin/bash',
 				windowsHide: true,
 				timeout: 20000
@@ -286,16 +286,16 @@ export default class extends EventEmitter {
 
 	private async testExercise(): Promise<void> {
 		return new Promise((res: () => void, rej: (e: { data: any, force?: boolean }) => void) => {
-			const exercise = this.challenges[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected];
+			const exercise = this.challenges[this.challenge.id].exercises[this.challenge.currentStep][this.challenge.exerciseSelected];
 			const handleKillCommand = /^make.bash: +line +\d+: +\d+ Killed +.*$/m;
 
 			try {
-				copyFileSync(resolve(__dirname, 'data', 'shell', 'leaks.bash'), resolve(this.exam.path.correction, 'leaks.bash'));
-				copyFileSync(resolve(this.exam.path.exercise, 'make.bash'), resolve(this.exam.path.correction, 'make.bash'));
+				copyFileSync(resolve(__dirname, 'data', 'shell', 'leaks.bash'), resolve(this.challenge.path.correction, 'leaks.bash'));
+				copyFileSync(resolve(this.challenge.path.exercise, 'make.bash'), resolve(this.challenge.path.correction, 'make.bash'));
 				if (exercise.copy?.check) {
 					for (const el of exercise.copy.check) {
-						glob.sync(resolve(this.exam.path.exercise, el)).forEach((file) => {
-							copyDirSync(file, resolve(this.exam.path.correction, basename(file)));
+						glob.sync(resolve(this.challenge.path.exercise, el)).forEach((file) => {
+							copyDirSync(file, resolve(this.challenge.path.correction, basename(file)));
 						});
 					}
 				}
@@ -304,7 +304,7 @@ export default class extends EventEmitter {
 			}
 
 			exec(`bash make.bash ${(i18n('git.render', this.options.lang))}`, {
-				cwd: this.exam.path.correction,
+				cwd: this.challenge.path.correction,
 				shell: '/bin/bash',
 				windowsHide: true,
 				timeout: 240000 // 4min
@@ -325,11 +325,11 @@ export default class extends EventEmitter {
 						return rej({ data: `errno: ${err?.code ?? 100}`, force: true });
 				}
 				readdirSync(
-					resolve(this.exam.path.correction),
+					resolve(this.challenge.path.correction),
 					{ encoding: 'utf-8', withFileTypes: true })
 					.reduce((acc, curr) => {
 						if (curr.isFile() && /^_{2}diff(?:_\d+)?$/.test(curr.name))
-							return [...acc, resolve(this.exam.path.correction, curr.name)];
+							return [...acc, resolve(this.challenge.path.correction, curr.name)];
 						return acc;
 					}, [] as string[])
 					.forEach((diffPath) => {
@@ -347,7 +347,7 @@ export default class extends EventEmitter {
 							: [],
 					};
 					const check = new checker(
-						resolve(this.exam.path.correction, i18n('git.render', this.options.lang) as string, exercise.id),
+						resolve(this.challenge.path.correction, i18n('git.render', this.options.lang) as string, exercise.id),
 						exercise.moulinette,
 						elements.functs,
 						elements.keys
@@ -361,10 +361,10 @@ export default class extends EventEmitter {
 						leaks: [] as any[],
 						fds: [] as any[],
 					};
-					const dirList = readdirSync(this.exam.path.correction, { encoding: 'utf-8', withFileTypes: false });
+					const dirList = readdirSync(this.challenge.path.correction, { encoding: 'utf-8', withFileTypes: false });
 					dirList.forEach((file) => {
 						if (/^valgrind_\d+.log/.test(file)) {
-							const leaks = new valgrind(resolve(this.exam.path.correction, file));
+							const leaks = new valgrind(resolve(this.challenge.path.correction, file));
 							if (leaks.isLeaks())
 								ret.leaks.push(leaks.leaks);
 							if (leaks.isOpenFds())
@@ -384,12 +384,12 @@ export default class extends EventEmitter {
 	private async failed(spin: spinner, data: any, forceTrace = false): Promise<void> {
 		spin.stop();
 		stdout.clearLine(0);
-		++this.exam.retry;
-		this.timer.old += this.timer.old * (this.challenges[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].exponent ?? this.challenges[this.exam.id].exercises[this.exam.currentStep].length);
+		++this.challenge.retry;
+		this.timer.old += this.timer.old * (this.challenges[this.challenge.id].exercises[this.challenge.currentStep][this.challenge.exerciseSelected].exponent ?? this.challenges[this.challenge.id].exercises[this.challenge.currentStep].length);
 		this.timer.retry = this.timer.old;
 		console.log(`${format.foreground.light.red}>>> ${(i18n('grademe.failed', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
 
-		if (this.challenges[this.exam.id].exercises[this.exam.currentStep][this.exam.exerciseSelected].trace || forceTrace) {
+		if (this.challenges[this.challenge.id].exercises[this.challenge.currentStep][this.challenge.exerciseSelected].trace || forceTrace) {
 			const topString = `\n${format.foreground.normal.magenta}══ ${(i18n((forceTrace
 				? 'grademe.error'
 				: 'grademe.trace'), this.options.lang) as string).toUpperCase()} ═════════════════════════════${format.format.reset}`;
@@ -426,11 +426,11 @@ export default class extends EventEmitter {
 	private async success(spin: spinner): Promise<void> {
 		spin.stop();
 		stdout.clearLine(0);
-		++this.exam.currentStep;
-		this.exam.goal.current += this.exam.goal.add;
+		++this.challenge.currentStep;
+		this.challenge.goal.current += this.challenge.goal.add;
 		console.log(`${format.foreground.light.green}>>> ${(i18n('grademe.success', this.options.lang) as string).toUpperCase()} <<<${format.format.reset}`);
-		if (this.exam.goal.current >= this.exam.goal.max) {
-			this.exam.goal.current = this.exam.goal.max;
+		if (this.challenge.goal.current >= this.challenge.goal.max) {
+			this.challenge.goal.current = this.challenge.goal.max;
 			console.log(`${format.foreground.light.blue}${i18n('grademe.finish', this.options.lang) as string}${format.format.reset}`);
 		} else
 			await this.nextExercise();

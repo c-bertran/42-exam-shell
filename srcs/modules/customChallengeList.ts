@@ -104,7 +104,7 @@ export const getConfig = (): config => {
 /**
  * Import custom challenges
  */
-export default (): examDefinition[] => {
+export default (): challengeDefinition[] => {
 	if (!__challenges__.length && existsSync(resolve(cwd(), 'challenges'))) {
 		const dirs = readdirSync(resolve(cwd(), 'challenges'), { encoding: 'utf-8', withFileTypes: true });
 		for (const dir of dirs) {

@@ -1,16 +1,16 @@
 import format from 'modules/format';
 import clock from 'modules/clock';
-import exams from 'exams/index';
+import challenges from 'challenges/index';
 import { command } from '../interface';
 
 export default {
 	name: 'status',
 	description: {
-		'en_US': 'Print status of current examen',
-		'fr_FR': 'Imprimer le statut de l\'examen en cours'
+		'en_US': 'Print status of current challenge',
+		'fr_FR': 'Imprimer le statut du challenge en cours'
 	},
-	exec: async (_command, _lang, exam: exams, clock: clock) => {
-		exam.info();
+	exec: async (_command, _lang, challenge: challenges, clock: clock) => {
+		challenge.info();
 		if (!clock.isInfinite) {
 			console.log('╓───────────────────╖');
 			console.log('║        ⏰         ║');
