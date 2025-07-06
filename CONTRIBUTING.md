@@ -38,7 +38,7 @@ To download this git repository and start a development environment, follow thes
 	Open the project directory in your preferred code editor to start making changes.
 
 6. **Build**:
-	Ensure everything is working correctly by running the tests. For example, if you are using a testing framework like Jest, run:
+	Ensure everything is working correctly by running the debug pkg
 	```shell
 	npm run build // Create a bundle version
 	npm run pkg:debug // Build a debug executable
