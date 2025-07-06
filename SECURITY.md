@@ -7,8 +7,8 @@ The following versions of the CodeShell project are currently supported with sec
 | Version  | Supported          |
 | -------- | ------------------ |
 | 1.0.x    | :white_check_mark: |
-| 0.5.x    | :white_check_mark: |
-| >= 0.4.x | :x:                |
+| 0.6.x    | :white_check_mark: |
+| >= 0.5.x | :x:                |
 
 ## Reporting a Vulnerability
 
