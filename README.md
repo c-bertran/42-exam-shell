@@ -34,8 +34,7 @@ cd codeshell
 
 ### Why a fresh start is a good thing
 - Lightweight history focused on current content
-- No dependency on old content; you start from a fully mastered base
-- Simplified governance: one main branch, easier to maintain
+- No dependency on old content; we start from a fully mastered base
 - Clear foundations for developing new features
 
 ### Thank you for your understanding and support!
